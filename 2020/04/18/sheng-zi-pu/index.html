@@ -533,7 +533,7 @@ mpirun -np 16 vasp_std <span class="token operator">></span> vasp.log</code></pr
  <span class="token comment" spellcheck="true">#PBS -j oe</span>
  <span class="token comment" spellcheck="true">#PBS -l nodes=1:ppn=16</span>
  <span class="token function">cd</span> <span class="token variable">${PBS_O_WORKDIR}</span>
- mpirun -n 16  vasp.x_std <span class="token operator">></span><span class="token operator">&amp;</span> vasp.log</code></pre>
+ mpirun -n 16  vasp_std <span class="token operator">></span><span class="token operator">&amp;</span> vasp.log</code></pre>
 <p>将所有文件放到一个文件夹，在终端运行<code>qsub *.pbs</code> or  <code>qsub *.sh</code>  </p>
 <p>3 计算声子谱</p>
 <p>准备band.conf文件，如下所示：(参数含义详见phonopy官网)</p>
@@ -560,7 +560,7 @@ mpirun -np 16 vasp_std <span class="token operator">></span> vasp.log</code></pr
  <span class="token comment" spellcheck="true">#新版本phonopy</span>
  phonopy-bandplot --gnuplot <span class="token operator">></span> phonon.out
  <span class="token comment" spellcheck="true">#phonon.out文件中首行是高对称点在x轴上的坐标</span></code></pre>
-<p><strong>有限位移方法</strong><br>必要的输入文件：  </p>
+<h3 id="有限位移方法"><a href="#有限位移方法" class="headerlink" title="有限位移方法"></a><strong>有限位移方法</strong></h3><p>必要的输入文件：  </p>
 <pre class=" language-sh"><code class="language-sh">INCAR
 KPOINTS
 INCAR-unitcell #优化得到的初始晶胞
@@ -609,7 +609,7 @@ mpirun -np 16 vasp_std <span class="token operator">></span> vasp.log</code></pr
 
  <span class="token function">cd</span> <span class="token variable">${PBS_O_WORKDIR}</span>
 
- mpirun -n 16  vasp.x_std <span class="token operator">></span><span class="token operator">&amp;</span> vasp.log</code></pre>
+ mpirun -n 16  vasp_std <span class="token operator">></span><span class="token operator">&amp;</span> vasp.log</code></pre>
 <p>将所有文件放到一个文件夹，在终端运行<code>qsub *.pbs</code> or  <code>qsub *.sh</code>  </p>
 <p>3 计算声子谱</p>
 <p>准备band.conf文件，如下所示：(参数含义详见phonopy官网)</p>
@@ -639,7 +639,7 @@ MP = 24 24 24
  <span class="token comment" spellcheck="true">#新版本phonopy</span>
  phonopy-bandplot --gnuplot <span class="token operator">></span> phonon.out
  <span class="token comment" spellcheck="true">#phonon.out文件中首行是高对称点在x轴上的坐标</span></code></pre>
-<img src="/img/Si_phonon.png" width = "40%" height = "40%" div align=center/>
+<img src="/img/Si_phonon.png" width = "60%" height = "60%" div align=center/>
             </div>
             <hr/>
 

@@ -573,9 +573,10 @@ E<span class="token operator">=</span><span class="token punctuation">$(</span>g
 </code></pre>
 <p>提交脚本任务运行，成功结束后可以得到输出文件kpoints_enengy.out<br>可以使用OriginPro等画图工具画出kpoints-能量关系</p>
 <p>Si的KPOINTS测试</p>
-<img src="/img/Si_kpoints_test.png" width = "40%" height = "40%" div align=center/>
+<img src="/img/Si_kpoints_test.png" width = "60%" height = "60%" div align=center/>
 
 <p>根据收敛性，大概选择KPOINTS为$9\times9\times9$<br><br /><br><br /></p>
+<hr>
 <p>脚本2(k_test.sh):  KSPACING测试</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
 
@@ -642,7 +643,7 @@ E<span class="token operator">=</span><span class="token punctuation">$(</span>g
 <p><strong>注：Auto mesh模式下。 $KPONITSnumber = max(1,|\vec{b}|/(2\pi\times{KSPACING}))$<br>另外，后续介绍中，主要使用的是KPOINTS文件，KSPACING可以根据自行需要选择使用。</strong></p>
 <p>提交脚本任务运行，成功结束后可以得到输出文件kspace_enengy.out<br>可以使用OriginPro等画图工具画出k点密度-能量关系。 </p>
 <p>Si的KSPACE测试</p>
-<img src="/img/Si_kspace_test.png" width = "40%" height = "40%" div align=center/>
+<img src="/img/Si_kspace_test.png" width = "60%" height = "60%" div align=center/>
 
 <p>根据能量收敛判断，选择K点密度为0.15较为合适。</p>
 
