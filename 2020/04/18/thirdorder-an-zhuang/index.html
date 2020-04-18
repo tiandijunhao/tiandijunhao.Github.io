@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Publications, 天帝君豪的个人博客">
+    <meta name="keywords" content="Thirdorder安装教程, 天帝君豪的个人博客">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Publications | 天帝君豪的个人博客</title>
+    <title>Thirdorder安装教程 | 天帝君豪的个人博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,7 +308,7 @@
 <script src="/libs/cryptojs/crypto-js.min.js"></script>
 <script>
     (function() {
-        let pwd = '8713c276a312ade334e7602b1fa4e595aa3b4b73c695d60785577c920e6b287b';
+        let pwd = '';
         if (pwd && pwd.length > 0) {
             if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
                 alert('密码错误，将返回主页！');
@@ -321,12 +321,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Publications</h1>
+                    <h1 class="description center-align post-title">Thirdorder安装教程</h1>
                 </div>
             </div>
         </div>
@@ -441,12 +441,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
+                                <span class="chip bg-color">安装教程</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="post-category">
+                                计算软件安装教程
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -455,7 +468,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-04-17
+                    2020-04-18
                 </div>
                 
 
@@ -464,7 +477,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    70
+                    320
                 </div>
                 
 
@@ -476,12 +489,58 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <ol>
-<li><p><a href="https://doi.org/10.1016/j.ssc.2019.02.004" target="_blank" rel="noopener">Wang Hao, Zhou Yu, Zeng Zhao-Yi, Cheng Yan, Chen Qi-Feng, First-principles study of elastic, thermal and optical properties of a metal-shrouded two-dimensional semiconductor Tl2O, <strong>Solid State Commun.</strong> 293 (2019) 40.</a></p>
-</li>
-<li><p><a href="https://www.sciencedirect.com/science/article/pii/S0022311519303472" target="_blank" rel="noopener">Wang Hao, Lan Jun-Qing, Hu Cui-E, Chen Xiang-Rong, Geng Hua-Yun, Electronic structure, elastic and thermal transport properties of thorium monocarbide based on first-principles study, <strong>J. Nucl. Mater.</strong> 524 (2019) 141.</a></p>
-</li>
-</ol>
+                <h2 id="thirdorder安装教程"><a href="#thirdorder安装教程" class="headerlink" title="thirdorder安装教程"></a><strong>thirdorder安装教程</strong></h2><p>产生用于三阶力常数计算的文件</p>
+<h3 id="软件下载地址"><a href="#软件下载地址" class="headerlink" title="软件下载地址"></a>软件下载地址</h3><p>官网：<a href="http://www.shengbte.org/downloads" target="_blank" rel="noopener">http://www.shengbte.org/downloads</a></p>
+<h3 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h3><p>1 解压进入文件夹</p>
+<pre class=" language-sh"><code class="language-sh">tar -jxvf thirdorder-v1.1.1-8526f47.tar.bz2
+cd thirdorder</code></pre>
+<p>2 修改setup.py 加入spglib的库路径</p>
+<p>修改后如下</p>
+<p>注：如果include文件夹里没有spglib文件夹，手动建一个并把spglib.h拷贝进去就行。</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#!/usr/bin/env python</span>
+<span class="token comment" spellcheck="true"># -*- encoding: utf-8 -*-</span>
+
+<span class="token keyword">import</span> numpy
+<span class="token keyword">from</span> distutils<span class="token punctuation">.</span>core <span class="token keyword">import</span> setup
+<span class="token keyword">from</span> distutils<span class="token punctuation">.</span>extension <span class="token keyword">import</span> Extension
+
+<span class="token comment" spellcheck="true"># Add the location of the "spglib/spglib.h" to this list if necessary.</span>
+<span class="token comment" spellcheck="true"># Example: INCLUDE_DIRS=["/home/user/local/include"]</span>
+INCLUDE_DIRS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"/home/wh/software/spglib-master/usr/local/include"</span><span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># Add the location of the spglib shared library to this list if necessary.</span>
+<span class="token comment" spellcheck="true"># Example: LIBRARY_DIRS=["/home/user/local/lib"]</span>
+LIBRARY_DIRS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"/home/wh/software/spglib-master/usr/local/lib"</span><span class="token punctuation">]</span>
+
+<span class="token comment" spellcheck="true"># Set USE_CYTHON to True if you want include the cythonization in your build</span>
+<span class="token comment" spellcheck="true"># process.</span>
+USE_CYTHON <span class="token operator">=</span> <span class="token boolean">False</span>
+
+ext <span class="token operator">=</span> <span class="token string">".pyx"</span> <span class="token keyword">if</span> USE_CYTHON <span class="token keyword">else</span> <span class="token string">".c"</span>
+
+extensions <span class="token operator">=</span> <span class="token punctuation">[</span>
+    Extension<span class="token punctuation">(</span>
+        <span class="token string">"thirdorder_core"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">"thirdorder_core"</span> <span class="token operator">+</span> ext<span class="token punctuation">]</span><span class="token punctuation">,</span>
+        include_dirs<span class="token operator">=</span><span class="token punctuation">[</span>numpy<span class="token punctuation">.</span>get_include<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">+</span> INCLUDE_DIRS<span class="token punctuation">,</span>
+        library_dirs<span class="token operator">=</span>LIBRARY_DIRS<span class="token punctuation">,</span>
+        runtime_library_dirs<span class="token operator">=</span>LIBRARY_DIRS<span class="token punctuation">,</span>
+        libraries<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"symspg"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">]</span>
+
+<span class="token keyword">if</span> USE_CYTHON<span class="token punctuation">:</span>
+    <span class="token keyword">from</span> Cython<span class="token punctuation">.</span>Build <span class="token keyword">import</span> cythonize
+    extensions <span class="token operator">=</span> cythonize<span class="token punctuation">(</span>extensions<span class="token punctuation">)</span>
+
+setup<span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">"thirdorder"</span><span class="token punctuation">,</span> ext_modules<span class="token operator">=</span>extensions<span class="token punctuation">)</span></code></pre>
+<p>修改完成后编译安装</p>
+<pre class=" language-sh"><code class="language-sh">python setup.py install</code></pre>
+<h3 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h3><p>以VASP程序的POSCAR为例</p>
+<p>1 拷贝源代码中的 thirdorder_common.py 和 thirdorder_vasp.py 两个文件到POSCAR目录下</p>
+<p>2 运行命令</p>
+<pre class=" language-sh"><code class="language-sh">thirdorder_vasp.py sow|reap na nb nc cutoff[nm/-integer]
+
+#example
+thirdorder_vasp.py sow|reap 6 6 6 0.5 #0.5nm的截断半径
+thirdorder_vasp.py sow|reap 6 6 6 -3 #第三最近邻截断</code></pre>
 
             </div>
             <hr/>
@@ -507,7 +566,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://tiandijunhao.github.io/2020/04/17/publications/">http://tiandijunhao.github.io/2020/04/17/publications/</a>
+                    <a href="http://tiandijunhao.github.io/2020/04/18/thirdorder-an-zhuang/">http://tiandijunhao.github.io/2020/04/18/thirdorder-an-zhuang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -544,7 +603,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
+                                    <span class="chip bg-color">安装教程</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -588,22 +651,22 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/04/18/thirdorder-an-zhuang/">
+                <a href="/2020/04/18/vasp-an-zhuang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Thirdorder安装教程">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="VASP5.4.4安装教程">
                         
-                        <span class="card-title">Thirdorder安装教程</span>
+                        <span class="card-title">VASP5.4.4安装教程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            thirdorder安装教程产生用于三阶力常数计算的文件
-软件下载地址官网：http://www.shengbte.org/downloads
-安装编译1 解压进入文件夹
-tar -jxvf thirdorder-v1.1.1-8526f4
+                            VASP-5.4.4(CPU)安装教程软件下载地址VASP软件需要付费，请自行下载。
+安装编译1 拷贝makefile.include到vasp文件夹
+tar -zxvf vasp.tar.gz
+cd vasp.5.4.4 #根据实际文件名
                         
                     </div>
                     <div class="publish-info">
@@ -640,22 +703,20 @@ tar -jxvf thirdorder-v1.1.1-8526f4
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/17/shengbte-an-zhuang/">
+                <a href="/2020/04/17/publications/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="ShengBTE安装教程">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Publications">
                         
-                        <span class="card-title">ShengBTE安装教程</span>
+                        <span class="card-title">Publications</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ShengBTE安装教程软件下载地址官网：http://www.shengbte.org/downloads
-安装编译1 解压进入文件夹
-tar -jxvf ShengBTE-v1.1.1-8a63749.tar.bz2
-cd ShengB
+                            
+Wang Hao, Zhou Yu, Zeng Zhao-Yi, Cheng Yan, Chen Qi-Feng, First-principles study of elastic, thermal and optical proper
                         
                     </div>
                     <div class="publish-info">
@@ -664,23 +725,11 @@ cd ShengB
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E8%AE%A1%E7%AE%97%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="post-category">
-                                    计算软件安装教程
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            天帝君豪
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
-                        <span class="chip bg-color">安装教程</span>
-                    </a>
-                    
                 </div>
                 
             </div>

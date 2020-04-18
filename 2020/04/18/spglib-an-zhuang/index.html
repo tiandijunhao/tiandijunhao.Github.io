@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Publications, 天帝君豪的个人博客">
+    <meta name="keywords" content="Spglib安装教程, 天帝君豪的个人博客">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Publications | 天帝君豪的个人博客</title>
+    <title>Spglib安装教程 | 天帝君豪的个人博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,7 +308,7 @@
 <script src="/libs/cryptojs/crypto-js.min.js"></script>
 <script>
     (function() {
-        let pwd = '8713c276a312ade334e7602b1fa4e595aa3b4b73c695d60785577c920e6b287b';
+        let pwd = '';
         if (pwd && pwd.length > 0) {
             if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
                 alert('密码错误，将返回主页！');
@@ -321,12 +321,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Publications</h1>
+                    <h1 class="description center-align post-title">Spglib安装教程</h1>
                 </div>
             </div>
         </div>
@@ -441,12 +441,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
+                                <span class="chip bg-color">安装教程</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="post-category">
+                                计算软件安装教程
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -455,7 +468,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-04-17
+                    2020-04-18
                 </div>
                 
 
@@ -464,7 +477,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    70
+                    216
                 </div>
                 
 
@@ -476,12 +489,28 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <ol>
-<li><p><a href="https://doi.org/10.1016/j.ssc.2019.02.004" target="_blank" rel="noopener">Wang Hao, Zhou Yu, Zeng Zhao-Yi, Cheng Yan, Chen Qi-Feng, First-principles study of elastic, thermal and optical properties of a metal-shrouded two-dimensional semiconductor Tl2O, <strong>Solid State Commun.</strong> 293 (2019) 40.</a></p>
-</li>
-<li><p><a href="https://www.sciencedirect.com/science/article/pii/S0022311519303472" target="_blank" rel="noopener">Wang Hao, Lan Jun-Qing, Hu Cui-E, Chen Xiang-Rong, Geng Hua-Yun, Electronic structure, elastic and thermal transport properties of thorium monocarbide based on first-principles study, <strong>J. Nucl. Mater.</strong> 524 (2019) 141.</a></p>
-</li>
-</ol>
+                <h2 id="Spglib安装教程"><a href="#Spglib安装教程" class="headerlink" title="Spglib安装教程"></a><strong>Spglib安装教程</strong></h2><h3 id="软件下载地址"><a href="#软件下载地址" class="headerlink" title="软件下载地址"></a>软件下载地址</h3><p>官网：<a href="https://atztogo.github.io/spglib/index.html" target="_blank" rel="noopener">https://atztogo.github.io/spglib/index.html</a><br>C版本下载：<a href="https://github.com/atztogo/spglib" target="_blank" rel="noopener">https://github.com/atztogo/spglib</a><br>python版本下载：<a href="https://pypi.org/project/spglib/" target="_blank" rel="noopener">https://pypi.org/project/spglib/</a></p>
+<h2 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h2><p><strong>C版本安装编译</strong></p>
+<p>Cmake方法</p>
+<p>1 解压进入文件夹</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">tar</span> xvfz spglib-1.9.8.tar.gz
+<span class="token function">cd</span> spglib-1.9.8</code></pre>
+<p>2 建立_build文件夹</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">mkdir</span> _build <span class="token operator">&amp;&amp;</span> _build
+cmake -DCMAKE_INSTALL_PREFIX<span class="token operator">=</span><span class="token string">""</span> <span class="token punctuation">..</span>
+<span class="token function">make</span>
+<span class="token function">make</span> DESTDIR<span class="token operator">=</span>/some/where <span class="token function">install</span>
+<span class="token comment" spellcheck="true">#路径根据需要设置</span></code></pre>
+<p>注：头文件spglib.h在安装路径include文件夹，如果include文件夹中没有spglib文件夹，建议手动建立一个并复制spglib.h文件到里面。这在后面的安装thirdorder软件时是有用的。</p>
+<p><strong>Python库版本安装</strong></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#在线安装</span>
+pip <span class="token function">install</span> spglib
+
+<span class="token comment" spellcheck="true">#手动安装</span>
+<span class="token function">tar</span> -zxvf  spglib-1.14.1.post0.tar.gz spglib
+<span class="token function">cd</span> ./spglib
+python setup.py <span class="token function">install</span></code></pre>
+<p><strong>Spglib的具体使用方法详见官网介绍，主要是作为库来调用</strong></p>
 
             </div>
             <hr/>
@@ -507,7 +536,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://tiandijunhao.github.io/2020/04/17/publications/">http://tiandijunhao.github.io/2020/04/17/publications/</a>
+                    <a href="http://tiandijunhao.github.io/2020/04/18/spglib-an-zhuang/">http://tiandijunhao.github.io/2020/04/18/spglib-an-zhuang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -544,7 +573,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
+                                    <span class="chip bg-color">安装教程</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -584,32 +617,30 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/04/18/thirdorder-an-zhuang/">
+                <a href="/2020/04/18/spglib-an-zhuang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Thirdorder安装教程">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Spglib安装教程">
                         
-                        <span class="card-title">Thirdorder安装教程</span>
+                        <span class="card-title">Spglib安装教程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            thirdorder安装教程产生用于三阶力常数计算的文件
-软件下载地址官网：http://www.shengbte.org/downloads
-安装编译1 解压进入文件夹
-tar -jxvf thirdorder-v1.1.1-8526f4
+                            Spglib安装教程软件下载地址官网：https://atztogo.github.io/spglib/index.htmlC版本下载：https://github.com/atztogo/spglibpython版本下载：https://
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-18
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-18
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -622,6 +653,7 @@ tar -jxvf thirdorder-v1.1.1-8526f4
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -640,27 +672,25 @@ tar -jxvf thirdorder-v1.1.1-8526f4
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/17/shengbte-an-zhuang/">
+                <a href="/2020/04/18/python-huan-jing/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="ShengBTE安装教程">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Python环境安装教程">
                         
-                        <span class="card-title">ShengBTE安装教程</span>
+                        <span class="card-title">Python环境安装教程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ShengBTE安装教程软件下载地址官网：http://www.shengbte.org/downloads
-安装编译1 解压进入文件夹
-tar -jxvf ShengBTE-v1.1.1-8a63749.tar.bz2
-cd ShengB
+                            Anaconda安装（python环境安装）注：Anaconda里python的第三方包十分丰富，包含了所有的常用包，省却了许多麻烦。本人安装的是python3.6版的Anaconda
+软件下载地址官网：https://www.anacon
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-18
                             </span>
                         <span class="publish-author">
                             
