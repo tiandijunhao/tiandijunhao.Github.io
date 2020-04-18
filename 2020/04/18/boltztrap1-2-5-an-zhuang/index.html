@@ -491,8 +491,8 @@
             <div id="articleContent">
                 <h2 id="BoltzTraP-1-2-5安装教程"><a href="#BoltzTraP-1-2-5安装教程" class="headerlink" title="BoltzTraP-1.2.5安装教程"></a><strong>BoltzTraP-1.2.5安装教程</strong></h2><h3 id="软件下载地址"><a href="#软件下载地址" class="headerlink" title="软件下载地址"></a>软件下载地址</h3><p>小木虫网站上应该有。</p>
 <h3 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h3><p>1 解压文件并进入src文件夹</p>
-<pre class=" language-sh"><code class="language-sh">tar -zxvf BoltzTraP.tar.gz
-cd boltztrap-1.2.5/src</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">tar</span> -zxvf BoltzTraP.tar.gz
+<span class="token function">cd</span> boltztrap-1.2.5/src</code></pre>
 <p>2 修改Makefile文件</p>
 <p>修改后的Makefile如下：</p>
 <pre class=" language-makefile"><code class="language-makefile">SHELL <span class="token operator">=</span> /bin/sh
@@ -562,14 +562,14 @@ OBJS <span class="token operator">=</span> gmlib2.o reallocate.o \
 <span class="token builtin">.F90.o</span><span class="token punctuation">:</span>
     <span class="token variable">$</span><span class="token punctuation">(</span>FC<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>FFLAGS<span class="token punctuation">)</span> -c <span class="token variable">$&lt;</span></code></pre>
 <p>修改完成后编译</p>
-<pre class=" language-sh"><code class="language-sh">make</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">make</span></code></pre>
 <p>3 添加到环境变量</p>
-<pre class=" language-sh"><code class="language-sh">vim ~/.bashrc 
+<pre class=" language-bash"><code class="language-bash">vim ~/.bashrc 
 
-export PATH=/$dir/src:$PATH #$dir：boltztrap-1.2.5安装位置
+<span class="token function">export</span> PATH<span class="token operator">=</span>/<span class="token variable">$dir</span>/src:<span class="token variable">$PATH</span> <span class="token comment" spellcheck="true">#$dir：boltztrap-1.2.5安装位置</span>
 
-source ~/.bashrc</code></pre>
-<h3 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h3><pre class=" language-sh"><code class="language-sh">x_trans BoltzTraP</code></pre>
+<span class="token function">source</span> ~/.bashrc</code></pre>
+<h3 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h3><pre class=" language-bash"><code class="language-bash">x_trans BoltzTraP</code></pre>
 
             </div>
             <hr/>

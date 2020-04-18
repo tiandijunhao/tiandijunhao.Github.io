@@ -580,20 +580,20 @@ MPI_INC    <span class="token operator">=</span> <span class="token variable">$<
 
 </code></pre>
 <p>3 编译</p>
-<pre class=" language-sh"><code class="language-sh">make all
-##编译成功会在bin文件夹里生成vasp_std, vasp_gam, vasp_ncl。
-##只生成其中一个命令，例如vasp_std
-make vasp_std #绝大多数vasp计算只需用到vasp_std</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">make</span> all
+<span class="token comment" spellcheck="true">##编译成功会在bin文件夹里生成vasp_std, vasp_gam, vasp_ncl。</span>
+<span class="token comment" spellcheck="true">##只生成其中一个命令，例如vasp_std</span>
+<span class="token function">make</span> vasp_std <span class="token comment" spellcheck="true">#绝大多数vasp计算只需用到vasp_std</span></code></pre>
 <p>4 配置环境变量</p>
-<pre class=" language-sh"><code class="language-sh">vim ~/.bashrc
+<pre class=" language-bash"><code class="language-bash">vim ~/.bashrc
 
-#添加路径
-export PATH=/$dir/bin:$PATH #$dir：vasp安装地址。
+<span class="token comment" spellcheck="true">#添加路径</span>
+<span class="token function">export</span> PATH<span class="token operator">=</span>/<span class="token variable">$dir</span>/bin:<span class="token variable">$PATH</span> <span class="token comment" spellcheck="true">#$dir：vasp安装地址。</span>
 
-source ~/.bashrc
+<span class="token function">source</span> ~/.bashrc
 
-which vasp_std #检查是否配置成功</code></pre>
-<h3 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h3><p>```sh<br>mpirun -np 8 vasp_std &gt; vasp.log #实时输出结果在vasp.log中</p>
+<span class="token function">which</span> vasp_std <span class="token comment" spellcheck="true">#检查是否配置成功</span></code></pre>
+<h3 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h3><p>```bash<br>mpirun -np 8 vasp_std &gt; vasp.log #实时输出结果在vasp.log中</p>
 
             </div>
             <hr/>

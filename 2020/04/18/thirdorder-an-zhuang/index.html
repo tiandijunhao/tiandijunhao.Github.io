@@ -492,8 +492,8 @@
                 <h2 id="thirdorder安装教程"><a href="#thirdorder安装教程" class="headerlink" title="thirdorder安装教程"></a><strong>thirdorder安装教程</strong></h2><p>产生用于三阶力常数计算的文件</p>
 <h3 id="软件下载地址"><a href="#软件下载地址" class="headerlink" title="软件下载地址"></a>软件下载地址</h3><p>官网：<a href="http://www.shengbte.org/downloads" target="_blank" rel="noopener">http://www.shengbte.org/downloads</a></p>
 <h3 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h3><p>1 解压进入文件夹</p>
-<pre class=" language-sh"><code class="language-sh">tar -jxvf thirdorder-v1.1.1-8526f47.tar.bz2
-cd thirdorder</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">tar</span> -jxvf thirdorder-v1.1.1-8526f47.tar.bz2
+<span class="token function">cd</span> thirdorder</code></pre>
 <p>2 修改setup.py 加入spglib的库路径</p>
 <p>修改后如下</p>
 <p>注：如果include文件夹里没有spglib文件夹，手动建一个并把spglib.h拷贝进去就行。</p>
@@ -532,15 +532,15 @@ extensions <span class="token operator">=</span> <span class="token punctuation"
 
 setup<span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">"thirdorder"</span><span class="token punctuation">,</span> ext_modules<span class="token operator">=</span>extensions<span class="token punctuation">)</span></code></pre>
 <p>修改完成后编译安装</p>
-<pre class=" language-sh"><code class="language-sh">python setup.py install</code></pre>
+<pre class=" language-bash"><code class="language-bash">python setup.py <span class="token function">install</span></code></pre>
 <h3 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h3><p>以VASP程序的POSCAR为例</p>
 <p>1 拷贝源代码中的 thirdorder_common.py 和 thirdorder_vasp.py 两个文件到POSCAR目录下</p>
 <p>2 运行命令</p>
-<pre class=" language-sh"><code class="language-sh">thirdorder_vasp.py sow|reap na nb nc cutoff[nm/-integer]
+<pre class=" language-bash"><code class="language-bash">thirdorder_vasp.py sow<span class="token operator">|</span>reap na nb nc cutoff<span class="token punctuation">[</span>nm/-integer<span class="token punctuation">]</span>
 
-#example
-thirdorder_vasp.py sow|reap 6 6 6 0.5 #0.5nm的截断半径
-thirdorder_vasp.py sow|reap 6 6 6 -3 #第三最近邻截断</code></pre>
+<span class="token comment" spellcheck="true">#example</span>
+thirdorder_vasp.py sow<span class="token operator">|</span>reap 6 6 6 0.5 <span class="token comment" spellcheck="true">#0.5nm的截断半径</span>
+thirdorder_vasp.py sow<span class="token operator">|</span>reap 6 6 6 -3 <span class="token comment" spellcheck="true">#第三最近邻截断</span></code></pre>
 
             </div>
             <hr/>
