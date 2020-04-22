@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Fortran运算符</title>
+      <link href="/2020/04/22/fortran-yun-suan-fu-zong-jie/"/>
+      <url>/2020/04/22/fortran-yun-suan-fu-zong-jie/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Fortran运算符总结"><a href="#Fortran运算符总结" class="headerlink" title="Fortran运算符总结"></a><strong>Fortran运算符总结</strong></h2><p><strong>关系运算符</strong></p><table><thead><tr><th align="center">Fortran77</th><th align="center">Fortran95</th><th align="center">意  义</th></tr></thead><tbody><tr><td align="center">.EQ.</td><td align="center">==</td><td align="center">等于</td></tr><tr><td align="center">.NE.</td><td align="center">/=</td><td align="center">不等于</td></tr><tr><td align="center">.GT.</td><td align="center">&gt;</td><td align="center">大于</td></tr><tr><td align="center">.GE.</td><td align="center">&gt;=</td><td align="center">大于等于</td></tr><tr><td align="center">.LT.</td><td align="center">&lt;</td><td align="center">小于</td></tr><tr><td align="center">.LE.</td><td align="center">&lt;=</td><td align="center">小于等于</td></tr></tbody></table><p><strong>注：建议使用新版的运算符，方便代码阅读</strong></p><hr><p><strong>组合逻辑运算符</strong></p><table><thead><tr><th align="center">运算符</th><th align="center">意  义</th></tr></thead><tbody><tr><td align="center">.AND.</td><td align="center">逻辑与</td></tr><tr><td align="center">.OR.</td><td align="center">逻辑或</td></tr><tr><td align="center">.EQV.</td><td align="center">逻辑等值</td></tr><tr><td align="center">.NEQV.</td><td align="center">逻辑非等值</td></tr><tr><td align="center">.NOT.</td><td align="center">逻辑非</td></tr></tbody></table><table><thead><tr><th align="center">L1</th><th align="center">.NOT.L1</th></tr></thead><tbody><tr><td align="center">.FALSE.</td><td align="center">.TRUE.</td></tr><tr><td align="center">.TRUE.</td><td align="center">.FALSE.</td></tr></tbody></table>]]></content>
+      
+      
+      <categories>
+          
+          <category> Fortran学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Fortran_learn </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>能带计算</title>
       <link href="/2020/04/19/neng-dai-tu-de-ji-suan/"/>
       <url>/2020/04/19/neng-dai-tu-de-ji-suan/</url>

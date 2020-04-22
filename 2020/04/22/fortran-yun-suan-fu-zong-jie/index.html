@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="弹性常数计算, 天帝君豪的个人博客">
+    <meta name="keywords" content="Fortran运算符, 天帝君豪的个人博客">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>弹性常数计算 | 天帝君豪的个人博客</title>
+    <title>Fortran运算符 | 天帝君豪的个人博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -322,12 +322,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">弹性常数计算</h1>
+                    <h1 class="description center-align post-title">Fortran运算符</h1>
                 </div>
             </div>
         </div>
@@ -444,8 +444,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/VASP/">
-                                <span class="chip bg-color">VASP</span>
+                            <a href="/tags/Fortran-learn/">
+                                <span class="chip bg-color">Fortran_learn</span>
                             </a>
                         
                     </div>
@@ -456,8 +456,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/VASP%E8%AE%A1%E7%AE%97%E7%AC%94%E8%AE%B0/" class="post-category">
-                                VASP计算笔记
+                            <a href="/categories/Fortran%E5%AD%A6%E4%B9%A0/" class="post-category">
+                                Fortran学习
                             </a>
                         
                     </div>
@@ -469,7 +469,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-04-18
+                    2020-04-22
                 </div>
                 
 
@@ -478,7 +478,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.8k
+                    101
                 </div>
                 
 
@@ -490,400 +490,93 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="二阶弹性常数计算"><a href="#二阶弹性常数计算" class="headerlink" title="二阶弹性常数计算"></a><strong>二阶弹性常数计算</strong></h2><p>主要采用能量–应变方法</p>
-<h3 id="AELAS软件计算"><a href="#AELAS软件计算" class="headerlink" title="AELAS软件计算"></a><strong>AELAS软件计算</strong></h3><p>必要的文件</p>
-<pre class=" language-bash"><code class="language-bash">elas_strain.sh
-elas_cal.sh
-POTCAR
-INPOS 优化后的POSCAR。可在脚本设置或者单独给出
-KPOINTS 可在脚本设置或者单独给出
-incar_rlx 可在脚本设置或者单独给出
-incar_stc </code></pre>
-<p>elas_strain.sh脚本参考如下：</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
-
-<span class="token function">cat</span> <span class="token operator">></span> INPOS <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-Si8                                     
-1.00000000000000     
-  5.4684663969085214    0.0000000000000000    0.0000000000000000
-  0.0000000000000000    5.4684663969085214    0.0000000000000000
-  0.0000000000000000    0.0000000000000000    5.4684663969085214
-Si
-8
-Direct
-  0.0000000000000000  0.0000000000000000  0.0000000000000000
-  0.2500000000000000  0.7500000000000000  0.7500000000000000
-  0.5000000000000000  0.0000000000000000  0.5000000000000000
-  0.0000000000000000  0.5000000000000000  0.5000000000000000
-  0.5000000000000000  0.5000000000000000  0.0000000000000000
-  0.7500000000000000  0.2500000000000000  0.7500000000000000
-  0.7500000000000000  0.7500000000000000  0.2500000000000000
-  0.2500000000000000  0.2500000000000000  0.2500000000000000
-
-<span class="token operator">!</span>
-
-AELAS -g <span class="token comment" spellcheck="true">#建立不同应变下的POSCAR_I_J。例如：POSCAR_01_001 #二维生成命令 AELAS -g2d</span>
-
-<span class="token comment" spellcheck="true">#产生优化和静态计算的INCAR</span>
-<span class="token function">cat</span> <span class="token operator">></span> incar_rlx <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-ISTART<span class="token operator">=</span>0
-ICHARG<span class="token operator">=</span>2
-PREC<span class="token operator">=</span>Accurate
-GGA <span class="token operator">=</span> PE
-ADDGRID <span class="token operator">=</span>.TRUE.
-
-<span class="token comment" spellcheck="true"># Electronic relaxation</span>
-ENCUT<span class="token operator">=</span>500
-EDIFF<span class="token operator">=</span>1E-8
-
-ISMEAR<span class="token operator">=</span>0
-SIGMA<span class="token operator">=</span>0.05
-NELMIN<span class="token operator">=</span>5
-
-<span class="token comment" spellcheck="true"># Ionic relaxation</span>
-NSW<span class="token operator">=</span>100
-EDIFFG<span class="token operator">=</span>-1e-3
-ISIF<span class="token operator">=</span>2
-
-IBRION<span class="token operator">=</span>2
-POTIM<span class="token operator">=</span>0.20
-
-<span class="token comment" spellcheck="true"># Other Tags</span>
-<span class="token comment" spellcheck="true">#PSTRESS=</span>
-
-<span class="token comment" spellcheck="true">#Write flags</span>
-LWAVE<span class="token operator">=</span>.FALSE.
-LCHARG<span class="token operator">=</span>.FALSE.
-<span class="token operator">!</span>
-
-<span class="token function">cat</span> <span class="token operator">></span> incar_stc<span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-ISTART<span class="token operator">=</span>0
-ICHARG<span class="token operator">=</span>2
-PREC<span class="token operator">=</span>Accurate
-GGA <span class="token operator">=</span> PE
-ADDGRID <span class="token operator">=</span>.TRUE.
-
-<span class="token comment" spellcheck="true"># Electronic relaxation</span>
-ENCUT<span class="token operator">=</span>500
-EDIFF<span class="token operator">=</span>1E-8
-EDIFFG<span class="token operator">=</span>-0.001
-
-ISMEAR<span class="token operator">=</span>-5
-<span class="token comment" spellcheck="true">#SIGMA = 0.05</span>
-POTIM<span class="token operator">=</span>0.20
-
-<span class="token comment" spellcheck="true"># Other Tags</span>
-<span class="token comment" spellcheck="true">#PSTRESS=</span>
-
-<span class="token comment" spellcheck="true"># Write flags</span>
-LWAVE<span class="token operator">=</span>.FALSE.
-LCHARG<span class="token operator">=</span>.FALSE.
-<span class="token operator">!</span>
-
-<span class="token function">cat</span> <span class="token operator">></span> KPOINTS <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-A
-0
-M
-9  9  9
-0  0  0
-<span class="token operator">!</span></code></pre>
-<p>运行生成应变后的POSCAR及计算输入文件</p>
-<p>elas_cal.sh脚本设置如下：</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token keyword">for</span> i <span class="token keyword">in</span> 01 02 03 <span class="token comment" spellcheck="true">#根据生成的数量设置</span>
-<span class="token keyword">do</span>
-
-<span class="token keyword">for</span> j <span class="token keyword">in</span> 001 002 003 004 005 006 007 008 009 010 011 012 013
-<span class="token keyword">do</span>
-<span class="token comment" spellcheck="true">#优化计算</span>
-<span class="token function">cp</span> POS_<span class="token string">"<span class="token variable">$i</span>"</span>_<span class="token variable">$j</span>.vasp POSCAR
-<span class="token function">cp</span> incar_rlx INCAR
-<span class="token keyword">echo</span> <span class="token string">"relax I= <span class="token variable">$i</span>,J = <span class="token variable">$j</span>"</span><span class="token punctuation">;</span> <span class="token function">time</span> mpirun -np 16 vasp_std
-
-<span class="token comment" spellcheck="true">#静态计算</span>
-<span class="token function">cp</span> CONTCAR POSCAR
-<span class="token function">rm</span> INCAR
-<span class="token function">cp</span> incar_stc INCAR
-<span class="token keyword">echo</span> <span class="token string">"static I= <span class="token variable">$i</span>,J = <span class="token variable">$j</span>"</span><span class="token punctuation">;</span> <span class="token function">time</span> mpirun -np 16 vasp_std
-<span class="token function">cp</span> OSZICAR OSZICAR_<span class="token string">"<span class="token variable">$i</span>"</span>_<span class="token variable">$j</span>
-<span class="token function">rm</span> INCAR
-<span class="token keyword">done</span>
-<span class="token keyword">done</span>
-
-<span class="token comment" spellcheck="true">#计算弹性常数</span>
-AELAS -d <span class="token comment" spellcheck="true">#二维产生 AELAS -d2d</span></code></pre>
-<p>提交上述脚本计算，成功计算后生成ELADAT文件，形式如下：</p>
-<pre class=" language-txt"><code class="language-txt"> Elastic tensor: 
-
-  153.04   57.11   57.11    0.00    0.00    0.00
-   57.11  153.04   57.11    0.00    0.00    0.00
-   57.11   57.11  153.04    0.00    0.00    0.00
-    0.00    0.00    0.00   74.71    0.00    0.00
-    0.00    0.00    0.00    0.00   74.71    0.00
-    0.00    0.00    0.00    0.00    0.00   74.71
-
- Compliance tensor: 
-
-  0.008197 -0.002228 -0.002228  0.000000  0.000000  0.000000
- -0.002228  0.008197 -0.002228  0.000000  0.000000  0.000000
- -0.002228 -0.002228  0.008197  0.000000  0.000000  0.000000
-  0.000000  0.000000  0.000000  0.013384  0.000000  0.000000
-  0.000000  0.000000  0.000000  0.000000  0.013384  0.000000
-  0.000000  0.000000  0.000000  0.000000  0.000000  0.013384
-
- Young's, shear and bulk moduli and Poisson ratio
-
-   Voigt approximate:   154.93   64.01   89.09   0.210
-   Reuss approximate:   149.17   61.09   89.09   0.221
-   Hill approximate :   152.05   62.55   89.09   0.216
-
- Pugh ratio (G/K):   0.7021
- Cauchy pressure (Pc=C12-C44):   -17.60
-
- Elastic Anisotropy Index
-
-   Chung-Buessem Anisotropy Index (Ac=(Gv-Gr)/(Gv+Gr)):   0.0234
-   Universal Elastic Anisotropy Index (Au=5*Gv/Gr+Kv/Kr-6):   0.2396
-
- Elastic Stability Conditions:  Stable
-
-</code></pre>
-<br />
-
+                <h2 id="Fortran运算符总结"><a href="#Fortran运算符总结" class="headerlink" title="Fortran运算符总结"></a><strong>Fortran运算符总结</strong></h2><p><strong>关系运算符</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">Fortran77</th>
+<th align="center">Fortran95</th>
+<th align="center">意  义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">.EQ.</td>
+<td align="center">==</td>
+<td align="center">等于</td>
+</tr>
+<tr>
+<td align="center">.NE.</td>
+<td align="center">/=</td>
+<td align="center">不等于</td>
+</tr>
+<tr>
+<td align="center">.GT.</td>
+<td align="center">&gt;</td>
+<td align="center">大于</td>
+</tr>
+<tr>
+<td align="center">.GE.</td>
+<td align="center">&gt;=</td>
+<td align="center">大于等于</td>
+</tr>
+<tr>
+<td align="center">.LT.</td>
+<td align="center">&lt;</td>
+<td align="center">小于</td>
+</tr>
+<tr>
+<td align="center">.LE.</td>
+<td align="center">&lt;=</td>
+<td align="center">小于等于</td>
+</tr>
+</tbody></table>
+<p><strong>注：建议使用新版的运算符，方便代码阅读</strong></p>
 <hr>
-<h3 id="vaspkit软件"><a href="#vaspkit软件" class="headerlink" title="vaspkit软件"></a><strong>vaspkit软件</strong></h3><p>建议使用惯用晶胞，不要使用原始晶胞。可以借用上面软件的AELAS -d生成的RECELL文件。</p>
-<p>版本1.0.0及以上</p>
-<p>必要的文件</p>
-<pre class=" language-bash"><code class="language-bash">elas_strain.sh
-elas_cal.sh
-POTCAR
-KPOINTS 可在脚本设置或者单独给出
-incar_rlx 可在脚本设置或者单独给出
-incar_stc
-VPKIT.in 可在脚本设置或者单独给出</code></pre>
-<p>elas_strain.sh脚本参考如下：</p>
-<pre class=" language-bash"><code class="language-bash">
-<span class="token comment" spellcheck="true">#!/bin/bash</span>
-
-<span class="token function">cat</span> <span class="token operator">></span> VPKIT.in <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-1                                                              <span class="token operator">!</span> 1 <span class="token keyword">for</span> prep-rocessing, 2 <span class="token keyword">for</span> post-processing
-3D                                                             <span class="token operator">!</span> 2D <span class="token keyword">for</span> slab, 3D <span class="token keyword">for</span> bulk
-13                                                              <span class="token operator">!</span> number of strain
--0.018 -0.015 -0.012 -0.009 -0.006 -0.003 0.000 0.003 0.006 0.009 0.012 0.015 0.018 <span class="token operator">!</span> magnitude of strain
-<span class="token operator">!</span>
-
-<span class="token function">cat</span> <span class="token operator">></span> POSCAR <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-Si8
-1.00000000000000
-  5.4684663969085214    0.0000000000000000    0.0000000000000000
-  0.0000000000000000    5.4684663969085214    0.0000000000000000
-  0.0000000000000000    0.0000000000000000    5.4684663969085214
-Si
-8
-Direct
-  0.0000000000000000  0.0000000000000000  0.0000000000000000
-  0.2500000000000000  0.7500000000000000  0.7500000000000000
-  0.5000000000000000  0.0000000000000000  0.5000000000000000
-  0.0000000000000000  0.5000000000000000  0.5000000000000000
-  0.5000000000000000  0.5000000000000000  0.0000000000000000
-  0.7500000000000000  0.2500000000000000  0.7500000000000000
-  0.7500000000000000  0.7500000000000000  0.2500000000000000
-  0.2500000000000000  0.2500000000000000  0.2500000000000000
-
-<span class="token operator">!</span>
-
-<span class="token comment" spellcheck="true">#产生优化和静态计算的INCAR</span>
-<span class="token function">cat</span> <span class="token operator">></span> incar_rlx <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-ISTART<span class="token operator">=</span>0
-ICHARG<span class="token operator">=</span>2
-PREC<span class="token operator">=</span>Accurate
-GGA <span class="token operator">=</span> PE
-ADDGRID <span class="token operator">=</span>.TRUE.
-
-<span class="token comment" spellcheck="true"># Electronic relaxation</span>
-ENCUT<span class="token operator">=</span>500
-EDIFF<span class="token operator">=</span>1E-8
-
-ISMEAR<span class="token operator">=</span>0
-SIGMA<span class="token operator">=</span>0.05
-NELMIN<span class="token operator">=</span>5
-
-<span class="token comment" spellcheck="true"># Ionic relaxation</span>
-NSW<span class="token operator">=</span>100
-EDIFFG<span class="token operator">=</span>-1e-3
-ISIF<span class="token operator">=</span>2
-
-IBRION<span class="token operator">=</span>2
-POTIM<span class="token operator">=</span>0.20
-
-<span class="token comment" spellcheck="true"># Other Tags</span>
-<span class="token comment" spellcheck="true">#PSTRESS=</span>
-
-<span class="token comment" spellcheck="true">#Write flags</span>
-LWAVE<span class="token operator">=</span>.FALSE.
-LCHARG<span class="token operator">=</span>.FALSE.
-KPAR<span class="token operator">=</span>2
-<span class="token operator">!</span>
-
-<span class="token function">cat</span> <span class="token operator">></span> incar_stc<span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-ISTART<span class="token operator">=</span>0
-ICHARG<span class="token operator">=</span>2
-PREC<span class="token operator">=</span>Accurate
-GGA <span class="token operator">=</span> PE
-ADDGRID <span class="token operator">=</span>.TRUE.
-
-<span class="token comment" spellcheck="true"># Electronic relaxation</span>
-ENCUT<span class="token operator">=</span>500
-EDIFF<span class="token operator">=</span>1E-8
-EDIFFG<span class="token operator">=</span>-0.001
-
-ISMEAR<span class="token operator">=</span>-5
-<span class="token comment" spellcheck="true">#SIGMA = 0.05</span>
-POTIM<span class="token operator">=</span>0.20
-
-<span class="token comment" spellcheck="true"># Other Tags</span>
-<span class="token comment" spellcheck="true">#PSTRESS=</span>
-
-<span class="token comment" spellcheck="true"># Write flags</span>
-LWAVE<span class="token operator">=</span>.FALSE.
-LCHARG<span class="token operator">=</span>.FALSE.
-KPAR<span class="token operator">=</span>2
-<span class="token operator">!</span>
-
-<span class="token function">cat</span> <span class="token operator">></span> KPOINTS <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-A
-0
-M
-9  9  9
-0  0  0
-<span class="token operator">!</span>
-
-vaspkit -task 201 <span class="token comment" spellcheck="true">#建立不同应变下的POSCAR文件</span>
-</code></pre>
-<p>提交生成应变后的文件夹</p>
-<p>elas_cal.sh脚本设置如下：</p>
-<pre class=" language-bash"><code class="language-bash">
-<span class="token comment" spellcheck="true">#!/bin/bash</span>
-root_path<span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">pwd</span><span class="token variable">`</span></span>
-
-<span class="token keyword">for</span> cij <span class="token keyword">in</span> <span class="token variable"><span class="token variable">`</span><span class="token function">ls</span> -F <span class="token operator">|</span> <span class="token function">grep</span> /$<span class="token variable">`</span></span>
-<span class="token keyword">do</span>
-  <span class="token function">cd</span> <span class="token variable">${root_path}</span>/<span class="token variable">$cij</span>
-  <span class="token keyword">for</span> s <span class="token keyword">in</span> strain_*
-  <span class="token keyword">do</span>
-    <span class="token function">cd</span> <span class="token variable">${root_path}</span>/<span class="token variable">$cij</span>/<span class="token variable">$s</span>
-    <span class="token keyword">echo</span> <span class="token variable"><span class="token variable">`</span><span class="token function">pwd</span><span class="token variable">`</span></span>
-
-    <span class="token comment" spellcheck="true">#优化计算</span>
-    <span class="token function">cp</span> <span class="token punctuation">..</span>/<span class="token punctuation">..</span>/incar_rlx INCAR
-    <span class="token function">time</span> mpirun -np 16 vasp_std
-
-    <span class="token function">rm</span> INCAR
-
-    <span class="token comment" spellcheck="true">#静态计算</span>
-    <span class="token function">cp</span> <span class="token punctuation">..</span>/<span class="token punctuation">..</span>/incar_stc INCAR
-    <span class="token function">time</span> mpirun -np 16 vasp_std
-
-  <span class="token keyword">done</span>
-<span class="token keyword">done</span>
-
-<span class="token function">cd</span> <span class="token variable">${root_path}</span>
-
-<span class="token comment" spellcheck="true">#计算弹性常数</span>
-<span class="token function">cat</span> <span class="token operator">></span> VPKIT.in <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-2                                                              <span class="token operator">!</span> 1 <span class="token keyword">for</span> prep-rocessing, 2 <span class="token keyword">for</span> post-processing
-3D                                                             <span class="token operator">!</span> 2D <span class="token keyword">for</span> slab, 3D <span class="token keyword">for</span> bulk
-13                                                              <span class="token operator">!</span> number of strain
--0.018 -0.015 -0.012 -0.009 -0.006 -0.003 0.000 0.003 0.006 0.009 0.012 0.015 0.018 <span class="token operator">!</span> magnitude of strain
-<span class="token operator">!</span>
-
-vaspkit -task 201 <span class="token operator">></span> elastics.out
-</code></pre>
-<p>成功计算后生成elastic.out文件，形式如下：</p>
-<pre class=" language-out"><code class="language-out"> +---------------------------------------------------------------+
- |             VASPKIT Version: 1.00 (16 Sep. 2019)              |
- |       A Pre- and Post-Processing Program for VASP Code        |
- |            Running VASPKIT Under Command-Line Mode            |
- +---------------------------------------------------------------+
-  -->> (01) Reading VPKIT.in File...
- +-------------------------- Warm Tips --------------------------+
-      See an example in vaspkit/examples/elastic/diamond_3D,   
-   Require the fully-relaxed and standardized Convertional cell.
- +---------------------------------------------------------------+
-  -->> (02) Reading Structural Parameters from POSCAR File...
-  -->> (03) Calculating the fitting coefficients of energy vs strain.
-  -->> Current directory:  Fitting Precision 
-              C44 Folder:  0.405E-09
-        C11_C12_I Folder:  0.244E-09
-       C11_C12_II Folder:  0.744E-08
- +-------------------------- Summary ----------------------------+
- Based on the Strain versus Energy method.
- Crystal Class: m-3m
- Space Group: Fd-3m
- Crystal System: Cubic system
- Including Point group classes: 23, 2/m-3, 432, -43m, 4/m-32/m
- There are 3 independent elastic constants
-    C11  C12  C12    0    0    0  
-    C12  C11  C12    0    0    0  
-    C12  C12  C11    0    0    0  
-      0    0    0  C44    0    0  
-      0    0    0    0  C44    0  
-      0    0    0    0    0  C44  
-
- Stiffness Tensor C_ij (in GPa):
-    153.056     57.116     57.116      0.000      0.000      0.000
-     57.116    153.056     57.116      0.000      0.000      0.000
-     57.116     57.116    153.056      0.000      0.000      0.000
-      0.000      0.000      0.000     99.411      0.000      0.000
-      0.000      0.000      0.000      0.000     99.411      0.000
-      0.000      0.000      0.000      0.000      0.000     99.411
-
- Compliance Tensor S_ij (in GPa^{-1}):
-   0.008196  -0.002227  -0.002227   0.000000   0.000000   0.000000
-  -0.002227   0.008196  -0.002227   0.000000   0.000000   0.000000
-  -0.002227  -0.002227   0.008196   0.000000   0.000000   0.000000
-   0.000000   0.000000   0.000000   0.010059   0.000000   0.000000
-   0.000000   0.000000   0.000000   0.000000   0.010059   0.000000
-   0.000000   0.000000   0.000000   0.000000   0.000000   0.010059
-
- Elastic stability criteria as seen in PRB 90, 224104 (2014).
- Criteria (i) C11 - C12 > 0 meeted.
- Criteria (ii) C11 + 2C12 > 0 meeted.
- Criteria (iii) C44 > 0 meeted.
- This Structure is Mechanically Stable.
-
- Average mechanical properties for polycrystalline:
- +---------------------------------------------------------------+
- |        Scheme             |   Voigt   |   Reuss   |    Hill   |
- +---------------------------------------------------------------+
- |  Bulk modulus K (GPa)     |   89.096  |   89.096  |   89.096  |
- |  Shear modulus G (GPa)    |   78.835  |   69.569  |   74.202  |
- |  Young's modulus E (GPa)  |  182.637  |  165.605  |  174.236  |
- |  P-wave modulus (GPa)     |  194.209  |  181.855  |  188.032  |
- |  Poisson's ratio v        |    0.158  |    0.190  |    0.174  |
- |  Bulk/Shear ratio         |    1.130  |    1.281  |    1.201  |
- +---------------------------------------------------------------+
- Pugh Ratio: 0.833
- Cauchy Pressure (GPa):  -42.295
- Universal Elastic Anisotropy: 0.666
- ChungBuessem Anisotropy:    0.062
- Isotropic Poissons Ratio: 0.174
- Longitudinal wave velocity (in m/s):   9078.421
- Transverse wave velocity (in m/s):   5702.983
- Average wave velocity (in m/s):   6278.900
- Debye temperature (in K):  683.685
- References:
- [1] Voigt W, Lehrbuch der Kristallphysik (1928)
- [2] Reuss A, Z. Angew. Math. Mech. 9 4958 (1929)
- [3] Hill R, Proc. Phys. Soc. A 65 34954 (1952)
- [4] Debye temperature J. Phys. Chem. Solids 24, 909-917 (1963)
- [5] Elastic wave velocities calculated using Navier's equation
- +---------------------------------------------------------------+
- +---------------------------------------------------------------+
- | We Would Appreciate if You Cite in Your Research with VASPKIT.|
- | Ref: V. Wang, N. Xu, J.C. LIU, G. Tang, et al, VASPKIT: A Pre-|
- | and Post-Processing Program for VASP Code, arXiv:1908.08269.  |
- +---------------------------------------------------------------+
-</code></pre>
+<p><strong>组合逻辑运算符</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">运算符</th>
+<th align="center">意  义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">.AND.</td>
+<td align="center">逻辑与</td>
+</tr>
+<tr>
+<td align="center">.OR.</td>
+<td align="center">逻辑或</td>
+</tr>
+<tr>
+<td align="center">.EQV.</td>
+<td align="center">逻辑等值</td>
+</tr>
+<tr>
+<td align="center">.NEQV.</td>
+<td align="center">逻辑非等值</td>
+</tr>
+<tr>
+<td align="center">.NOT.</td>
+<td align="center">逻辑非</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center">L1</th>
+<th align="center">.NOT.L1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">.FALSE.</td>
+<td align="center">.TRUE.</td>
+</tr>
+<tr>
+<td align="center">.TRUE.</td>
+<td align="center">.FALSE.</td>
+</tr>
+</tbody></table>
 
             </div>
             <hr/>
@@ -909,7 +602,7 @@ vaspkit -task 201 <span class="token operator">></span> elastics.out
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://tiandijunhao.github.io/2020/04/18/er-jie-dan-xing-chang-shu-ji-suan/">http://tiandijunhao.github.io/2020/04/18/er-jie-dan-xing-chang-shu-ji-suan/</a>
+                    <a href="http://tiandijunhao.github.io/2020/04/22/fortran-yun-suan-fu-zong-jie/">http://tiandijunhao.github.io/2020/04/22/fortran-yun-suan-fu-zong-jie/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -947,8 +640,8 @@ vaspkit -task 201 <span class="token operator">></span> elastics.out
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/VASP/">
-                                    <span class="chip bg-color">VASP</span>
+                                <a href="/tags/Fortran-learn/">
+                                    <span class="chip bg-color">Fortran_learn</span>
                                 </a>
                             
                         </div>
@@ -990,35 +683,120 @@ vaspkit -task 201 <span class="token operator">></span> elastics.out
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/04/18/jing-ge-chang-shu-ce-shi/">
+                <a href="/2020/04/22/fortran-yun-suan-fu-zong-jie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="晶格常数计算">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Fortran运算符">
                         
-                        <span class="card-title">晶格常数计算</span>
+                        <span class="card-title">Fortran运算符</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            晶格常数测试 (Equation of state method)必要输入文件
-run_a0.sh
-POTCAR
-INCAR 和 KPOINTS可在run_a0.sh中直接设置，也可以单独给出。
-EOS.in
-三维立方晶格脚本示例：Si
-#
+                            Fortran运算符总结关系运算符
+
+
+
+Fortran77
+Fortran95
+意  义
+
+
+
+.EQ.
+==
+等于
+
+
+.NE.
+/=
+不等于
+
+
+.GT.
+&gt;
+大于
+
+
+.GE.
+&gt;=
+大于等于
+
+
+.LT.
+&lt;
+小
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-18
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-22
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Fortran%E5%AD%A6%E4%B9%A0/" class="post-category">
+                                    Fortran学习
+                                </a>
+                            
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Fortran-learn/">
+                        <span class="chip bg-color">Fortran_learn</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/04/19/neng-dai-tu-de-ji-suan/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="能带计算">
+                        
+                        <span class="card-title">能带计算</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            电子结构的计算流程高对称点生成和后期处理使用vaspkit-1.1。
+注：该方法只针对原胞。
+PBE能带计算流程必要的文件
+INCAR-scf
+INCAR-band
+KPOINTS
+POTCAR
+POSCAR #优化后的原胞
+run_ban
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-19
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1036,55 +814,6 @@ EOS.in
                     
                     <a href="/tags/VASP/">
                         <span class="chip bg-color">VASP</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/04/18/spglib-an-zhuang/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Spglib安装教程">
-                        
-                        <span class="card-title">Spglib安装教程</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Spglib安装教程软件下载地址官网：https://atztogo.github.io/spglib/index.htmlC版本下载：https://github.com/atztogo/spglibpython版本下载：https://
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-18
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E8%AE%A1%E7%AE%97%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="post-category">
-                                    计算软件安装教程
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
-                        <span class="chip bg-color">安装教程</span>
                     </a>
                     
                 </div>
