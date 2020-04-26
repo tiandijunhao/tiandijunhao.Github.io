@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>AELAS安装教程</title>
+      <link href="/2020/04/26/aelas-an-zhuang-jiao-cheng/"/>
+      <url>/2020/04/26/aelas-an-zhuang-jiao-cheng/</url>
+      
+        <content type="html"><![CDATA[<h2 id="AELAS安装教程"><a href="#AELAS安装教程" class="headerlink" title="AELAS安装教程"></a><strong>AELAS安装教程</strong></h2><p>结合VASP使用的弹性常数计算软件</p><h3 id="软件下载地址"><a href="#软件下载地址" class="headerlink" title="软件下载地址"></a>软件下载地址</h3><p>作者网址：<a href="https://sites.google.com/site/zrfbuaa/softwares/aelas" target="_blank" rel="noopener">https://sites.google.com/site/zrfbuaa/softwares/aelas</a>   </p><p>注：可能要翻墙才行</p><h3 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h3><p>1 解压文件</p><pre class=" language-bash"><code class="language-bash"><span class="token function">tar</span> -zxvf AELAS-1.0.0.tar.gz</code></pre><p>2 安装spglib库<br>进入 AELAS里的 spglib文件夹</p><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#在linux终端操作，一步一步运行</span><span class="token function">cd</span> AELAS-1.0.0<span class="token function">cd</span> spglib-1.9.9<span class="token function">mkdir</span> _build<span class="token function">cd</span> _buildcmake <span class="token punctuation">..</span><span class="token function">make</span><span class="token function">make</span> <span class="token function">install</span><span class="token function">cd</span> <span class="token punctuation">..</span>/<span class="token punctuation">..</span></code></pre><p>3 安装AELAS</p><p>进入 AELAS里的 src文件夹，注意 makefile文件里默认的是ifort编译器。</p><pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> ./src<span class="token function">make</span><span class="token comment" spellcheck="true">#会在AELAS/bin文件里生成可执行文件AELAS</span></code></pre><p>4 添加环境变量</p><pre class=" language-bash"><code class="language-bash">vim ~/.bashrc <span class="token comment" spellcheck="true">#打开后按键盘上的 i 进入编辑模式</span><span class="token comment" spellcheck="true">#添加下列命令到bashrc中</span><span class="token function">export</span> PATH<span class="token operator">=</span>/dir/bin:<span class="token variable">$PATH</span> <span class="token comment" spellcheck="true">#dir:AELAS安装路径</span><span class="token comment" spellcheck="true">#添加完后，输入 :wq ，退出回到终端</span><span class="token function">source</span> ~/.bashrc</code></pre><h3 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h3><pre class=" language-bash"><code class="language-bash">AELAS</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 计算软件安装教程 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 安装教程 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>晶胞转换</title>
       <link href="/2020/04/25/jing-bao-zhuan-huan/"/>
       <url>/2020/04/25/jing-bao-zhuan-huan/</url>
