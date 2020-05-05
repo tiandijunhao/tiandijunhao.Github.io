@@ -494,21 +494,24 @@
 <p><strong>后续所有软件都将基于Intel编译器安装，其它编译器安装方式请自行搜索。</strong></p>
 <h3 id="软件下载地址"><a href="#软件下载地址" class="headerlink" title="软件下载地址"></a>软件下载地址</h3><p>该软件为商业版，学生可通过学生邮箱再Intel官网上申请教育版。</p>
 <h3 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h3><p>1 解压进入文件编译</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">su</span> <span class="token comment" spellcheck="true">#进入root模式</span>
-<span class="token function">bash</span> install_GUI.sh <span class="token comment" spellcheck="true">#图形界面安装</span>
-<span class="token function">bash</span> install.sh <span class="token comment" spellcheck="true">#命令界面</span>
-<span class="token comment" spellcheck="true">##根据需要选择安装的库，不清楚可默认。</span></code></pre>
+<pre class=" language-lang-bash"><code class="language-lang-bash">sudo su #进入root模式
+bash install_GUI.sh #图形界面安装
+bash install.sh #命令界面
+##根据需要选择安装的库，不清楚可默认。
+</code></pre>
 <p>2 配置环境变量</p>
-<pre class=" language-bash"><code class="language-bash">vim ~/.bashrc <span class="token comment" spellcheck="true">#打开配置文件，按i进入编辑模式</span>
+<pre class=" language-lang-bash"><code class="language-lang-bash">vim ~/.bashrc #打开配置文件，按i进入编辑模式
 
-<span class="token function">source</span> /<span class="token variable">$dir</span>/parallel_studio_xe_2019.1.053/psxevars.sh intel64 <span class="token comment" spellcheck="true">#添加该命令后保存退出。该命令可自动加载ifort icc MKL库等到环境变量。$dir:intel安装路径</span>
-<span class="token comment" spellcheck="true">##注：Intel一般默认安装在/opt/intel里</span>
+source /$dir/parallel_studio_xe_2019.1.053/psxevars.sh intel64 #添加该命令后保存退出。该命令可自动加载ifort icc MKL库等到环境变量。$dir:intel安装路径
+##注：Intel一般默认安装在/opt/intel里
 
-<span class="token function">source</span> ~/.bashrc <span class="token comment" spellcheck="true">#修改环境变量</span></code></pre>
+source ~/.bashrc #修改环境变量
+</code></pre>
 <p>3 测试</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#检测是否有ifort和icc添加到环境变量</span>
-<span class="token function">which</span> ifort
-<span class="token function">which</span> icc</code></pre>
+<pre class=" language-lang-bash"><code class="language-lang-bash">#检测是否有ifort和icc添加到环境变量
+which ifort
+which icc
+</code></pre>
 
             </div>
             <hr/>
@@ -685,7 +688,8 @@
 安装编译1 解压文件并进入src文件夹
 tar -zxvf BoltzTraP.tar.gz
 cd boltztrap-1.2.5/src
-2 修改Makefile文件
+
+2 修改Makefile文
                         
                     </div>
                     <div class="publish-info">
@@ -861,7 +865,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">13.5k</span>&nbsp;字
+                class="white-color">6.4k</span>&nbsp;字
             
             
             

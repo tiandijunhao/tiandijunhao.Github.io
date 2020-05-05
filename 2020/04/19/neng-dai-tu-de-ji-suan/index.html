@@ -478,7 +478,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.6k
+                    81
                 </div>
                 
 
@@ -493,18 +493,19 @@
                 <h2 id="电子结构的计算流程"><a href="#电子结构的计算流程" class="headerlink" title="电子结构的计算流程"></a><strong>电子结构的计算流程</strong></h2><p>高对称点生成和后期处理使用vaspkit-1.1。</p>
 <p><strong>注：该方法只针对原胞。</strong></p>
 <h3 id="PBE能带计算流程"><a href="#PBE能带计算流程" class="headerlink" title="PBE能带计算流程"></a><strong>PBE能带计算流程</strong></h3><p>必要的文件</p>
-<pre class=" language-bash"><code class="language-bash">INCAR-scf
+<pre class=" language-lang-bash"><code class="language-lang-bash">INCAR-scf
 INCAR-band
 KPOINTS
 POTCAR
-POSCAR <span class="token comment" spellcheck="true">#优化后的原胞</span>
-run_banddos.sh</code></pre>
+POSCAR #优化后的原胞
+run_banddos.sh
+</code></pre>
 <p>run_banddos.sh的脚本设置如下：</p>
-<pre class=" language-bash"><code class="language-bash">
-<span class="token comment" spellcheck="true">#!/bin/bash</span>
+<pre class=" language-lang-bash"><code class="language-lang-bash">
+#!/bin/bash
 
-<span class="token comment" spellcheck="true">#优化后的初始POSCAR</span>
-<span class="token function">cat</span> <span class="token operator">></span> POSCAR <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+#优化后的初始POSCAR
+cat > POSCAR <<!
 Primitive Cell
   1.000000
     0.00000000000000    2.73423319845426    2.73423319845426
@@ -516,124 +517,121 @@ DIRECT
     0.0000000000000000    0.0000000000000000    0.0000000000000000
     0.2500000000000000    0.2500000000000000    0.2500000000000000
 
-<span class="token operator">!</span>
+!
 
-<span class="token function">cat</span> <span class="token operator">></span> KPOINTS <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+cat > KPOINTS <<!
 A
 0
 M
 12 12 12
 0  0  0
-<span class="token operator">!</span>
+!
 
-<span class="token comment" spellcheck="true">#基于seek-path自动生成高对称点</span>
+#基于seek-path自动生成高对称点
 vaspkit -task 303
-<span class="token comment" spellcheck="true">#得到KPATH.in 和 HIGH_SYMMETRY_POINTS 可以自行修改</span>
+#得到KPATH.in 和 HIGH_SYMMETRY_POINTS 可以自行修改
 
-<span class="token function">cat</span> <span class="token operator">></span> INCAR-scf <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-ISTART<span class="token operator">=</span>0
-ICHARG<span class="token operator">=</span>2
-PREC<span class="token operator">=</span>Accurate
-GGA <span class="token operator">=</span> PE
-ADDGRID <span class="token operator">=</span>.TRUE.
+cat > INCAR-scf <<!
+ISTART=0
+ICHARG=2
+PREC=Accurate
+GGA = PE
+ADDGRID =.TRUE.
 
-<span class="token comment" spellcheck="true"># Electronic relaxation</span>
-ENCUT<span class="token operator">=</span>500
-EDIFF<span class="token operator">=</span>1E-8
-EDIFFG<span class="token operator">=</span>-0.001
+# Electronic relaxation
+ENCUT=500
+EDIFF=1E-8
+EDIFFG=-0.001
 
-ISMEAR<span class="token operator">=</span>0
-SIGMA <span class="token operator">=</span> 0.05
-POTIM<span class="token operator">=</span>0.20
+ISMEAR=0
+SIGMA = 0.05
+POTIM=0.20
 
-<span class="token comment" spellcheck="true"># Other Tags</span>
-<span class="token comment" spellcheck="true">#PSTRESS=</span>
+# Other Tags
+#PSTRESS=
 
-<span class="token comment" spellcheck="true"># Write flags</span>
-LWAVE<span class="token operator">=</span>.TRUE.
-LCHARG<span class="token operator">=</span>.TRUE.
-<span class="token operator">!</span>
+# Write flags
+LWAVE=.TRUE.
+LCHARG=.TRUE.
+!
 
-<span class="token function">cat</span> <span class="token operator">></span> INCAR-band <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+cat > INCAR-band <<!
 
 Global Parameters
-  ISTART <span class="token operator">=</span>  1            <span class="token punctuation">(</span>Read existing wavefunction<span class="token punctuation">;</span> <span class="token keyword">if</span> there<span class="token punctuation">)</span>
-  ICHARG <span class="token operator">=</span>  11            <span class="token punctuation">(</span>Non-self-consistent: GGA/LDA band structures<span class="token punctuation">)</span>
-  LREAL  <span class="token operator">=</span> F             <span class="token punctuation">(</span>Projection operators: automatic<span class="token punctuation">)</span>
-  ENCUT  <span class="token operator">=</span>  500          <span class="token punctuation">(</span>Cut-off energy <span class="token keyword">for</span> plane wave basis set, <span class="token keyword">in</span> eV<span class="token punctuation">)</span> 
-  PREC   <span class="token operator">=</span>  Accurate       <span class="token punctuation">(</span>Precision level<span class="token punctuation">)</span>  
-  LWAVE  <span class="token operator">=</span> .TRUE.        <span class="token punctuation">(</span>Write WAVECAR or not<span class="token punctuation">)</span>
-  LCHARG <span class="token operator">=</span> .TRUE.        <span class="token punctuation">(</span>Write CHGCAR or not<span class="token punctuation">)</span> 
-  ADDGRID<span class="token operator">=</span> .TRUE.        <span class="token punctuation">(</span>Increase grid<span class="token punctuation">;</span> helps GGA convergence<span class="token punctuation">)</span> 
-  <span class="token comment" spellcheck="true"># LVTOT  = .TRUE.      (Write total electrostatic potential into LOCPOT or not)</span>
-  <span class="token comment" spellcheck="true"># LVHAR  = .TRUE.      (Write ionic + Hartree electrostatic potential into LOCPOT or not)</span>
-  <span class="token comment" spellcheck="true"># NELECT =             (No. of electrons: charged cells; be careful)</span>
-  <span class="token comment" spellcheck="true"># LPLANE = .TRUE.      (Real space distribution; supercells)</span>
-  <span class="token comment" spellcheck="true"># NPAR   = 4           (Max is no. nodes; don't set for hybrids)</span>
+  ISTART =  1            (Read existing wavefunction; if there)
+  ICHARG =  11            (Non-self-consistent: GGA/LDA band structures)
+  LREAL  = F             (Projection operators: automatic)
+  ENCUT  =  500          (Cut-off energy for plane wave basis set, in eV) 
+  PREC   =  Accurate       (Precision level)  
+  LWAVE  = .TRUE.        (Write WAVECAR or not)
+  LCHARG = .TRUE.        (Write CHGCAR or not) 
+  ADDGRID= .TRUE.        (Increase grid; helps GGA convergence) 
+  # LVTOT  = .TRUE.      (Write total electrostatic potential into LOCPOT or not)
+  # LVHAR  = .TRUE.      (Write ionic + Hartree electrostatic potential into LOCPOT or not)
+  # NELECT =             (No. of electrons: charged cells; be careful)
+  # LPLANE = .TRUE.      (Real space distribution; supercells)
+  # NPAR   = 4           (Max is no. nodes; don't set for hybrids)
 
 Electronic Relaxation
-  ISMEAR <span class="token operator">=</span>  0            <span class="token punctuation">(</span>Gaussian smearing<span class="token punctuation">;</span> metals:1<span class="token punctuation">)</span>
-  SIGMA  <span class="token operator">=</span>  0.05         <span class="token punctuation">(</span>Smearing value <span class="token keyword">in</span> eV<span class="token punctuation">;</span> metals:0.2<span class="token punctuation">)</span>
- <span class="token comment" spellcheck="true"># NELM   =  60           (Max electronic SCF steps)  </span>
- <span class="token comment" spellcheck="true"># NELMIN =  4            (Min electronic SCF steps)</span>
-  EDIFF  <span class="token operator">=</span>  1E-08       <span class="token punctuation">(</span>SCF energy convergence<span class="token punctuation">;</span> <span class="token keyword">in</span> eV<span class="token punctuation">)</span> 
-  GGA  <span class="token operator">=</span>  PE             <span class="token punctuation">(</span>PBEsol exchange-correlation<span class="token punctuation">)</span>
-  LORBIT<span class="token operator">=</span>11              <span class="token punctuation">(</span>plot projection band need to set<span class="token punctuation">)</span>
-  NEDOS <span class="token operator">=</span> 2000
+  ISMEAR =  0            (Gaussian smearing; metals:1)
+  SIGMA  =  0.05         (Smearing value in eV; metals:0.2)
+ # NELM   =  60           (Max electronic SCF steps)  
+ # NELMIN =  4            (Min electronic SCF steps)
+  EDIFF  =  1E-08       (SCF energy convergence; in eV) 
+  GGA  =  PE             (PBEsol exchange-correlation)
+  LORBIT=11              (plot projection band need to set)
+  NEDOS = 2000
 
 Ionic Relaxation
- <span class="token comment" spellcheck="true"># NELMIN =  6           (Min electronic SCF steps) </span>
-  NSW    <span class="token operator">=</span>  0            <span class="token punctuation">(</span>Max electronic SCF steps<span class="token punctuation">)</span>
-  IBRION <span class="token operator">=</span>  -1           <span class="token punctuation">(</span>Algorithm: 0-MD<span class="token punctuation">;</span> 1-Quasi-New<span class="token punctuation">;</span> 2-CG<span class="token punctuation">)</span>
-  ISIF   <span class="token operator">=</span>  2            <span class="token punctuation">(</span>Stress/relaxation: 2-Ions, 3-Shape/Ions/V, 4-Shape/Ions<span class="token punctuation">)</span>
-  EDIFFG <span class="token operator">=</span> -0.001         <span class="token punctuation">(</span>Ionic convergence<span class="token punctuation">;</span> eV/AA<span class="token punctuation">)</span>
-  <span class="token comment" spellcheck="true">#ISYM =  0              (Symmetry: 0=none; 2=GGA; 3=hybrids)</span>
+ # NELMIN =  6           (Min electronic SCF steps) 
+  NSW    =  0            (Max electronic SCF steps)
+  IBRION =  -1           (Algorithm: 0-MD; 1-Quasi-New; 2-CG)
+  ISIF   =  2            (Stress/relaxation: 2-Ions, 3-Shape/Ions/V, 4-Shape/Ions)
+  EDIFFG = -0.001         (Ionic convergence; eV/AA)
+  #ISYM =  0              (Symmetry: 0=none; 2=GGA; 3=hybrids)
 
-<span class="token operator">!</span>
+!
 
-<span class="token comment" spellcheck="true">#自洽计算</span>
-<span class="token function">cp</span> INCAR-scf INCAR
-<span class="token keyword">echo</span> <span class="token string">"scf"</span><span class="token punctuation">;</span> <span class="token function">time</span> mpirun -np 16 vasp_std
-<span class="token function">rm</span> INCAR
+#自洽计算
+cp INCAR-scf INCAR
+echo "scf"; time mpirun -np 16 vasp_std
+rm INCAR
 
-<span class="token comment" spellcheck="true">#更换KPOINTS文件</span>
-<span class="token function">cp</span> KPATH.in KPOINTS
-<span class="token function">cp</span> INCAR-band INCAR
-<span class="token keyword">echo</span> <span class="token string">"band"</span><span class="token punctuation">;</span> <span class="token function">time</span> mpirun -np 16 vasp_std
+#更换KPOINTS文件
+cp KPATH.in KPOINTS
+cp INCAR-band INCAR
+echo "band"; time mpirun -np 16 vasp_std
 
-<span class="token comment" spellcheck="true">#处理能带数据</span>
-vaspkit -task n <span class="token comment" spellcheck="true">#根据下面说明自行选择</span>
+#处理能带数据
+vaspkit -task n #根据下面说明自行选择
 
-<span class="token comment" spellcheck="true">### 211) Band-Structure</span>
-<span class="token comment" spellcheck="true">### 212) Projected Band-Structure for Selected Atom</span>
-<span class="token comment" spellcheck="true">### 213) Projected Band-Structure for Each Element</span>
-<span class="token comment" spellcheck="true">### 214) The Sum of Projected Band-Structure for Selected Atoms</span>
-<span class="token comment" spellcheck="true">### 215) Projected Band-Structure by Element Weight</span>
-<span class="token comment" spellcheck="true">###</span></code></pre>
+### 211) Band-Structure
+### 212) Projected Band-Structure for Selected Atom
+### 213) Projected Band-Structure for Each Element
+### 214) The Sum of Projected Band-Structure for Selected Atoms
+### 215) Projected Band-Structure by Element Weight
+###
+</code></pre>
 <p>运行后得到包含能带数据的dat文件</p>
 <p>Si的能带图：</p>
-<img src="/img/Si_pbeband.png" width = "60%" height = "60%" div align=center/>
-
-<br />
-
+<p><img src="/img/Si_pbeband.png" width = "60%" height = "60%" div align=center/></p>
+<p><br /></p>
 <p>Si的轨道投影能带:</p>
-<img src="/img/Si_projband.png" width = "60%" height = "60%" div align=center/>
-
-<br />
-<br />
-
+<p><img src="/img/Si_projband.png" width = "60%" height = "60%" div align=center/></p>
+<p><br /><br><br /></p>
 <hr>
 <h3 id="杂化轨道能带计算流程"><a href="#杂化轨道能带计算流程" class="headerlink" title="杂化轨道能带计算流程"></a><strong>杂化轨道能带计算流程</strong></h3><p>必要的文件</p>
-<pre class=" language-bash"><code class="language-bash">INCAR-scf
+<pre class=" language-lang-bash"><code class="language-lang-bash">INCAR-scf
 INCAR-hse
 KPOINTS
 POTCAR
-POSCAR <span class="token comment" spellcheck="true">#优化后的原胞</span>
-run_hseband.sh</code></pre>
+POSCAR #优化后的原胞
+run_hseband.sh
+</code></pre>
 <p>run_hseband.sh脚本设置如下：</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
-<span class="token comment" spellcheck="true">#优化后的初始POSCAR</span>
-<span class="token function">cat</span> <span class="token operator">></span> POSCAR <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+<pre class=" language-lang-bash"><code class="language-lang-bash">#!/bin/bash
+#优化后的初始POSCAR
+cat > POSCAR <<!
 Primitive Cell
   1.000000
     0.00000000000000    2.73423319845426    2.73423319845426
@@ -645,112 +643,111 @@ DIRECT
     0.0000000000000000    0.0000000000000000    0.0000000000000000
     0.2500000000000000    0.2500000000000000    0.2500000000000000
 
-<span class="token operator">!</span>
+!
 
-<span class="token comment" spellcheck="true">#基于seek-path自动生成高对称点</span>
+#基于seek-path自动生成高对称点
 vaspkit -task 303
-<span class="token comment" spellcheck="true">#得到KPATH.in 和 HIGH_SYMMETRY_POINTS 可以自行修改</span>
-<span class="token comment" spellcheck="true">#由于HSE计算量很大，对于点的数量一定要适当</span>
+#得到KPATH.in 和 HIGH_SYMMETRY_POINTS 可以自行修改
+#由于HSE计算量很大，对于点的数量一定要适当
 
 vaspkit -task 251
-<span class="token comment" spellcheck="true">#生成包含SCF的k-mesh和权重为0的用于HSE-band的k-path的KPOINTS文件</span>
+#生成包含SCF的k-mesh和权重为0的用于HSE-band的k-path的KPOINTS文件
 
-<span class="token function">cat</span> <span class="token operator">></span> INCAR-scf <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-ISTART<span class="token operator">=</span>0
-ICHARG<span class="token operator">=</span>2
-PREC<span class="token operator">=</span>Accurate
-GGA <span class="token operator">=</span> PE
-ADDGRID <span class="token operator">=</span>.TRUE.
+cat > INCAR-scf <<!
+ISTART=0
+ICHARG=2
+PREC=Accurate
+GGA = PE
+ADDGRID =.TRUE.
 
-<span class="token comment" spellcheck="true"># Electronic relaxation</span>
-ENCUT<span class="token operator">=</span>500
-EDIFF<span class="token operator">=</span>1E-8
-EDIFFG<span class="token operator">=</span>-0.001
+# Electronic relaxation
+ENCUT=500
+EDIFF=1E-8
+EDIFFG=-0.001
 
-ISMEAR<span class="token operator">=</span>0
-SIGMA <span class="token operator">=</span> 0.05
-POTIM<span class="token operator">=</span>0.20
+ISMEAR=0
+SIGMA = 0.05
+POTIM=0.20
 
-<span class="token comment" spellcheck="true"># Other Tags</span>
-<span class="token comment" spellcheck="true">#PSTRESS=</span>
+# Other Tags
+#PSTRESS=
 
-<span class="token comment" spellcheck="true"># Write flags</span>
-LWAVE<span class="token operator">=</span>.TRUE.
-LCHARG<span class="token operator">=</span>.TRUE.
-<span class="token operator">!</span>
+# Write flags
+LWAVE=.TRUE.
+LCHARG=.TRUE.
+!
 
-<span class="token function">cat</span> <span class="token operator">></span> INCAR-hse <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+cat > INCAR-hse <<!
 Global Parameters
-  ISTART <span class="token operator">=</span>  1            <span class="token punctuation">(</span>Read existing wavefunction<span class="token punctuation">;</span> <span class="token keyword">if</span> there<span class="token punctuation">)</span>
-  ICHARG <span class="token operator">=</span>  1            <span class="token punctuation">(</span>Non-self-consistent: GGA/LDA band structures<span class="token punctuation">)</span>
-  LREAL  <span class="token operator">=</span> F             <span class="token punctuation">(</span>Projection operators: automatic<span class="token punctuation">)</span>
-  ENCUT  <span class="token operator">=</span>  500          <span class="token punctuation">(</span>Cut-off energy <span class="token keyword">for</span> plane wave basis set, <span class="token keyword">in</span> eV<span class="token punctuation">)</span> 
-  PREC   <span class="token operator">=</span>  Accurate       <span class="token punctuation">(</span>Precision level<span class="token punctuation">)</span>  
-  LWAVE  <span class="token operator">=</span> .TRUE.        <span class="token punctuation">(</span>Write WAVECAR or not<span class="token punctuation">)</span>
-  LCHARG <span class="token operator">=</span> .TRUE.        <span class="token punctuation">(</span>Write CHGCAR or not<span class="token punctuation">)</span> 
-  ADDGRID<span class="token operator">=</span> .TRUE.        <span class="token punctuation">(</span>Increase grid<span class="token punctuation">;</span> helps GGA convergence<span class="token punctuation">)</span> 
-  <span class="token comment" spellcheck="true"># LVTOT  = .TRUE.      (Write total electrostatic potential into LOCPOT or not)</span>
-  <span class="token comment" spellcheck="true"># LVHAR  = .TRUE.      (Write ionic + Hartree electrostatic potential into LOCPOT or not)</span>
-  <span class="token comment" spellcheck="true"># NELECT =             (No. of electrons: charged cells; be careful)</span>
-  <span class="token comment" spellcheck="true"># LPLANE = .TRUE.      (Real space distribution; supercells)</span>
-  <span class="token comment" spellcheck="true"># NPAR   = 4           (Max is no. nodes; don't set for hybrids)</span>
+  ISTART =  1            (Read existing wavefunction; if there)
+  ICHARG =  1            (Non-self-consistent: GGA/LDA band structures)
+  LREAL  = F             (Projection operators: automatic)
+  ENCUT  =  500          (Cut-off energy for plane wave basis set, in eV) 
+  PREC   =  Accurate       (Precision level)  
+  LWAVE  = .TRUE.        (Write WAVECAR or not)
+  LCHARG = .TRUE.        (Write CHGCAR or not) 
+  ADDGRID= .TRUE.        (Increase grid; helps GGA convergence) 
+  # LVTOT  = .TRUE.      (Write total electrostatic potential into LOCPOT or not)
+  # LVHAR  = .TRUE.      (Write ionic + Hartree electrostatic potential into LOCPOT or not)
+  # NELECT =             (No. of electrons: charged cells; be careful)
+  # LPLANE = .TRUE.      (Real space distribution; supercells)
+  # NPAR   = 4           (Max is no. nodes; don't set for hybrids)
 
 Electronic Relaxation
-  ISMEAR <span class="token operator">=</span>  0            <span class="token punctuation">(</span>Gaussian smearing<span class="token punctuation">;</span> metals:1<span class="token punctuation">)</span>
-  SIGMA  <span class="token operator">=</span>  0.05         <span class="token punctuation">(</span>Smearing value <span class="token keyword">in</span> eV<span class="token punctuation">;</span> metals:0.2<span class="token punctuation">)</span>
- <span class="token comment" spellcheck="true"># NELM   =  60           (Max electronic SCF steps)  </span>
- <span class="token comment" spellcheck="true"># NELMIN =  4            (Min electronic SCF steps)</span>
-  EDIFF  <span class="token operator">=</span>  1E-08       <span class="token punctuation">(</span>SCF energy convergence<span class="token punctuation">;</span> <span class="token keyword">in</span> eV<span class="token punctuation">)</span> 
-  GGA  <span class="token operator">=</span>  PE             <span class="token punctuation">(</span>PBEsol exchange-correlation<span class="token punctuation">)</span>
-  LORBIT<span class="token operator">=</span>11
-  NEDOS <span class="token operator">=</span> 5000 
+  ISMEAR =  0            (Gaussian smearing; metals:1)
+  SIGMA  =  0.05         (Smearing value in eV; metals:0.2)
+ # NELM   =  60           (Max electronic SCF steps)  
+ # NELMIN =  4            (Min electronic SCF steps)
+  EDIFF  =  1E-08       (SCF energy convergence; in eV) 
+  GGA  =  PE             (PBEsol exchange-correlation)
+  LORBIT=11
+  NEDOS = 5000 
 
 Ionic Relaxation
- <span class="token comment" spellcheck="true"># NELMIN =  6           (Min electronic SCF steps) </span>
-  NSW    <span class="token operator">=</span>  0            <span class="token punctuation">(</span>Max electronic SCF steps<span class="token punctuation">)</span>
-  IBRION <span class="token operator">=</span>  -1           <span class="token punctuation">(</span>Algorithm: 0-MD<span class="token punctuation">;</span> 1-Quasi-New<span class="token punctuation">;</span> 2-CG<span class="token punctuation">)</span>
-  ISIF   <span class="token operator">=</span>  2            <span class="token punctuation">(</span>Stress/relaxation: 2-Ions, 3-Shape/Ions/V, 4-Shape/Ions<span class="token punctuation">)</span>
-  EDIFFG <span class="token operator">=</span> -0.001         <span class="token punctuation">(</span>Ionic convergence<span class="token punctuation">;</span> eV/AA<span class="token punctuation">)</span>
-  ISYM <span class="token operator">=</span>  0              <span class="token punctuation">(</span>Symmetry: 0<span class="token operator">=</span>none<span class="token punctuation">;</span> 2<span class="token operator">=</span>GGA<span class="token punctuation">;</span> 3<span class="token operator">=</span>hybrids<span class="token punctuation">)</span>
+ # NELMIN =  6           (Min electronic SCF steps) 
+  NSW    =  0            (Max electronic SCF steps)
+  IBRION =  -1           (Algorithm: 0-MD; 1-Quasi-New; 2-CG)
+  ISIF   =  2            (Stress/relaxation: 2-Ions, 3-Shape/Ions/V, 4-Shape/Ions)
+  EDIFFG = -0.001         (Ionic convergence; eV/AA)
+  ISYM =  0              (Symmetry: 0=none; 2=GGA; 3=hybrids)
 
-<span class="token comment" spellcheck="true">#HSE06 Calculation</span>
-  LHFCALC<span class="token operator">=</span> .TRUE.       <span class="token punctuation">(</span>Activate HF<span class="token punctuation">)</span>
-  AEXX   <span class="token operator">=</span>  0.25        <span class="token punctuation">(</span>25% HF exact exchange, adjusted this value to reproduce experimental band gap<span class="token punctuation">)</span>
-  HFSCREEN<span class="token operator">=</span> 0.2         <span class="token punctuation">(</span>Switch to screened exchange<span class="token punctuation">;</span> e.g. HSE06<span class="token punctuation">)</span>
-  ALGO   <span class="token operator">=</span>  Damped         <span class="token punctuation">(</span>Electronic Minimisation Algorithm<span class="token punctuation">;</span> ALGO<span class="token operator">=</span>58<span class="token punctuation">)</span>      
-  TIME   <span class="token operator">=</span>  0.4         <span class="token punctuation">(</span>Timestep <span class="token keyword">for</span> IALGO5X<span class="token punctuation">)</span>
-  PRECFOCK<span class="token operator">=</span> Normal      <span class="token punctuation">(</span>HF FFT grid<span class="token punctuation">)</span> 
-  <span class="token comment" spellcheck="true"># NKRED    = 2        (Reduce k-grid-even only, see also NKREDX, NKREDY and NKREDZ)</span>
-  <span class="token comment" spellcheck="true"># HFLMAX   = 4        (HF cut-off: 4d, 6f)</span>
-  <span class="token comment" spellcheck="true"># LDIAG    = .TRUE.   (Diagnolise Eigenvalues) </span>
+#HSE06 Calculation
+  LHFCALC= .TRUE.       (Activate HF)
+  AEXX   =  0.25        (25% HF exact exchange, adjusted this value to reproduce experimental band gap)
+  HFSCREEN= 0.2         (Switch to screened exchange; e.g. HSE06)
+  ALGO   =  Damped         (Electronic Minimisation Algorithm; ALGO=58)      
+  TIME   =  0.4         (Timestep for IALGO5X)
+  PRECFOCK= Normal      (HF FFT grid) 
+  # NKRED    = 2        (Reduce k-grid-even only, see also NKREDX, NKREDY and NKREDZ)
+  # HFLMAX   = 4        (HF cut-off: 4d, 6f)
+  # LDIAG    = .TRUE.   (Diagnolise Eigenvalues) 
 
-<span class="token operator">!</span>
+!
 
-<span class="token comment" spellcheck="true">#SCF计算，可省略,主要得到WAVECAR波函数，可加速HSE计算速度</span>
-<span class="token function">cp</span> INCAR-scf INCAR
-<span class="token keyword">echo</span> <span class="token string">"scf"</span><span class="token punctuation">;</span> <span class="token function">time</span> mpirun -np 16 vasp_std
-<span class="token function">rm</span> INCAR
+#SCF计算，可省略,主要得到WAVECAR波函数，可加速HSE计算速度
+cp INCAR-scf INCAR
+echo "scf"; time mpirun -np 16 vasp_std
+rm INCAR
 
-<span class="token comment" spellcheck="true">#HSE计算</span>
-<span class="token function">cp</span> INCAR-hse INCAR
-<span class="token keyword">echo</span> <span class="token string">"hse"</span><span class="token punctuation">;</span> <span class="token function">time</span> mpirun -np 16 vasp_std
+#HSE计算
+cp INCAR-hse INCAR
+echo "hse"; time mpirun -np 16 vasp_std
 
 
-vaspkit -task n <span class="token comment" spellcheck="true">#根据下述说明自行选择</span>
-<span class="token comment" spellcheck="true">##  250) Generate KPOINTS Including Irreducible Kmesh and Band Edges </span>
-<span class="token comment" spellcheck="true">##  251) Generate KPOINTS File for Hybrid Band-Structure Calculation </span>
-<span class="token comment" spellcheck="true">##  252) Get Band-Structure for Hybrid-DFT Calculation               </span>
-<span class="token comment" spellcheck="true">##  253) Get Projected Band-Structure for Selected Atoms             </span>
-<span class="token comment" spellcheck="true">##  254) Get Projected Band-Structure for Each ELement               </span>
-<span class="token comment" spellcheck="true">##  255) Get the Sum of Projected Band-Structure for Selected Atoms  </span>
-<span class="token comment" spellcheck="true">##  256) Projected Band-Structure by Element Weight                  </span>
+vaspkit -task n #根据下述说明自行选择
+##  250) Generate KPOINTS Including Irreducible Kmesh and Band Edges 
+##  251) Generate KPOINTS File for Hybrid Band-Structure Calculation 
+##  252) Get Band-Structure for Hybrid-DFT Calculation               
+##  253) Get Projected Band-Structure for Selected Atoms             
+##  254) Get Projected Band-Structure for Each ELement               
+##  255) Get the Sum of Projected Band-Structure for Selected Atoms  
+##  256) Projected Band-Structure by Element Weight
 </code></pre>
-<br />
-
+<p><br /></p>
 <hr>
 <h3 id="PBE-HSE-SOC计算能带"><a href="#PBE-HSE-SOC计算能带" class="headerlink" title="PBE(HSE)+SOC计算能带"></a><strong>PBE(HSE)+SOC计算能带</strong></h3><p>参照 PBE(HSE)计算能带。</p>
 <p>在INCAR中添加如下参数：</p>
-<pre class=" language-txt"><code class="language-txt">Spin-Orbit Coupling Calculation
+<pre class=" language-lang-txt"><code class="language-lang-txt">Spin-Orbit Coupling Calculation
   ISPIN  =  2
   NELMIN =  6            (Min electronic SCF steps) 
   LSORBIT    = .TRUE.    (Activate SOC)
@@ -759,10 +756,11 @@ vaspkit -task n <span class="token comment" spellcheck="true">#根据下述说�
   LMAXMIX    =  2        (For d elements increase LMAXMIX to 4, f: LMAXMIX = 6)
   SAXIS    =  0 0 1      (Direction of the magnetic field)
   # MAGMOM   =  0 0 3    (Set this parameters manually, Local magnetic moment parallel to SAXIS, 3*NIONS*1.0 for non-collinear magnetic systems)
-  NBANDS   =  32         (Set this parameters manually, 2 * number of bands of collinear-run)</code></pre>
+  NBANDS   =  32         (Set this parameters manually, 2 * number of bands of collinear-run)
+</code></pre>
 <p>注：NBAND最好为PBE(HSE)中能带数的整数倍。HSE+SOC计算流程未测试，不知道会不会成功。下面是我当初计算2D-Tl2O的HSE+SOC能带的流程，主要给出INCAR的设置。</p>
 <p>第一步：SCF+SOC计算</p>
-<pre class=" language-txt"><code class="language-txt">Global Parameters
+<pre class=" language-lang-txt"><code class="language-lang-txt">Global Parameters
   ISTART = 0             (Read existing wavefunction; if there)
   ICHARG =  2            (Non-self-consistent: GGA/LDA band structures)
   LREAL  = F             (Projection operators: automatic)
@@ -802,11 +800,11 @@ Spin-Orbit Coupling Calculation
   LMAXMIX    =  2        (For d elements increase LMAXMIX to 4, f: LMAXMIX = 6)        
   SAXIS    =  0 0 1      (Direction of the magnetic field)                           
   # MAGMOM   =  0 0 3    (Set this parameters manually, Local magnetic moment parallel to SAXIS, 3*NIONS*1.0 for non-collinear magnetic systems)
- # NBANDS   =  32         (Set this parameters manually, 2 * number of bands of collinear-run) 
+ # NBANDS   =  32         (Set this parameters manually, 2 * number of bands of collinear-run)
 </code></pre>
 <p>得到IBZKPT的K点<br>能带计算K点的生成参照HSE计算</p>
 <p>第二步：打开杂化HSE</p>
-<pre class=" language-txt"><code class="language-txt">Global Parameters
+<pre class=" language-lang-txt"><code class="language-lang-txt">Global Parameters
   ISTART =  1            (Read existing wavefunction; if there)
   ICHARG =  2            (Non-self-consistent: GGA/LDA band structures)
   LREAL  = F             (Projection operators: automatic)
@@ -857,19 +855,21 @@ HSE06 Calculation
   PRECFOCK= Normal      (HF FFT grid) 
   # NKRED    = 2        (Reduce k-grid-even only, see also NKREDX, NKREDY and NKREDZ)
   # HFLMAX   = 4        (HF cut-off: 4d, 6f)
-  # LDIAG    = .TRUE.   (Diagnolise Eigenvalues) </code></pre>
+  # LDIAG    = .TRUE.   (Diagnolise Eigenvalues)
+</code></pre>
 <p>注：选择读取上一步的WAVECAR可以加速这一步的计算，如果报错，可以不读取WAVECAR直接计算。</p>
 <hr>
 <hr>
 <h3 id="态密度计算"><a href="#态密度计算" class="headerlink" title="态密度计算"></a><strong>态密度计算</strong></h3><p><strong>注：与能带计算差不多，只是不需要修改K点。也可以直接用能带计算中得到的态密度。</strong></p>
 <p>必要的文件：</p>
-<pre class=" language-txt"><code class="language-txt">INCAR-scf
+<pre class=" language-lang-txt"><code class="language-lang-txt">INCAR-scf
 INCAR-dos
 KPOINTS
 POTCAR
-run_dos.sh</code></pre>
-<pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
-<span class="token function">cat</span> <span class="token operator">></span> POSCAR <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+run_dos.sh
+</code></pre>
+<pre class=" language-lang-bash"><code class="language-lang-bash">#!/bin/bash
+cat > POSCAR <<!
 Primitive Cell
   1.000000
     0.00000000000000    2.73423319845426    2.73423319845426
@@ -881,132 +881,119 @@ DIRECT
     0.0000000000000000    0.0000000000000000    0.0000000000000000
     0.2500000000000000    0.2500000000000000    0.2500000000000000
 
-<span class="token operator">!</span>
+!
 
-<span class="token function">cat</span> <span class="token operator">></span> KPOINTS <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+cat > KPOINTS <<!
 A
 0
 M
 21 21 21
 0  0  0
-<span class="token operator">!</span>
+!
 
-<span class="token function">cat</span> <span class="token operator">></span> INCAR-scf <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-ISTART<span class="token operator">=</span>0
-ICHARG<span class="token operator">=</span>2
-PREC<span class="token operator">=</span>Accurate
-GGA <span class="token operator">=</span> PE
-ADDGRID <span class="token operator">=</span>.TRUE.
+cat > INCAR-scf <<!
+ISTART=0
+ICHARG=2
+PREC=Accurate
+GGA = PE
+ADDGRID =.TRUE.
 
-<span class="token comment" spellcheck="true"># Electronic relaxation</span>
-ENCUT<span class="token operator">=</span>500
-EDIFF<span class="token operator">=</span>1E-8
-EDIFFG<span class="token operator">=</span>-0.001
+# Electronic relaxation
+ENCUT=500
+EDIFF=1E-8
+EDIFFG=-0.001
 
-ISMEAR<span class="token operator">=</span>0
-SIGMA <span class="token operator">=</span> 0.05
-POTIM<span class="token operator">=</span>0.20
+ISMEAR=0
+SIGMA = 0.05
+POTIM=0.20
 
-<span class="token comment" spellcheck="true"># Other Tags</span>
-<span class="token comment" spellcheck="true">#PSTRESS=</span>
+# Other Tags
+#PSTRESS=
 
-<span class="token comment" spellcheck="true"># Write flags</span>
-LWAVE<span class="token operator">=</span>.TRUE.
-LCHARG<span class="token operator">=</span>.TRUE.
-<span class="token operator">!</span>
+# Write flags
+LWAVE=.TRUE.
+LCHARG=.TRUE.
+!
 
-<span class="token function">cat</span> <span class="token operator">></span> INCAR-dos <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+cat > INCAR-dos <<!
 
 Global Parameters
-  ISTART <span class="token operator">=</span>  1            <span class="token punctuation">(</span>Read existing wavefunction<span class="token punctuation">;</span> <span class="token keyword">if</span> there<span class="token punctuation">)</span>
-  ICHARG <span class="token operator">=</span>  11            <span class="token punctuation">(</span>Non-self-consistent: GGA/LDA band structures<span class="token punctuation">)</span>
-  LREAL  <span class="token operator">=</span> F             <span class="token punctuation">(</span>Projection operators: automatic<span class="token punctuation">)</span>
-  ENCUT  <span class="token operator">=</span>  500          <span class="token punctuation">(</span>Cut-off energy <span class="token keyword">for</span> plane wave basis set, <span class="token keyword">in</span> eV<span class="token punctuation">)</span> 
-  PREC   <span class="token operator">=</span>  Accurate       <span class="token punctuation">(</span>Precision level<span class="token punctuation">)</span>  
-  LWAVE  <span class="token operator">=</span> .TRUE.        <span class="token punctuation">(</span>Write WAVECAR or not<span class="token punctuation">)</span>
-  LCHARG <span class="token operator">=</span> .TRUE.        <span class="token punctuation">(</span>Write CHGCAR or not<span class="token punctuation">)</span> 
-  ADDGRID<span class="token operator">=</span> .TRUE.        <span class="token punctuation">(</span>Increase grid<span class="token punctuation">;</span> helps GGA convergence<span class="token punctuation">)</span> 
-  <span class="token comment" spellcheck="true"># LVTOT  = .TRUE.      (Write total electrostatic potential into LOCPOT or not)</span>
-  <span class="token comment" spellcheck="true"># LVHAR  = .TRUE.      (Write ionic + Hartree electrostatic potential into LOCPOT or not)</span>
-  <span class="token comment" spellcheck="true"># NELECT =             (No. of electrons: charged cells; be careful)</span>
-  <span class="token comment" spellcheck="true"># LPLANE = .TRUE.      (Real space distribution; supercells)</span>
-  <span class="token comment" spellcheck="true"># NPAR   = 4           (Max is no. nodes; don't set for hybrids)</span>
+  ISTART =  1            (Read existing wavefunction; if there)
+  ICHARG =  11            (Non-self-consistent: GGA/LDA band structures)
+  LREAL  = F             (Projection operators: automatic)
+  ENCUT  =  500          (Cut-off energy for plane wave basis set, in eV) 
+  PREC   =  Accurate       (Precision level)  
+  LWAVE  = .TRUE.        (Write WAVECAR or not)
+  LCHARG = .TRUE.        (Write CHGCAR or not) 
+  ADDGRID= .TRUE.        (Increase grid; helps GGA convergence) 
+  # LVTOT  = .TRUE.      (Write total electrostatic potential into LOCPOT or not)
+  # LVHAR  = .TRUE.      (Write ionic + Hartree electrostatic potential into LOCPOT or not)
+  # NELECT =             (No. of electrons: charged cells; be careful)
+  # LPLANE = .TRUE.      (Real space distribution; supercells)
+  # NPAR   = 4           (Max is no. nodes; don't set for hybrids)
 
 Electronic Relaxation
-  ISMEAR <span class="token operator">=</span>  0            <span class="token punctuation">(</span>Gaussian smearing<span class="token punctuation">;</span> metals:1<span class="token punctuation">)</span>
-  SIGMA  <span class="token operator">=</span>  0.05         <span class="token punctuation">(</span>Smearing value <span class="token keyword">in</span> eV<span class="token punctuation">;</span> metals:0.2<span class="token punctuation">)</span>
- <span class="token comment" spellcheck="true"># NELM   =  60           (Max electronic SCF steps)  </span>
- <span class="token comment" spellcheck="true"># NELMIN =  4            (Min electronic SCF steps)</span>
-  EDIFF  <span class="token operator">=</span>  1E-08       <span class="token punctuation">(</span>SCF energy convergence<span class="token punctuation">;</span> <span class="token keyword">in</span> eV<span class="token punctuation">)</span> 
-  GGA  <span class="token operator">=</span>  PE             <span class="token punctuation">(</span>PBEsol exchange-correlation<span class="token punctuation">)</span>
-  LORBIT<span class="token operator">=</span>11              <span class="token punctuation">(</span>plot projection band need to set<span class="token punctuation">)</span>
-  NEDOS <span class="token operator">=</span> 2000
+  ISMEAR =  0            (Gaussian smearing; metals:1)
+  SIGMA  =  0.05         (Smearing value in eV; metals:0.2)
+ # NELM   =  60           (Max electronic SCF steps)  
+ # NELMIN =  4            (Min electronic SCF steps)
+  EDIFF  =  1E-08       (SCF energy convergence; in eV) 
+  GGA  =  PE             (PBEsol exchange-correlation)
+  LORBIT=11              (plot projection band need to set)
+  NEDOS = 2000
 
 Ionic Relaxation
- <span class="token comment" spellcheck="true"># NELMIN =  6           (Min electronic SCF steps) </span>
-  NSW    <span class="token operator">=</span>  0            <span class="token punctuation">(</span>Max electronic SCF steps<span class="token punctuation">)</span>
-  IBRION <span class="token operator">=</span>  -1           <span class="token punctuation">(</span>Algorithm: 0-MD<span class="token punctuation">;</span> 1-Quasi-New<span class="token punctuation">;</span> 2-CG<span class="token punctuation">)</span>
-  ISIF   <span class="token operator">=</span>  2            <span class="token punctuation">(</span>Stress/relaxation: 2-Ions, 3-Shape/Ions/V, 4-Shape/Ions<span class="token punctuation">)</span>
-  EDIFFG <span class="token operator">=</span> -0.001         <span class="token punctuation">(</span>Ionic convergence<span class="token punctuation">;</span> eV/AA<span class="token punctuation">)</span>
-  <span class="token comment" spellcheck="true">#ISYM =  0              (Symmetry: 0=none; 2=GGA; 3=hybrids)</span>
+ # NELMIN =  6           (Min electronic SCF steps) 
+  NSW    =  0            (Max electronic SCF steps)
+  IBRION =  -1           (Algorithm: 0-MD; 1-Quasi-New; 2-CG)
+  ISIF   =  2            (Stress/relaxation: 2-Ions, 3-Shape/Ions/V, 4-Shape/Ions)
+  EDIFFG = -0.001         (Ionic convergence; eV/AA)
+  #ISYM =  0              (Symmetry: 0=none; 2=GGA; 3=hybrids)
 
-<span class="token operator">!</span>
+!
 
-<span class="token comment" spellcheck="true">#自洽计算</span>
-<span class="token function">cp</span> INCAR-scf INCAR
-<span class="token keyword">echo</span> <span class="token string">"scf"</span><span class="token punctuation">;</span> <span class="token function">time</span> mpirun -np 16 vasp_std
-<span class="token function">rm</span> INCAR
+#自洽计算
+cp INCAR-scf INCAR
+echo "scf"; time mpirun -np 16 vasp_std
+rm INCAR
 
-<span class="token comment" spellcheck="true">#更换KPOINTS文件</span>
-<span class="token function">cp</span> INCAR-dos INCAR
-<span class="token keyword">echo</span> <span class="token string">"dos"</span><span class="token punctuation">;</span> <span class="token function">time</span> mpirun -np 16 vasp_std
+#更换KPOINTS文件
+cp INCAR-dos INCAR
+echo "dos"; time mpirun -np 16 vasp_std
 
-vaspkit -task n <span class="token comment" spellcheck="true">#根据需要选择下面的参数，参照手册说明，有些需要给出元素，个数</span>
+vaspkit -task n #根据需要选择下面的参数，参照手册说明，有些需要给出元素，个数
 
-<span class="token comment" spellcheck="true">### 111) Total Density-of-States                                     </span>
-<span class="token comment" spellcheck="true">### 112) Projected Density-of-States for Selected Atoms              </span>
-<span class="token comment" spellcheck="true">### 113) Projected Density-of-States for Each Element                </span>
-<span class="token comment" spellcheck="true">### 114) The Sum of Projected Density-of-States for Selected Atoms   </span>
-<span class="token comment" spellcheck="true">### 115) The Sum of Projected DOS for Selected Atoms and Orbitals    </span>
-<span class="token comment" spellcheck="true">### 116) Local Density-of-States for Each Element                    </span>
-<span class="token comment" spellcheck="true">### 117) Total Density-of-States with Adjustable Smearing Width</span></code></pre>
+### 111) Total Density-of-States                                     
+### 112) Projected Density-of-States for Selected Atoms              
+### 113) Projected Density-of-States for Each Element                
+### 114) The Sum of Projected Density-of-States for Selected Atoms   
+### 115) The Sum of Projected DOS for Selected Atoms and Orbitals    
+### 116) Local Density-of-States for Each Element                    
+### 117) Total Density-of-States with Adjustable Smearing Width
+</code></pre>
 <p>Si的band-dos图如下：</p>
-<img src="/img/Si_banddos.png" width = "60%" height = "60%" div align=center/>
-
-<br />
-
+<p><img src="/img/Si_banddos.png" width = "60%" height = "60%" div align=center/></p>
+<p><br /></p>
 <hr>
 <h3 id="二维材料1T-Tl2O的能带示例"><a href="#二维材料1T-Tl2O的能带示例" class="headerlink" title="二维材料1T-Tl2O的能带示例"></a><strong>二维材料1T-Tl2O的能带示例</strong></h3><p><strong>PBE</strong></p>
 <p>1T-Tl2O的能带态密度：</p>
-<img src="/img/Tl2O_banddos.png" width = "60%" height = "60%" div align=center/>
-
-<br />
-
+<p><img src="/img/Tl2O_banddos.png" width = "60%" height = "60%" div align=center/></p>
+<p><br /></p>
 <p>1T-Tl2O的投影能带：</p>
-<img src="/img/Tl2O_projband.png" width = "60%" height = "60%" div align=center/>
-
-<img src="/img/O_projband.png" width = "60%" height = "60%" div align=center/>
-
-
-<img src="/img/Tl_projband.png" width = "80%" height = "80%" div align=center/>
-
-
+<p><img src="/img/Tl2O_projband.png" width = "60%" height = "60%" div align=center/></p>
+<p><img src="/img/O_projband.png" width = "60%" height = "60%" div align=center/></p>
+<p><img src="/img/Tl_projband.png" width = "80%" height = "80%" div align=center/></p>
 <p><strong>HSE</strong></p>
 <p>1T-Tl2O的能带态密度：</p>
-<img src="/img/Tl2O_hseband.png" width = "60%" height = "60%" div align=center/>
-
-<br />
-
+<p><img src="/img/Tl2O_hseband.png" width = "60%" height = "60%" div align=center/></p>
+<p><br /></p>
 <p>1T-Tl2O的投影能带：</p>
-<img src="/img/Tl2O_hseprojband.png" width = "60%" height = "60%" div align=center/>
-
-<img src="/img/O_hseprojband.png" width = "60%" height = "60%" div align=center/>
-
-
-<img src="/img/Tl_hseprojband.png" width = "80%" height = "80%" div align=center/>
-
+<p><img src="/img/Tl2O_hseprojband.png" width = "60%" height = "60%" div align=center/></p>
+<p><img src="/img/O_hseprojband.png" width = "60%" height = "60%" div align=center/></p>
+<p><img src="/img/Tl_hseprojband.png" width = "80%" height = "80%" div align=center/></p>
 <p><strong>HSE+SOC</strong></p>
-<img src="/img/1T.png" width = "60%" height = "60%" div align=center/>
+<p><img src="/img/1T.png" width = "60%" height = "60%" div align=center/></p>
+
             </div>
             <hr/>
 
@@ -1132,9 +1119,11 @@ vaspkit -task n <span class="token comment" spellcheck="true">#根据需要选�
 
 
 
+
 Fortran77
 Fortran95
 意  义
+
 
 
 
@@ -1160,7 +1149,6 @@ Fortran95
 
 .LT.
 &lt;
-小
                         
                     </div>
                     <div class="publish-info">
@@ -1391,7 +1379,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">13.5k</span>&nbsp;字
+                class="white-color">6.4k</span>&nbsp;字
             
             
             

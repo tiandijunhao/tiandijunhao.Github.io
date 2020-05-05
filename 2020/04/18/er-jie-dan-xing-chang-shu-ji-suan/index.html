@@ -478,7 +478,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.8k
+                    90
                 </div>
                 
 
@@ -490,19 +490,20 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="二阶弹性常数计算"><a href="#二阶弹性常数计算" class="headerlink" title="二阶弹性常数计算"></a><strong>二阶弹性常数计算</strong></h2><p>主要采用能量–应变方法</p>
+                <h2 id="二阶弹性常数计算"><a href="#二阶弹性常数计算" class="headerlink" title="二阶弹性常数计算"></a><strong>二阶弹性常数计算</strong></h2><p>主要采用能量—应变方法</p>
 <h3 id="AELAS软件计算"><a href="#AELAS软件计算" class="headerlink" title="AELAS软件计算"></a><strong>AELAS软件计算</strong></h3><p>必要的文件</p>
-<pre class=" language-bash"><code class="language-bash">elas_strain.sh
+<pre class=" language-lang-bash"><code class="language-lang-bash">elas_strain.sh
 elas_cal.sh
 POTCAR
 INPOS 优化后的POSCAR。可在脚本设置或者单独给出
 KPOINTS 可在脚本设置或者单独给出
 incar_rlx 可在脚本设置或者单独给出
-incar_stc </code></pre>
+incar_stc
+</code></pre>
 <p>elas_strain.sh脚本参考如下：</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+<pre class=" language-lang-bash"><code class="language-lang-bash">#!/bin/bash
 
-<span class="token function">cat</span> <span class="token operator">></span> INPOS <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+cat > INPOS <<!
 Si8                                     
 1.00000000000000     
   5.4684663969085214    0.0000000000000000    0.0000000000000000
@@ -520,99 +521,101 @@ Direct
   0.7500000000000000  0.7500000000000000  0.2500000000000000
   0.2500000000000000  0.2500000000000000  0.2500000000000000
 
-<span class="token operator">!</span>
+!
 
-AELAS -g <span class="token comment" spellcheck="true">#建立不同应变下的POSCAR_I_J。例如：POSCAR_01_001 #二维生成命令 AELAS -g2d</span>
+AELAS -g #建立不同应变下的POSCAR_I_J。例如：POSCAR_01_001 #二维生成命令 AELAS -g2d
 
-<span class="token comment" spellcheck="true">#产生优化和静态计算的INCAR</span>
-<span class="token function">cat</span> <span class="token operator">></span> incar_rlx <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-ISTART<span class="token operator">=</span>0
-ICHARG<span class="token operator">=</span>2
-PREC<span class="token operator">=</span>Accurate
-GGA <span class="token operator">=</span> PE
-ADDGRID <span class="token operator">=</span>.TRUE.
+#产生优化和静态计算的INCAR
+cat > incar_rlx <<!
+ISTART=0
+ICHARG=2
+PREC=Accurate
+GGA = PE
+ADDGRID =.TRUE.
 
-<span class="token comment" spellcheck="true"># Electronic relaxation</span>
-ENCUT<span class="token operator">=</span>500
-EDIFF<span class="token operator">=</span>1E-8
+# Electronic relaxation
+ENCUT=500
+EDIFF=1E-8
 
-ISMEAR<span class="token operator">=</span>0
-SIGMA<span class="token operator">=</span>0.05
-NELMIN<span class="token operator">=</span>5
+ISMEAR=0
+SIGMA=0.05
+NELMIN=5
 
-<span class="token comment" spellcheck="true"># Ionic relaxation</span>
-NSW<span class="token operator">=</span>100
-EDIFFG<span class="token operator">=</span>-1e-3
-ISIF<span class="token operator">=</span>2
+# Ionic relaxation
+NSW=100
+EDIFFG=-1e-3
+ISIF=2
 
-IBRION<span class="token operator">=</span>2
-POTIM<span class="token operator">=</span>0.20
+IBRION=2
+POTIM=0.20
 
-<span class="token comment" spellcheck="true"># Other Tags</span>
-<span class="token comment" spellcheck="true">#PSTRESS=</span>
+# Other Tags
+#PSTRESS=
 
-<span class="token comment" spellcheck="true">#Write flags</span>
-LWAVE<span class="token operator">=</span>.FALSE.
-LCHARG<span class="token operator">=</span>.FALSE.
-<span class="token operator">!</span>
+#Write flags
+LWAVE=.FALSE.
+LCHARG=.FALSE.
+!
 
-<span class="token function">cat</span> <span class="token operator">></span> incar_stc<span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-ISTART<span class="token operator">=</span>0
-ICHARG<span class="token operator">=</span>2
-PREC<span class="token operator">=</span>Accurate
-GGA <span class="token operator">=</span> PE
-ADDGRID <span class="token operator">=</span>.TRUE.
+cat > incar_stc<<!
+ISTART=0
+ICHARG=2
+PREC=Accurate
+GGA = PE
+ADDGRID =.TRUE.
 
-<span class="token comment" spellcheck="true"># Electronic relaxation</span>
-ENCUT<span class="token operator">=</span>500
-EDIFF<span class="token operator">=</span>1E-8
-EDIFFG<span class="token operator">=</span>-0.001
+# Electronic relaxation
+ENCUT=500
+EDIFF=1E-8
+EDIFFG=-0.001
 
-ISMEAR<span class="token operator">=</span>-5
-<span class="token comment" spellcheck="true">#SIGMA = 0.05</span>
-POTIM<span class="token operator">=</span>0.20
+ISMEAR=-5
+#SIGMA = 0.05
+POTIM=0.20
 
-<span class="token comment" spellcheck="true"># Other Tags</span>
-<span class="token comment" spellcheck="true">#PSTRESS=</span>
+# Other Tags
+#PSTRESS=
 
-<span class="token comment" spellcheck="true"># Write flags</span>
-LWAVE<span class="token operator">=</span>.FALSE.
-LCHARG<span class="token operator">=</span>.FALSE.
-<span class="token operator">!</span>
+# Write flags
+LWAVE=.FALSE.
+LCHARG=.FALSE.
+!
 
-<span class="token function">cat</span> <span class="token operator">></span> KPOINTS <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+cat > KPOINTS <<!
 A
 0
 M
 9  9  9
 0  0  0
-<span class="token operator">!</span></code></pre>
+!
+</code></pre>
 <p>运行生成应变后的POSCAR及计算输入文件</p>
 <p>elas_cal.sh脚本设置如下：</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token keyword">for</span> i <span class="token keyword">in</span> 01 02 03 <span class="token comment" spellcheck="true">#根据生成的数量设置</span>
-<span class="token keyword">do</span>
+<pre class=" language-lang-bash"><code class="language-lang-bash">for i in 01 02 03 #根据生成的数量设置
+do
 
-<span class="token keyword">for</span> j <span class="token keyword">in</span> 001 002 003 004 005 006 007 008 009 010 011 012 013
-<span class="token keyword">do</span>
-<span class="token comment" spellcheck="true">#优化计算</span>
-<span class="token function">cp</span> POS_<span class="token string">"<span class="token variable">$i</span>"</span>_<span class="token variable">$j</span>.vasp POSCAR
-<span class="token function">cp</span> incar_rlx INCAR
-<span class="token keyword">echo</span> <span class="token string">"relax I= <span class="token variable">$i</span>,J = <span class="token variable">$j</span>"</span><span class="token punctuation">;</span> <span class="token function">time</span> mpirun -np 16 vasp_std
+for j in 001 002 003 004 005 006 007 008 009 010 011 012 013
+do
+#优化计算
+cp POS_"$i"_$j.vasp POSCAR
+cp incar_rlx INCAR
+echo "relax I= $i,J = $j"; time mpirun -np 16 vasp_std
 
-<span class="token comment" spellcheck="true">#静态计算</span>
-<span class="token function">cp</span> CONTCAR POSCAR
-<span class="token function">rm</span> INCAR
-<span class="token function">cp</span> incar_stc INCAR
-<span class="token keyword">echo</span> <span class="token string">"static I= <span class="token variable">$i</span>,J = <span class="token variable">$j</span>"</span><span class="token punctuation">;</span> <span class="token function">time</span> mpirun -np 16 vasp_std
-<span class="token function">cp</span> OSZICAR OSZICAR_<span class="token string">"<span class="token variable">$i</span>"</span>_<span class="token variable">$j</span>
-<span class="token function">rm</span> INCAR
-<span class="token keyword">done</span>
-<span class="token keyword">done</span>
+#静态计算
+cp CONTCAR POSCAR
+rm INCAR
+cp incar_stc INCAR
+echo "static I= $i,J = $j"; time mpirun -np 16 vasp_std
+cp OSZICAR OSZICAR_"$i"_$j
+rm INCAR
+done
+done
 
-<span class="token comment" spellcheck="true">#计算弹性常数</span>
-AELAS -d <span class="token comment" spellcheck="true">#二维产生 AELAS -d2d</span></code></pre>
+#计算弹性常数
+AELAS -d #二维产生 AELAS -d2d
+</code></pre>
 <p>提交上述脚本计算，成功计算后生成ELADAT文件，形式如下：</p>
-<pre class=" language-txt"><code class="language-txt"> Elastic tensor: 
+<pre class=" language-lang-txt"><code class="language-lang-txt"> Elastic tensor: 
 
   153.04   57.11   57.11    0.00    0.00    0.00
    57.11  153.04   57.11    0.00    0.00    0.00
@@ -645,33 +648,32 @@ AELAS -d <span class="token comment" spellcheck="true">#二维产生 AELAS -d2d<
    Universal Elastic Anisotropy Index (Au=5*Gv/Gr+Kv/Kr-6):   0.2396
 
  Elastic Stability Conditions:  Stable
-
 </code></pre>
-<br />
-
+<p><br /></p>
 <hr>
 <h3 id="vaspkit软件"><a href="#vaspkit软件" class="headerlink" title="vaspkit软件"></a><strong>vaspkit软件</strong></h3><p>建议使用惯用晶胞，不要使用原始晶胞。可以借用上面软件的AELAS -d生成的RECELL文件。</p>
 <p>版本1.0.0及以上</p>
 <p>必要的文件</p>
-<pre class=" language-bash"><code class="language-bash">elas_strain.sh
+<pre class=" language-lang-bash"><code class="language-lang-bash">elas_strain.sh
 elas_cal.sh
 POTCAR
 KPOINTS 可在脚本设置或者单独给出
 incar_rlx 可在脚本设置或者单独给出
 incar_stc
-VPKIT.in 可在脚本设置或者单独给出</code></pre>
+VPKIT.in 可在脚本设置或者单独给出
+</code></pre>
 <p>elas_strain.sh脚本参考如下：</p>
-<pre class=" language-bash"><code class="language-bash">
-<span class="token comment" spellcheck="true">#!/bin/bash</span>
+<pre class=" language-lang-bash"><code class="language-lang-bash">
+#!/bin/bash
 
-<span class="token function">cat</span> <span class="token operator">></span> VPKIT.in <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-1                                                              <span class="token operator">!</span> 1 <span class="token keyword">for</span> prep-rocessing, 2 <span class="token keyword">for</span> post-processing
-3D                                                             <span class="token operator">!</span> 2D <span class="token keyword">for</span> slab, 3D <span class="token keyword">for</span> bulk
-13                                                              <span class="token operator">!</span> number of strain
--0.018 -0.015 -0.012 -0.009 -0.006 -0.003 0.000 0.003 0.006 0.009 0.012 0.015 0.018 <span class="token operator">!</span> magnitude of strain
-<span class="token operator">!</span>
+cat > VPKIT.in <<!
+1                                                              ! 1 for prep-rocessing, 2 for post-processing
+3D                                                             ! 2D for slab, 3D for bulk
+13                                                              ! number of strain
+-0.018 -0.015 -0.012 -0.009 -0.006 -0.003 0.000 0.003 0.006 0.009 0.012 0.015 0.018 ! magnitude of strain
+!
 
-<span class="token function">cat</span> <span class="token operator">></span> POSCAR <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+cat > POSCAR <<!
 Si8
 1.00000000000000
   5.4684663969085214    0.0000000000000000    0.0000000000000000
@@ -689,117 +691,117 @@ Direct
   0.7500000000000000  0.7500000000000000  0.2500000000000000
   0.2500000000000000  0.2500000000000000  0.2500000000000000
 
-<span class="token operator">!</span>
+!
 
-<span class="token comment" spellcheck="true">#产生优化和静态计算的INCAR</span>
-<span class="token function">cat</span> <span class="token operator">></span> incar_rlx <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-ISTART<span class="token operator">=</span>0
-ICHARG<span class="token operator">=</span>2
-PREC<span class="token operator">=</span>Accurate
-GGA <span class="token operator">=</span> PE
-ADDGRID <span class="token operator">=</span>.TRUE.
+#产生优化和静态计算的INCAR
+cat > incar_rlx <<!
+ISTART=0
+ICHARG=2
+PREC=Accurate
+GGA = PE
+ADDGRID =.TRUE.
 
-<span class="token comment" spellcheck="true"># Electronic relaxation</span>
-ENCUT<span class="token operator">=</span>500
-EDIFF<span class="token operator">=</span>1E-8
+# Electronic relaxation
+ENCUT=500
+EDIFF=1E-8
 
-ISMEAR<span class="token operator">=</span>0
-SIGMA<span class="token operator">=</span>0.05
-NELMIN<span class="token operator">=</span>5
+ISMEAR=0
+SIGMA=0.05
+NELMIN=5
 
-<span class="token comment" spellcheck="true"># Ionic relaxation</span>
-NSW<span class="token operator">=</span>100
-EDIFFG<span class="token operator">=</span>-1e-3
-ISIF<span class="token operator">=</span>2
+# Ionic relaxation
+NSW=100
+EDIFFG=-1e-3
+ISIF=2
 
-IBRION<span class="token operator">=</span>2
-POTIM<span class="token operator">=</span>0.20
+IBRION=2
+POTIM=0.20
 
-<span class="token comment" spellcheck="true"># Other Tags</span>
-<span class="token comment" spellcheck="true">#PSTRESS=</span>
+# Other Tags
+#PSTRESS=
 
-<span class="token comment" spellcheck="true">#Write flags</span>
-LWAVE<span class="token operator">=</span>.FALSE.
-LCHARG<span class="token operator">=</span>.FALSE.
-KPAR<span class="token operator">=</span>2
-<span class="token operator">!</span>
+#Write flags
+LWAVE=.FALSE.
+LCHARG=.FALSE.
+KPAR=2
+!
 
-<span class="token function">cat</span> <span class="token operator">></span> incar_stc<span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-ISTART<span class="token operator">=</span>0
-ICHARG<span class="token operator">=</span>2
-PREC<span class="token operator">=</span>Accurate
-GGA <span class="token operator">=</span> PE
-ADDGRID <span class="token operator">=</span>.TRUE.
+cat > incar_stc<<!
+ISTART=0
+ICHARG=2
+PREC=Accurate
+GGA = PE
+ADDGRID =.TRUE.
 
-<span class="token comment" spellcheck="true"># Electronic relaxation</span>
-ENCUT<span class="token operator">=</span>500
-EDIFF<span class="token operator">=</span>1E-8
-EDIFFG<span class="token operator">=</span>-0.001
+# Electronic relaxation
+ENCUT=500
+EDIFF=1E-8
+EDIFFG=-0.001
 
-ISMEAR<span class="token operator">=</span>-5
-<span class="token comment" spellcheck="true">#SIGMA = 0.05</span>
-POTIM<span class="token operator">=</span>0.20
+ISMEAR=-5
+#SIGMA = 0.05
+POTIM=0.20
 
-<span class="token comment" spellcheck="true"># Other Tags</span>
-<span class="token comment" spellcheck="true">#PSTRESS=</span>
+# Other Tags
+#PSTRESS=
 
-<span class="token comment" spellcheck="true"># Write flags</span>
-LWAVE<span class="token operator">=</span>.FALSE.
-LCHARG<span class="token operator">=</span>.FALSE.
-KPAR<span class="token operator">=</span>2
-<span class="token operator">!</span>
+# Write flags
+LWAVE=.FALSE.
+LCHARG=.FALSE.
+KPAR=2
+!
 
-<span class="token function">cat</span> <span class="token operator">></span> KPOINTS <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+cat > KPOINTS <<!
 A
 0
 M
 9  9  9
 0  0  0
-<span class="token operator">!</span>
+!
 
-vaspkit -task 201 <span class="token comment" spellcheck="true">#建立不同应变下的POSCAR文件</span>
+vaspkit -task 201 #建立不同应变下的POSCAR文件
 </code></pre>
 <p>提交生成应变后的文件夹</p>
 <p>elas_cal.sh脚本设置如下：</p>
-<pre class=" language-bash"><code class="language-bash">
-<span class="token comment" spellcheck="true">#!/bin/bash</span>
-root_path<span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">pwd</span><span class="token variable">`</span></span>
+<pre class=" language-lang-bash"><code class="language-lang-bash">
+#!/bin/bash
+root_path=`pwd`
 
-<span class="token keyword">for</span> cij <span class="token keyword">in</span> <span class="token variable"><span class="token variable">`</span><span class="token function">ls</span> -F <span class="token operator">|</span> <span class="token function">grep</span> /$<span class="token variable">`</span></span>
-<span class="token keyword">do</span>
-  <span class="token function">cd</span> <span class="token variable">${root_path}</span>/<span class="token variable">$cij</span>
-  <span class="token keyword">for</span> s <span class="token keyword">in</span> strain_*
-  <span class="token keyword">do</span>
-    <span class="token function">cd</span> <span class="token variable">${root_path}</span>/<span class="token variable">$cij</span>/<span class="token variable">$s</span>
-    <span class="token keyword">echo</span> <span class="token variable"><span class="token variable">`</span><span class="token function">pwd</span><span class="token variable">`</span></span>
+for cij in `ls -F | grep /$`
+do
+  cd ${root_path}/$cij
+  for s in strain_*
+  do
+    cd ${root_path}/$cij/$s
+    echo `pwd`
 
-    <span class="token comment" spellcheck="true">#优化计算</span>
-    <span class="token function">cp</span> <span class="token punctuation">..</span>/<span class="token punctuation">..</span>/incar_rlx INCAR
-    <span class="token function">time</span> mpirun -np 16 vasp_std
+    #优化计算
+    cp ../../incar_rlx INCAR
+    time mpirun -np 16 vasp_std
 
-    <span class="token function">rm</span> INCAR
+    rm INCAR
 
-    <span class="token comment" spellcheck="true">#静态计算</span>
-    <span class="token function">cp</span> <span class="token punctuation">..</span>/<span class="token punctuation">..</span>/incar_stc INCAR
-    <span class="token function">time</span> mpirun -np 16 vasp_std
+    #静态计算
+    cp ../../incar_stc INCAR
+    time mpirun -np 16 vasp_std
 
-  <span class="token keyword">done</span>
-<span class="token keyword">done</span>
+  done
+done
 
-<span class="token function">cd</span> <span class="token variable">${root_path}</span>
+cd ${root_path}
 
-<span class="token comment" spellcheck="true">#计算弹性常数</span>
-<span class="token function">cat</span> <span class="token operator">></span> VPKIT.in <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
-2                                                              <span class="token operator">!</span> 1 <span class="token keyword">for</span> prep-rocessing, 2 <span class="token keyword">for</span> post-processing
-3D                                                             <span class="token operator">!</span> 2D <span class="token keyword">for</span> slab, 3D <span class="token keyword">for</span> bulk
-13                                                              <span class="token operator">!</span> number of strain
--0.018 -0.015 -0.012 -0.009 -0.006 -0.003 0.000 0.003 0.006 0.009 0.012 0.015 0.018 <span class="token operator">!</span> magnitude of strain
-<span class="token operator">!</span>
+#计算弹性常数
+cat > VPKIT.in <<!
+2                                                              ! 1 for prep-rocessing, 2 for post-processing
+3D                                                             ! 2D for slab, 3D for bulk
+13                                                              ! number of strain
+-0.018 -0.015 -0.012 -0.009 -0.006 -0.003 0.000 0.003 0.006 0.009 0.012 0.015 0.018 ! magnitude of strain
+!
 
-vaspkit -task 201 <span class="token operator">></span> elastics.out
+vaspkit -task 201 > elastics.out
 </code></pre>
 <p>成功计算后生成elastic.out文件，形式如下：</p>
-<pre class=" language-out"><code class="language-out"> +---------------------------------------------------------------+
+<pre class=" language-lang-out"><code class="language-lang-out"> +---------------------------------------------------------------+
  |             VASPKIT Version: 1.00 (16 Sep. 2019)              |
  |       A Pre- and Post-Processing Program for VASP Code        |
  |            Running VASPKIT Under Command-Line Mode            |
@@ -1011,8 +1013,9 @@ run_a0.sh
 POTCAR
 INCAR 和 KPOINTS可在run_a0.sh中直接设置，也可以单独给出。
 EOS.in
+
 三维立方晶格脚本示例：Si
-#
+
                         
                     </div>
                     <div class="publish-info">
@@ -1237,7 +1240,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">13.5k</span>&nbsp;字
+                class="white-color">6.4k</span>&nbsp;字
             
             
             

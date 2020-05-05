@@ -492,20 +492,22 @@
             <div id="articleContent">
                 <h2 id="声子谱计算"><a href="#声子谱计算" class="headerlink" title="声子谱计算"></a><strong>声子谱计算</strong></h2><p>主要使用phonopy软件计算声子谱。版本：phonopy-2.1.3</p>
 <h3 id="密度泛函微软理论-线性响应方法-DFPT"><a href="#密度泛函微软理论-线性响应方法-DFPT" class="headerlink" title="密度泛函微软理论/线性响应方法 (DFPT)"></a><strong>密度泛函微软理论/线性响应方法 (DFPT)</strong></h3><p>必要的输入文件：  </p>
-<pre class=" language-sh"><code class="language-sh">INCAR
+<pre class=" language-lang-sh"><code class="language-lang-sh">INCAR
 KPOINTS
 POTCAR-unitcell #优化得到的初始晶胞
 POTCAR
-band.conf</code></pre>
+band.conf
+</code></pre>
 <p>1 扩胞得到计算所需的POSCAR</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#在Linux终端直接运行命令</span>
-<span class="token comment" spellcheck="true">#1. 生成超胞</span>
-phonopy -d --dim<span class="token operator">=</span><span class="token string">"2 2 2"</span> -c POSCAR-unitcell <span class="token comment" spellcheck="true">#--dim='2 2 2'表示'x y z'方扩的大小</span>
-<span class="token comment" spellcheck="true">#2. 将生成的SPOSCAR拷贝成POSCAR</span>
-<span class="token function">cp</span> SPOSCAR POSCAR</code></pre>
+<pre class=" language-lang-bash"><code class="language-lang-bash">#在Linux终端直接运行命令
+#1. 生成超胞
+phonopy -d --dim="2 2 2" -c POSCAR-unitcell #--dim='2 2 2'表示'x y z'方扩的大小
+#2. 将生成的SPOSCAR拷贝成POSCAR
+cp SPOSCAR POSCAR
+</code></pre>
 <p>2 提交VASP计算</p>
 <p>INCAR设置如下：</p>
-<pre class=" language-txt"><code class="language-txt"> ISMEAR =  0            (Gaussian smearing)
+<pre class=" language-lang-txt"><code class="language-lang-txt"> ISMEAR =  0            (Gaussian smearing)
  SIGMA  =  0.05         (Smearing value in eV)
  IBRION =  8            (determines the Hessian matrix using DFPT)
  EDIFF  =  1E-08        (SCF energy convergence; in eV) 
@@ -518,129 +520,144 @@ phonopy -d --dim<span class="token operator">=</span><span class="token string">
  ADDGRID= .TRUE.        (Increase grid; helps GGA convergence) 
  NSW    = 1
  NELM   = 100
- NELMDL = -5</code></pre>
+ NELMDL = -5
+</code></pre>
 <p>KPOINTS需适当减小，可以的话最好再进行一次收敛测试<br>注：KPOINTS文件每行一定要顶格写，不能前面不能空格，不然可能会报错。</p>
-<pre class=" language-bash"><code class="language-bash">A
+<pre class=" language-lang-bash"><code class="language-lang-bash">A
 0
 M
 3  3  3
-0  0  0</code></pre>
+0  0  0
+</code></pre>
 <p>提交VASP计算</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#若未安装作业管理程序，可直接运行下段命令。若安装了作业管理程序，请参考作业理手册。例如PBS作业管理系统。</span>
-mpirun -np 16 vasp_std <span class="token operator">></span> vasp.log</code></pre>
+<pre class=" language-lang-bash"><code class="language-lang-bash">#若未安装作业管理程序，可直接运行下段命令。若安装了作业管理程序，请参考作业理手册。例如PBS作业管理系统。
+mpirun -np 16 vasp_std > vasp.log
+</code></pre>
 <p>PBS作业管理系统提交计算脚本 (根据需要命名，最好以.pbs 或者 .sh结尾)</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
- <span class="token comment" spellcheck="true">#PBS -N phono</span>
- <span class="token comment" spellcheck="true">#PBS -j oe</span>
- <span class="token comment" spellcheck="true">#PBS -l nodes=1:ppn=16</span>
- <span class="token function">cd</span> <span class="token variable">${PBS_O_WORKDIR}</span>
- mpirun -n 16  vasp_std <span class="token operator">></span><span class="token operator">&amp;</span> vasp.log</code></pre>
+<pre class=" language-lang-bash"><code class="language-lang-bash">#!/bin/bash
+ #PBS -N phono
+ #PBS -j oe
+ #PBS -l nodes=1:ppn=16
+ cd ${PBS_O_WORKDIR}
+ mpirun -n 16  vasp_std >& vasp.log
+</code></pre>
 <p>将所有文件放到一个文件夹，在终端运行<code>qsub *.pbs</code> or  <code>qsub *.sh</code>  </p>
 <p>3 计算声子谱</p>
 <p>准备band.conf文件，如下所示：(参数含义详见phonopy官网)</p>
-<pre class=" language-conf"><code class="language-conf"> ATOM_NAME =Si
+<pre class=" language-lang-conf"><code class="language-lang-conf"> ATOM_NAME =Si
  DIM = 2 2 2
  PRIMITIVE_AXES=Auto
  MP = 24 24 24
  BAND =0.0 0.0 0.0  0.5 0.0 0.5  0.625  0.25  0.625, 0.375 0.375 0.75  00 0.0 0.0  0.5 0.5 0.5
  BAND_POINTS = 101
- FORCE_CONSTANTS= READ</code></pre>
+ FORCE_CONSTANTS= READ
+</code></pre>
 <p>获取声子谱后处理步骤</p>
-<pre class=" language-bash"><code class="language-bash"> <span class="token comment" spellcheck="true">#直接在终端运行</span>
- <span class="token comment" spellcheck="true">#1. 提取力常数，得到FORCE_CONSTANTS文件。</span>
+<pre class=" language-lang-bash"><code class="language-lang-bash"> #直接在终端运行
+ #1. 提取力常数，得到FORCE_CONSTANTS文件。
  phonopy --fc vasprun.xml
 
- <span class="token comment" spellcheck="true">#2. 计算声子谱并保存为pdf格式</span>
+ #2. 计算声子谱并保存为pdf格式
  phonopy -c POSCAR-unitcell band.conf -p -s
 
- <span class="token comment" spellcheck="true">#3. 将声子谱进一步输出为数据文件，用于其它软件画图。</span>
+ #3. 将声子谱进一步输出为数据文件，用于其它软件画图。
 
- <span class="token comment" spellcheck="true">#旧版本phonopy</span>
- bandplot  --gnuplot<span class="token operator">></span> phonon.out
+ #旧版本phonopy
+ bandplot  --gnuplot> phonon.out
 
- <span class="token comment" spellcheck="true">#新版本phonopy</span>
- phonopy-bandplot --gnuplot <span class="token operator">></span> phonon.out
- <span class="token comment" spellcheck="true">#phonon.out文件中首行是高对称点在x轴上的坐标</span></code></pre>
+ #新版本phonopy
+ phonopy-bandplot --gnuplot > phonon.out
+ #phonon.out文件中首行是高对称点在x轴上的坐标
+</code></pre>
 <h3 id="有限位移方法"><a href="#有限位移方法" class="headerlink" title="有限位移方法"></a><strong>有限位移方法</strong></h3><p>必要的输入文件：  </p>
-<pre class=" language-sh"><code class="language-sh">INCAR
+<pre class=" language-lang-sh"><code class="language-lang-sh">INCAR
 KPOINTS
 INCAR-unitcell #优化得到的初始晶胞
 POTCAR
-band.conf</code></pre>
+band.conf
+</code></pre>
 <p>扩胞得到计算所需的POSCAR</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#在Linux终端直接运行命令</span>
+<pre class=" language-lang-bash"><code class="language-lang-bash">#在Linux终端直接运行命令
 
-<span class="token comment" spellcheck="true">#1. 生成超胞</span>
-phonopy -d --dim<span class="token operator">=</span><span class="token string">"2 2 2"</span> -c POSCAR-unitcell <span class="token comment" spellcheck="true">#--dim='2 2 2'表示'x y z'扩胞的大小</span>
-<span class="token comment" spellcheck="true">#会得到一系列POSCAR-001，POSCAR-002,... 数量由对称性决定。</span>
+#1. 生成超胞
+phonopy -d --dim="2 2 2" -c POSCAR-unitcell #--dim='2 2 2'表示'x y z'扩胞的大小
+#会得到一系列POSCAR-001，POSCAR-002,... 数量由对称性决定。
 
-<span class="token comment" spellcheck="true">#2. 建立disp-*文件夹，具体数量以生成POSCAR-*的数量决定。将POSCAR-POTCAR, INCAR, KPOINTS放入disp-*文件夹</span>
-<span class="token function">mkdir</span> disp-001
-<span class="token function">cp</span> POSCAR-001 ./disp-001/POSCAR
-<span class="token function">cp</span> POTCAR ./disp-001/POTCAR
-<span class="token function">cp</span> INCAR ./disp-001/INCAR
-<span class="token function">cp</span> KPOINTS ./disp-001/KPOINTS</code></pre>
+#2. 建立disp-*文件夹，具体数量以生成POSCAR-*的数量决定。将POSCAR-POTCAR, INCAR, KPOINTS放入disp-*文件夹
+mkdir disp-001
+cp POSCAR-001 ./disp-001/POSCAR
+cp POTCAR ./disp-001/POTCAR
+cp INCAR ./disp-001/INCAR
+cp KPOINTS ./disp-001/KPOINTS
+</code></pre>
 <p>提交VASP计算</p>
 <p>INCAR设置如下(静态计算)：</p>
-<pre class=" language-bash"><code class="language-bash"> PREC <span class="token operator">=</span> Accurate
- IBRION <span class="token operator">=</span> -1
- ENCUT <span class="token operator">=</span> 500
- EDIFF <span class="token operator">=</span> 1.0e-08
- EDIFFG <span class="token operator">=</span> -0.001
- ISMEAR <span class="token operator">=</span> 0
- SIGMA <span class="token operator">=</span> 0.05
- ALGO <span class="token operator">=</span> 38
- LREAL <span class="token operator">=</span> .FALSE.
- LWAVE <span class="token operator">=</span> .FALSE.
- LCHARG <span class="token operator">=</span> .FALSE.</code></pre>
+<pre class=" language-lang-bash"><code class="language-lang-bash"> PREC = Accurate
+ IBRION = -1
+ ENCUT = 500
+ EDIFF = 1.0e-08
+ EDIFFG = -0.001
+ ISMEAR = 0
+ SIGMA = 0.05
+ ALGO = 38
+ LREAL = .FALSE.
+ LWAVE = .FALSE.
+ LCHARG = .FALSE.
+</code></pre>
 <p>KPOINTS需适当减小，可以的话最好再进行一次收敛测试<br>注：KPOINTS文件每行一定要顶格写，不能前面不能空格，不然可能会报错。</p>
-<pre class=" language-bash"><code class="language-bash">A
+<pre class=" language-lang-bash"><code class="language-lang-bash">A
 0
 M
 3  3  3
-0  0  0</code></pre>
+0  0  0
+</code></pre>
 <p>提交VASP计算</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#若未安装作业管理程序，可直接运行下段命令。若安装了作业管理程序，请参考作理手册。例如PBS作业管理系统。</span>
-mpirun -np 16 vasp_std <span class="token operator">></span> vasp.log</code></pre>
+<pre class=" language-lang-bash"><code class="language-lang-bash">#若未安装作业管理程序，可直接运行下段命令。若安装了作业管理程序，请参考作理手册。例如PBS作业管理系统。
+mpirun -np 16 vasp_std > vasp.log
+</code></pre>
 <p>PBS作业管理系统提交计算脚本 (根据需要命名，最好以.pbs 或者 .sh结尾)</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
- <span class="token comment" spellcheck="true">#PBS -N phono</span>
- <span class="token comment" spellcheck="true">#PBS -j oe</span>
- <span class="token comment" spellcheck="true">#PBS -l nodes=1:ppn=16</span>
+<pre class=" language-lang-bash"><code class="language-lang-bash">#!/bin/bash
+ #PBS -N phono
+ #PBS -j oe
+ #PBS -l nodes=1:ppn=16
 
- <span class="token function">cd</span> <span class="token variable">${PBS_O_WORKDIR}</span>
+ cd ${PBS_O_WORKDIR}
 
- mpirun -n 16  vasp_std <span class="token operator">></span><span class="token operator">&amp;</span> vasp.log</code></pre>
+ mpirun -n 16  vasp_std >& vasp.log
+</code></pre>
 <p>将所有文件放到一个文件夹，在终端运行<code>qsub *.pbs</code> or  <code>qsub *.sh</code>  </p>
 <p>3 计算声子谱</p>
 <p>准备band.conf文件，如下所示：(参数含义详见phonopy官网)</p>
-<pre class=" language-conf"><code class="language-conf"> ATOM_NAME =Si
+<pre class=" language-lang-conf"><code class="language-lang-conf"> ATOM_NAME =Si
  DIM = 2 2 2
  PRIMITIVE_AXES=Auto
  MP = 24 24 24
  BAND =0.0 0.0 0.0  0.5 0.0 0.5  0.625  0.25  0.625, 0.375 0.375 0.75  0.0 0.0 0.0  0.5 0.5 0.5
  BAND_POINTS = 101
  FULL_FORCE_CONSTANTS = .TRUE.
- FORCE_CONSTANTS= WRITE #生成FORCE_CONSTANTS </code></pre>
+ FORCE_CONSTANTS= WRITE #生成FORCE_CONSTANTS
+</code></pre>
 <p>准备mesh.conf文件，如下所示：  </p>
-<pre class=" language-conf"><code class="language-conf">ATOM_NAME = Si
+<pre class=" language-lang-conf"><code class="language-lang-conf">ATOM_NAME = Si
 DIM = 2 2 2
 MP = 24 24 24
 </code></pre>
 <p>获取声子谱后处理步骤</p>
-<pre class=" language-bash"><code class="language-bash"> <span class="token comment" spellcheck="true">#直接在终端运行</span>
- <span class="token comment" spellcheck="true">#1. 提取动力学矩阵，进入disp-*的上一级文件夹</span>
+<pre class=" language-lang-bash"><code class="language-lang-bash"> #直接在终端运行
+ #1. 提取动力学矩阵，进入disp-*的上一级文件夹
  phonopy -f ./disp-*/vasprun.xml
- <span class="token comment" spellcheck="true">#会生成FORCE_SET</span>
- <span class="token comment" spellcheck="true">#2. 计算声子谱并保存为pdf格式,同时生成FORCE_CONSTANTS</span>
+ #会生成FORCE_SET
+ #2. 计算声子谱并保存为pdf格式,同时生成FORCE_CONSTANTS
  phonopy -c POSCAR-unitcell band.conf -p -s
- <span class="token comment" spellcheck="true">#3. 将声子谱进一步输出为数据文件，用于其它软件画图。</span>
- <span class="token comment" spellcheck="true">#旧版本phonopy</span>
- bandplot  --gnuplot<span class="token operator">></span> phonon.out
- <span class="token comment" spellcheck="true">#新版本phonopy</span>
- phonopy-bandplot --gnuplot <span class="token operator">></span> phonon.out
- <span class="token comment" spellcheck="true">#phonon.out文件中首行是高对称点在x轴上的坐标</span></code></pre>
-<img src="/img/Si_phonon.png" width = "60%" height = "60%" div align=center/>
+ #3. 将声子谱进一步输出为数据文件，用于其它软件画图。
+ #旧版本phonopy
+ bandplot  --gnuplot> phonon.out
+ #新版本phonopy
+ phonopy-bandplot --gnuplot > phonon.out
+ #phonon.out文件中首行是高对称点在x轴上的坐标
+</code></pre>
+<p><img src="/img/Si_phonon.png" width = "60%" height = "60%" div align=center/></p>
+
             </div>
             <hr/>
 
@@ -766,10 +783,11 @@ MP = 24 24 24
 encut.sh  
 POTCAR  
 KPOINTS和POSCAR可以在encut.sh里设置，也可以独立给出。
+
 encut.sh脚本参考  
 #!/bin/bash
 
-#生成KPOINTS文件，KPOINTS不
+#生成KPOINTS文件，KPOINTS
                         
                     </div>
                     <div class="publish-info">
@@ -823,8 +841,9 @@ run_a0.sh
 POTCAR
 INCAR 和 KPOINTS可在run_a0.sh中直接设置，也可以单独给出。
 EOS.in
+
 三维立方晶格脚本示例：Si
-#
+
                         
                     </div>
                     <div class="publish-info">
@@ -1000,7 +1019,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">13.5k</span>&nbsp;字
+                class="white-color">6.4k</span>&nbsp;字
             
             
             

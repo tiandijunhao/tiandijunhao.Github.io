@@ -478,7 +478,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    216
+                    214
                 </div>
                 
 
@@ -494,23 +494,26 @@
 <h2 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h2><p><strong>C版本安装编译</strong></p>
 <p>Cmake方法</p>
 <p>1 解压进入文件夹</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">tar</span> xvfz spglib-1.9.8.tar.gz
-<span class="token function">cd</span> spglib-1.9.8</code></pre>
+<pre class=" language-lang-bash"><code class="language-lang-bash">tar xvfz spglib-1.9.8.tar.gz
+cd spglib-1.9.8
+</code></pre>
 <p>2 建立_build文件夹</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">mkdir</span> _build <span class="token operator">&amp;&amp;</span> _build
-cmake -DCMAKE_INSTALL_PREFIX<span class="token operator">=</span><span class="token string">""</span> <span class="token punctuation">..</span>
-<span class="token function">make</span>
-<span class="token function">make</span> DESTDIR<span class="token operator">=</span>/some/where <span class="token function">install</span>
-<span class="token comment" spellcheck="true">#路径根据需要设置</span></code></pre>
+<pre class=" language-lang-bash"><code class="language-lang-bash">mkdir _build && _build
+cmake -DCMAKE_INSTALL_PREFIX="" ..
+make
+make DESTDIR=/some/where install
+#路径根据需要设置
+</code></pre>
 <p>注：头文件spglib.h在安装路径include文件夹，如果include文件夹中没有spglib文件夹，建议手动建立一个并复制spglib.h文件到里面。这在后面的安装thirdorder软件时是有用的。</p>
 <p><strong>Python库版本安装</strong></p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#在线安装</span>
-pip <span class="token function">install</span> spglib
+<pre class=" language-lang-bash"><code class="language-lang-bash">#在线安装
+pip install spglib
 
-<span class="token comment" spellcheck="true">#手动安装</span>
-<span class="token function">tar</span> -zxvf  spglib-1.14.1.post0.tar.gz spglib
-<span class="token function">cd</span> ./spglib
-python setup.py <span class="token function">install</span></code></pre>
+#手动安装
+tar -zxvf  spglib-1.14.1.post0.tar.gz spglib
+cd ./spglib
+python setup.py install
+</code></pre>
 <p><strong>Spglib的具体使用方法详见官网介绍，主要是作为库来调用</strong></p>
 
             </div>
@@ -634,7 +637,7 @@ python setup.py <span class="token function">install</span></code></pre>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            二阶弹性常数计算主要采用能量–应变方法
+                            二阶弹性常数计算主要采用能量—应变方法
 AELAS软件计算必要的文件
 elas_strain.sh
 elas_cal.sh
@@ -867,7 +870,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">13.5k</span>&nbsp;字
+                class="white-color">6.4k</span>&nbsp;字
             
             
             

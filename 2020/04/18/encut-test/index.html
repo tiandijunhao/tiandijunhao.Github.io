@@ -478,7 +478,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    468
+                    85
                 </div>
                 
 
@@ -491,24 +491,25 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="截断能测试"><a href="#截断能测试" class="headerlink" title="截断能测试"></a><strong>截断能测试</strong></h1><p>必要输入文件：</p>
-<pre class=" language-bash"><code class="language-bash">encut.sh  
+<pre class=" language-lang-bash"><code class="language-lang-bash">encut.sh  
 POTCAR  
-KPOINTS和POSCAR可以在encut.sh里设置，也可以独立给出。</code></pre>
+KPOINTS和POSCAR可以在encut.sh里设置，也可以独立给出。
+</code></pre>
 <p>encut.sh脚本参考  </p>
-<pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+<pre class=" language-lang-bash"><code class="language-lang-bash">#!/bin/bash
 
-<span class="token comment" spellcheck="true">#生成KPOINTS文件，KPOINTS不能与INCAR中的KSPACING参数共用，二选一</span>
-<span class="token comment" spellcheck="true">#注：KPOINTS文件每行一定要顶格写，不能前面不能空格，不然可能会报错。</span>
-<span class="token function">cat</span> <span class="token operator">></span> KPOINTS <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+#生成KPOINTS文件，KPOINTS不能与INCAR中的KSPACING参数共用，二选一
+#注：KPOINTS文件每行一定要顶格写，不能前面不能空格，不然可能会报错。
+cat > KPOINTS <<!
 A
 0
 M
 9  9  9
 0  0  0
-<span class="token operator">!</span>
+!
 
-<span class="token comment" spellcheck="true">#产生计算所需POSCAR</span>
-<span class="token function">cat</span> <span class="token operator">></span> POSCAR<span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+#产生计算所需POSCAR
+cat > POSCAR<<!
 Si8
 1.0000000000
     5.4687280000        0.0000000000        0.0000000000
@@ -525,46 +526,46 @@ Direct
     0.7500000000        0.2500000000        0.7500000000
     0.7500000000        0.7500000000        0.2500000000
     0.2500000000        0.2500000000        0.2500000000
-<span class="token operator">!</span>
+!
 
-<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token variable"><span class="token variable">$(</span><span class="token function">seq</span> 400 50 700<span class="token variable">)</span></span> <span class="token comment" spellcheck="true">#截断能从450-800，步数为50</span>
-<span class="token keyword">do</span>
+for i in $(seq 400 50 700) #截断能从450-800，步数为50
+do
 
-<span class="token comment" spellcheck="true">#生成vasp静态计算的INCAR</span>
-<span class="token function">cat</span> <span class="token operator">></span> INCAR_static <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
+#生成vasp静态计算的INCAR
+cat > INCAR_static <<!
 Global Parameters
-  ISTART <span class="token operator">=</span>  0            <span class="token punctuation">(</span>Read existing wavefunction<span class="token punctuation">;</span> <span class="token keyword">if</span> there<span class="token punctuation">)</span>
-  ICHARG <span class="token operator">=</span>  2            <span class="token punctuation">(</span>Non-self-consistent: GGA/LDA band structures<span class="token punctuation">)</span>
-  LREAL  <span class="token operator">=</span> .FALSE.       <span class="token punctuation">(</span>Projection operators: automatic<span class="token punctuation">)</span>
-  ENCUT  <span class="token operator">=</span>  <span class="token variable">$i</span>           <span class="token punctuation">(</span>Cut-off energy <span class="token keyword">for</span> plane wave basis set, <span class="token keyword">in</span> eV<span class="token punctuation">)</span>
-  PREC   <span class="token operator">=</span>  Accurate     <span class="token punctuation">(</span>Precision level<span class="token punctuation">)</span>  
-  LWAVE  <span class="token operator">=</span> .FALSE.       <span class="token punctuation">(</span>Write WAVECAR or not<span class="token punctuation">)</span>
-  LCHARG <span class="token operator">=</span> .FALSE.       <span class="token punctuation">(</span>Write CHGCAR or not<span class="token punctuation">)</span> 
-  ADDGRID<span class="token operator">=</span> .TRUE.        <span class="token punctuation">(</span>Increase grid<span class="token punctuation">;</span> helps GGA convergence<span class="token punctuation">)</span>
+  ISTART =  0            (Read existing wavefunction; if there)
+  ICHARG =  2            (Non-self-consistent: GGA/LDA band structures)
+  LREAL  = .FALSE.       (Projection operators: automatic)
+  ENCUT  =  $i           (Cut-off energy for plane wave basis set, in eV)
+  PREC   =  Accurate     (Precision level)  
+  LWAVE  = .FALSE.       (Write WAVECAR or not)
+  LCHARG = .FALSE.       (Write CHGCAR or not) 
+  ADDGRID= .TRUE.        (Increase grid; helps GGA convergence)
 
 Electronic Relaxation
-  ISMEAR <span class="token operator">=</span>  -5           <span class="token punctuation">(</span>Gaussian smearing<span class="token punctuation">;</span> metals:1<span class="token punctuation">)</span>
-  <span class="token comment" spellcheck="true">#SIGMA  =  0.05        (Smearing value in eV; metals:0.2)</span>
-  NELM   <span class="token operator">=</span>  60           <span class="token punctuation">(</span>Max electronic SCF steps<span class="token punctuation">)</span>  
-  NELMIN <span class="token operator">=</span>  4            <span class="token punctuation">(</span>Min electronic SCF steps<span class="token punctuation">)</span>
-  EDIFF  <span class="token operator">=</span>  1E-06        <span class="token punctuation">(</span>SCF energy convergence<span class="token punctuation">;</span> <span class="token keyword">in</span> eV<span class="token punctuation">)</span>
-  GGA  <span class="token operator">=</span>  PE             <span class="token punctuation">(</span>PBEsol exchange-correlation<span class="token punctuation">)</span>
+  ISMEAR =  -5           (Gaussian smearing; metals:1)
+  #SIGMA  =  0.05        (Smearing value in eV; metals:0.2)
+  NELM   =  60           (Max electronic SCF steps)  
+  NELMIN =  4            (Min electronic SCF steps)
+  EDIFF  =  1E-06        (SCF energy convergence; in eV)
+  GGA  =  PE             (PBEsol exchange-correlation)
 
 Ionic Relaxation
-  ISIF   <span class="token operator">=</span>  2            <span class="token punctuation">(</span>Stress/relaxation: 2-Ions, 3-Shape/Ions/V，4-Shape/Ions<span class="token punctuation">)</span>
-  EDIFFG <span class="token operator">=</span> -0.001        <span class="token punctuation">(</span>Ionic convergence<span class="token punctuation">;</span> eV/AA<span class="token punctuation">)</span>
-  KSPACING <span class="token operator">=</span> 0.10
-<span class="token operator">!</span>
+  ISIF   =  2            (Stress/relaxation: 2-Ions, 3-Shape/Ions/V，4-Shape/Ions)
+  EDIFFG = -0.001        (Ionic convergence; eV/AA)
+  KSPACING = 0.10
+!
 
-<span class="token function">cp</span> INCAR_static INCAR
-<span class="token keyword">echo</span> <span class="token string">"ENCUT = <span class="token variable">$i</span> eV"</span> <span class="token punctuation">;</span> <span class="token function">time</span> mpirun -np 16 vasp_std <span class="token comment" spellcheck="true">#vasp并行运行命令，根据系统自行修改</span>
+cp INCAR_static INCAR
+echo "ENCUT = $i eV" ; time mpirun -np 16 vasp_std #vasp并行运行命令，根据系统自行修改
 
-<span class="token function">rm</span> INCAR_static
-<span class="token function">rm</span> INCAR
-<span class="token comment" spellcheck="true">#提取计算得到的能量</span>
-E<span class="token operator">=</span><span class="token punctuation">$(</span>grep <span class="token string">"TOTEN"</span> OUTCAR <span class="token operator">|</span> <span class="token function">tail</span> -1 <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{printf "%12.9f \n", <span class="token variable">$5</span> }'</span><span class="token punctuation">)</span>
-<span class="token keyword">echo</span> <span class="token variable">$i</span> <span class="token variable">$E</span> <span class="token operator">>></span>encut_energy.out
-<span class="token keyword">done</span>
+rm INCAR_static
+rm INCAR
+#提取计算得到的能量
+E=$(grep "TOTEN" OUTCAR | tail -1 | awk '{printf "%12.9f \n", $5 }')
+echo $i $E >>encut_energy.out
+done
 </code></pre>
 <p>提交脚本任务运行，成功结束后可以得到输出文件encut_enengy.out<br>可以使用OriginPro等画图工具画出截断能-能量关系.  </p>
 <p>Si的截断能测试：<br><img src="/img/Si_encut_test.png" width = "60%" height = "60%" div align=center/></p>
@@ -927,7 +928,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">13.5k</span>&nbsp;字
+                class="white-color">6.4k</span>&nbsp;字
             
             
             
