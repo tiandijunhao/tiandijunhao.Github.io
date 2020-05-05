@@ -478,7 +478,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    339
+                    346
                 </div>
                 
 
@@ -490,7 +490,12 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Fortran-三角矩阵求解"><a href="#Fortran-三角矩阵求解" class="headerlink" title="Fortran 三角矩阵求解"></a><strong>Fortran 三角矩阵求解</strong></h2><p>参考：《Fotran95 2003科学计算与工程》</p>
+                <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>
+
+<h2 id="Fortran-三角矩阵求解"><a href="#Fortran-三角矩阵求解" class="headerlink" title="Fortran 三角矩阵求解"></a><strong>Fortran 三角矩阵求解</strong></h2><p>参考：《Fotran95 2003科学计算与工程》</p>
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>$$<br>\vec{A}(n,n)\cdot\vec{X}(n)=\vec{B}<br>$$</p>
 <p>上三角形方程迭代求解</p>
 <p>$$<br>\begin{cases}<br>    X_n=\frac{B_n}{A_{nn}} \<br>    \<br>    X_i=\frac{B_i-\sum_{k=i+1}^{n} A_{ik}X_k}{A_{ii}},i=n-1,\cdot\cdot\cdot,1</p>
@@ -905,6 +910,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 </main>
 
+
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
 
 
 
