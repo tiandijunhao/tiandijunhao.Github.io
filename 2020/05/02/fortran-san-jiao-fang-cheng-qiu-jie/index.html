@@ -491,87 +491,76 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="Fortran-三角矩阵求解"><a href="#Fortran-三角矩阵求解" class="headerlink" title="Fortran 三角矩阵求解"></a><strong>Fortran 三角矩阵求解</strong></h2><p>参考：《Fotran95 2003科学计算与工程》</p>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a><strong>原理</strong></h3><script type="math/tex; mode=display">
-\vec{A}(n,n)\cdot\vec{X}(n)=\vec{B}</script><p>上三角形方程迭代求解</p>
-<script type="math/tex; mode=display">
-\begin{cases}
-    X_n=\frac{B_n}{A_{nn}} \\
-    \\
-    X_i=\frac{B_i-\sum_{k=i+1}^{n} A_{ik}X_k}{A_{ii}},i=n-1,\cdot\cdot\cdot,1
-
-\end{cases}</script><p>下三角形方程迭代求解</p>
-<script type="math/tex; mode=display">
-\begin{cases}
-    X_1=\frac{B_1}{A_{11}} \\
-    \\
-    X_i=\frac{B_i-\sum_{k=1}^{n-1} A_{ik}X_k}{A_{ii}},i=2,\cdot\cdot\cdot,n
-
-\end{cases}</script><hr>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a><strong>原理</strong></h3><p>$$<br>\vec{A}(n,n)\cdot\vec{X}(n)=\vec{B}<br>$$</p>
+<p>上三角形方程迭代求解</p>
+<p>$$<br>\begin{cases}<br>    X_n=\frac{B_n}{A_{nn}} \<br>    \<br>    X_i=\frac{B_i-\sum_{k=i+1}^{n} A_{ik}X_k}{A_{ii}},i=n-1,\cdot\cdot\cdot,1</p>
+<p>\end{cases}<br>$$<br>下三角形方程迭代求解<br>$$<br>\begin{cases}<br>    X_1=\frac{B_1}{A_{11}} \<br>    \<br>    X_i=\frac{B_i-\sum_{k=1}^{n-1} A_{ik}X_k}{A_{ii}},i=2,\cdot\cdot\cdot,n</p>
+<p>\end{cases}<br>$$</p>
 <hr>
-<h3 id="Fortran代码实现"><a href="#Fortran代码实现" class="headerlink" title="Fortran代码实现"></a><strong>Fortran代码实现</strong></h3><pre class=" language-lang-fortran"><code class="language-lang-fortran">module parameter
-    implicit none
+<hr>
+<h3 id="Fortran代码实现"><a href="#Fortran代码实现" class="headerlink" title="Fortran代码实现"></a><strong>Fortran代码实现</strong></h3><pre class=" language-fortran"><code class="language-fortran"><span class="token keyword">module</span> <span class="token keyword">parameter</span>
+    <span class="token keyword">implicit none</span>
 
-    integer, parameter :: dp=8
+    <span class="token keyword">integer</span><span class="token punctuation">,</span> <span class="token keyword">parameter</span> <span class="token operator">::</span> dp<span class="token operator">=</span><span class="token number">8</span>
 
-end module parameter
+<span class="token keyword">end module</span> <span class="token keyword">parameter</span>
 
-module matrix_solve
-    use parameter   
-    contains
+<span class="token keyword">module</span> matrix_solve
+    <span class="token keyword">use</span> <span class="token keyword">parameter</span>   
+    <span class="token keyword">contains</span>
 
-    !上三角方程
-    ! A(n,n): 左矩阵
-    ! B(n): 右矩阵
-    ! X(n): 待求解矩阵
-    ! N: 输入的矩阵维数
-    !
-    subroutine uptri_equation_solve(A,B,X,N)
-        implicit none
-        integer,INTENT(IN) :: N 
-        integer :: i ,j
+    <span class="token comment" spellcheck="true">!上三角方程</span>
+    <span class="token comment" spellcheck="true">! A(n,n): 左矩阵</span>
+    <span class="token comment" spellcheck="true">! B(n): 右矩阵</span>
+    <span class="token comment" spellcheck="true">! X(n): 待求解矩阵</span>
+    <span class="token comment" spellcheck="true">! N: 输入的矩阵维数</span>
+    <span class="token comment" spellcheck="true">!</span>
+    <span class="token keyword">subroutine</span> uptri_equation_solve<span class="token punctuation">(</span>A<span class="token punctuation">,</span>B<span class="token punctuation">,</span>X<span class="token punctuation">,</span>N<span class="token punctuation">)</span>
+        <span class="token keyword">implicit none</span>
+        <span class="token keyword">integer</span><span class="token punctuation">,</span><span class="token keyword">INTENT</span><span class="token punctuation">(</span><span class="token keyword">IN</span><span class="token punctuation">)</span> <span class="token operator">::</span> N 
+        <span class="token keyword">integer</span> <span class="token operator">::</span> i <span class="token punctuation">,</span>j
 
-        real(kind=dp),INTENT(IN) :: A(N,N),B(N)
-        real(kind=dp),INTENT(OUT) :: X(N)
+        <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span>dp<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">INTENT</span><span class="token punctuation">(</span><span class="token keyword">IN</span><span class="token punctuation">)</span> <span class="token operator">::</span> A<span class="token punctuation">(</span>N<span class="token punctuation">,</span>N<span class="token punctuation">)</span><span class="token punctuation">,</span>B<span class="token punctuation">(</span>N<span class="token punctuation">)</span>
+        <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span>dp<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">INTENT</span><span class="token punctuation">(</span><span class="token keyword">OUT</span><span class="token punctuation">)</span> <span class="token operator">::</span> X<span class="token punctuation">(</span>N<span class="token punctuation">)</span>
 
-        X(n)=B(n)/A(n,n)
+        X<span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token operator">=</span>B<span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token operator">/</span>A<span class="token punctuation">(</span>n<span class="token punctuation">,</span>n<span class="token punctuation">)</span>
 
-        do i=n-1,1,-1
-            X(i)=B(i)
-            do j=i+1,N 
-                X(i)=X(i)-A(i,j)*X(j)
-            enddo
-            X(i)=X(i)/A(i,i)
-        enddo
+        <span class="token keyword">do</span> i<span class="token operator">=</span>n<span class="token number">-1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">-1</span>
+            X<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token operator">=</span>B<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+            <span class="token keyword">do</span> j<span class="token operator">=</span>i<span class="token number">+1</span><span class="token punctuation">,</span>N 
+                X<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token operator">=</span>X<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token operator">-</span>A<span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token operator">*</span>X<span class="token punctuation">(</span>j<span class="token punctuation">)</span>
+            <span class="token keyword">enddo</span>
+            X<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token operator">=</span>X<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token operator">/</span>A<span class="token punctuation">(</span>i<span class="token punctuation">,</span>i<span class="token punctuation">)</span>
+        <span class="token keyword">enddo</span>
 
-    end subroutine uptri_equation_solve
+    <span class="token keyword">end subroutine</span> uptri_equation_solve
 
-    !下三角矩阵
-    ! A(n,n): 左矩阵
-    ! B(n): 右矩阵
-    ! X(n): 待求解矩阵
-    ! N: 输入的矩阵维数
-    !
-    subroutine downtri_equation_solve(A,B,X,N)
-        implicit none
-        integer,INTENT(IN) :: N 
-        integer :: i ,j
+    <span class="token comment" spellcheck="true">!下三角矩阵</span>
+    <span class="token comment" spellcheck="true">! A(n,n): 左矩阵</span>
+    <span class="token comment" spellcheck="true">! B(n): 右矩阵</span>
+    <span class="token comment" spellcheck="true">! X(n): 待求解矩阵</span>
+    <span class="token comment" spellcheck="true">! N: 输入的矩阵维数</span>
+    <span class="token comment" spellcheck="true">!</span>
+    <span class="token keyword">subroutine</span> downtri_equation_solve<span class="token punctuation">(</span>A<span class="token punctuation">,</span>B<span class="token punctuation">,</span>X<span class="token punctuation">,</span>N<span class="token punctuation">)</span>
+        <span class="token keyword">implicit none</span>
+        <span class="token keyword">integer</span><span class="token punctuation">,</span><span class="token keyword">INTENT</span><span class="token punctuation">(</span><span class="token keyword">IN</span><span class="token punctuation">)</span> <span class="token operator">::</span> N 
+        <span class="token keyword">integer</span> <span class="token operator">::</span> i <span class="token punctuation">,</span>j
 
-        real(kind=dp),INTENT(IN) :: A(N,N),B(N)
-        real(kind=dp),INTENT(OUT) :: X(N)
+        <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span>dp<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">INTENT</span><span class="token punctuation">(</span><span class="token keyword">IN</span><span class="token punctuation">)</span> <span class="token operator">::</span> A<span class="token punctuation">(</span>N<span class="token punctuation">,</span>N<span class="token punctuation">)</span><span class="token punctuation">,</span>B<span class="token punctuation">(</span>N<span class="token punctuation">)</span>
+        <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span>dp<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">INTENT</span><span class="token punctuation">(</span><span class="token keyword">OUT</span><span class="token punctuation">)</span> <span class="token operator">::</span> X<span class="token punctuation">(</span>N<span class="token punctuation">)</span>
 
-        X(1)=B(1)/A(1,1)
+        X<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">=</span>B<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">/</span>A<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
 
-        do i=2,n
-            X(i)=B(i)
-            do j=1,i-1
-                X(i)=X(i)-A(i,j)*X(j)
-            enddo
-            X(i)=X(i)/A(i,i)
-        enddo
+        <span class="token keyword">do</span> i<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span>n
+            X<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token operator">=</span>B<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+            <span class="token keyword">do</span> j<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>i<span class="token number">-1</span>
+                X<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token operator">=</span>X<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token operator">-</span>A<span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token operator">*</span>X<span class="token punctuation">(</span>j<span class="token punctuation">)</span>
+            <span class="token keyword">enddo</span>
+            X<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token operator">=</span>X<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token operator">/</span>A<span class="token punctuation">(</span>i<span class="token punctuation">,</span>i<span class="token punctuation">)</span>
+        <span class="token keyword">enddo</span>
 
-    end subroutine downtri_equation_solve
-end module
-</code></pre>
+    <span class="token keyword">end subroutine</span> downtri_equation_solve
+<span class="token keyword">end module</span></code></pre>
 
             </div>
             <hr/>
@@ -694,9 +683,7 @@ end module
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            晶体的单晶声速计算公式Christoffel’s equation relates acoustic velocitics to crystallo-graphic direction and elastic constants.
-
-det
+                            晶体的单晶声速计算公式Christoffel’s equation relates acoustic velocitics to crystallo-graphic direction and elastic constants.$$det
                         
                     </div>
                     <div class="publish-info">
@@ -940,7 +927,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">6.4k</span>&nbsp;字
+                class="white-color">13.5k</span>&nbsp;字
             
             
             

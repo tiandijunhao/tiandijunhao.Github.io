@@ -492,225 +492,221 @@
             <div id="articleContent">
                 <h2 id="使用spglib将原胞的POSCAR重整为惯用晶胞的POSCAR的练习"><a href="#使用spglib将原胞的POSCAR重整为惯用晶胞的POSCAR的练习" class="headerlink" title="使用spglib将原胞的POSCAR重整为惯用晶胞的POSCAR的练习"></a><strong>使用spglib将原胞的POSCAR重整为惯用晶胞的POSCAR的练习</strong></h2><p>默认POSCAR的原子坐标是分数坐标形式，后续慢慢学习如何转化坐标和将惯用晶胞转为原胞。</p>
 <p>需要的三个python脚本</p>
-<pre class=" language-lang-txt"><code class="language-lang-txt">read_poscar.py
+<pre class=" language-txt"><code class="language-txt">read_poscar.py
 reposcar.py
-run.py
-</code></pre>
+run.py</code></pre>
 <p>read_poscar.py</p>
-<pre class=" language-lang-python"><code class="language-lang-python">import spglib
-import numpy as np
-import os
-import linecache
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> spglib
+<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+<span class="token keyword">import</span> os
+<span class="token keyword">import</span> linecache
 
 
-class read_poscar(object):
-    def __init__(
-        self,
-        struct=None,
-        pos_name=None,
-        lattice_index=None,
-        lat=None,
-        lat_recell=None,
-        atomname=None,
-        atomnum=None,
-        postype=None,
-        pos=None,
-        spg_number=None,
-    ):
-        self.struct = linecache.getlines("POSCAR")
-        # read POSCAR to get some paramatrics: sys_name; lattice; atom_name; atom_number; atom_position
-        # and get spacegroup_number
-        poscar = [line.strip() for line in self.struct]
-        num = len(poscar)
+<span class="token keyword">class</span> <span class="token class-name">read_poscar</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>
+        self<span class="token punctuation">,</span>
+        struct<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        pos_name<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        lattice_index<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        lat<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        lat_recell<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        atomname<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        atomnum<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        postype<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        pos<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        spg_number<span class="token operator">=</span>None<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>struct <span class="token operator">=</span> linecache<span class="token punctuation">.</span>getlines<span class="token punctuation">(</span><span class="token string">"POSCAR"</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true"># read POSCAR to get some paramatrics: sys_name; lattice; atom_name; atom_number; atom_position</span>
+        <span class="token comment" spellcheck="true"># and get spacegroup_number</span>
+        poscar <span class="token operator">=</span> <span class="token punctuation">[</span>line<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">for</span> line <span class="token keyword">in</span> self<span class="token punctuation">.</span>struct<span class="token punctuation">]</span>
+        num <span class="token operator">=</span> len<span class="token punctuation">(</span>poscar<span class="token punctuation">)</span>
 
-        self.pos_name = poscar[0].split()
-        self.lat_index = poscar[1].split()
-        self.lattice_index = float(self.lat_index[0])
+        self<span class="token punctuation">.</span>pos_name <span class="token operator">=</span> poscar<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>lat_index <span class="token operator">=</span> poscar<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>lattice_index <span class="token operator">=</span> float<span class="token punctuation">(</span>self<span class="token punctuation">.</span>lat_index<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 
-        # matrics of lattice vector
+        <span class="token comment" spellcheck="true"># matrics of lattice vector</span>
 
-        lat_vector = np.zeros((3, 3))
-        index = 0
-        for latt in poscar[2:5]:
-            latt = latt.split()
-            lat_vector[index, :] = latt[0:3]
-            index += 1
-        self.lattice = lat_vector
+        lat_vector <span class="token operator">=</span> np<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        index <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword">for</span> latt <span class="token keyword">in</span> poscar<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">:</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            latt <span class="token operator">=</span> latt<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            lat_vector<span class="token punctuation">[</span>index<span class="token punctuation">,</span> <span class="token punctuation">:</span><span class="token punctuation">]</span> <span class="token operator">=</span> latt<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">3</span><span class="token punctuation">]</span>
+            index <span class="token operator">+=</span> <span class="token number">1</span>
+        self<span class="token punctuation">.</span>lattice <span class="token operator">=</span> lat_vector
 
-        self.atomname = poscar[5].split()
-        self.atomnum = poscar[6].split()
-        self.postype = poscar[7].split()
+        self<span class="token punctuation">.</span>atomname <span class="token operator">=</span> poscar<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>atomnum <span class="token operator">=</span> poscar<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>postype <span class="token operator">=</span> poscar<span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-        atom_len=len(self.atomname)
+        atom_len<span class="token operator">=</span>len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>atomname<span class="token punctuation">)</span>
 
-        # matrics of atom position
+        <span class="token comment" spellcheck="true"># matrics of atom position</span>
 
-        i = num - 8
-        position_vector = np.zeros((i, 3))
-        index = 0
-        for poss in poscar[8:num]:
-            poss = poss.split()
-            #position_vector[index, 0:3] = poss[0:3]
-            position_vector[index,0] = poss[0]
-            position_vector[index,1] = poss[1]
-            position_vector[index,2] = poss[2]
-            index += 1
+        i <span class="token operator">=</span> num <span class="token operator">-</span> <span class="token number">8</span>
+        position_vector <span class="token operator">=</span> np<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        index <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword">for</span> poss <span class="token keyword">in</span> poscar<span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">:</span>num<span class="token punctuation">]</span><span class="token punctuation">:</span>
+            poss <span class="token operator">=</span> poss<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">#position_vector[index, 0:3] = poss[0:3]</span>
+            position_vector<span class="token punctuation">[</span>index<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> poss<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+            position_vector<span class="token punctuation">[</span>index<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> poss<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+            position_vector<span class="token punctuation">[</span>index<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> poss<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>
+            index <span class="token operator">+=</span> <span class="token number">1</span>
 
-        self.lat = lat_vector * self.lattice_index
-        self.pos = position_vector
-        atom_numbers = [1,] * (int(self.atomnum[0]))#+int(self.atomnum[1]))
-        cell = (self.lat, self.pos, atom_numbers)
-        database = spglib.get_symmetry_dataset(
-            cell, symprec=1e-3
-        )
-        self.spg_number = database["number"]
+        self<span class="token punctuation">.</span>lat <span class="token operator">=</span> lat_vector <span class="token operator">*</span> self<span class="token punctuation">.</span>lattice_index
+        self<span class="token punctuation">.</span>pos <span class="token operator">=</span> position_vector
+        atom_numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token punctuation">(</span>int<span class="token punctuation">(</span>self<span class="token punctuation">.</span>atomnum<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">#+int(self.atomnum[1]))</span>
+        cell <span class="token operator">=</span> <span class="token punctuation">(</span>self<span class="token punctuation">.</span>lat<span class="token punctuation">,</span> self<span class="token punctuation">.</span>pos<span class="token punctuation">,</span> atom_numbers<span class="token punctuation">)</span>
+        database <span class="token operator">=</span> spglib<span class="token punctuation">.</span>get_symmetry_dataset<span class="token punctuation">(</span>
+            cell<span class="token punctuation">,</span> symprec<span class="token operator">=</span><span class="token number">1e</span><span class="token operator">-</span><span class="token number">3</span>
+        <span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>spg_number <span class="token operator">=</span> database<span class="token punctuation">[</span><span class="token string">"number"</span><span class="token punctuation">]</span>
 
-    def system_name(self):
-        return self.pos_name
+    <span class="token keyword">def</span> <span class="token function">system_name</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>pos_name
 
-    def latt_index(self):
-        return self.lattice_index
+    <span class="token keyword">def</span> <span class="token function">latt_index</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>lattice_index
 
-    def latti(self):
-        return self.lattice
+    <span class="token keyword">def</span> <span class="token function">latti</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>lattice
 
-    def atom_name(self):
-        return self.atomname
+    <span class="token keyword">def</span> <span class="token function">atom_name</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>atomname
 
-    def atom_number(self):
-        return self.atomnum
+    <span class="token keyword">def</span> <span class="token function">atom_number</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>atomnum
 
-    def position_type(self):
-        return self.postype
+    <span class="token keyword">def</span> <span class="token function">position_type</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>postype
 
-    def positions(self):
-        return self.pos
+    <span class="token keyword">def</span> <span class="token function">positions</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>pos
 
-    def spacegroup_num(self):
-        return self.spg_number
-</code></pre>
+    <span class="token keyword">def</span> <span class="token function">spacegroup_num</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>spg_number</code></pre>
 <p>reposcar.py</p>
-<pre class=" language-lang-python"><code class="language-lang-python">import os
-import numpy as np
-import read_poscar as readpos
-import spglib
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> os
+<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+<span class="token keyword">import</span> read_poscar <span class="token keyword">as</span> readpos
+<span class="token keyword">import</span> spglib
 
 
-class recell(object):
-    def __init__(
-        self,
-        spg_num=None,
-        lattindex=None,
-        latt=None,
-        atomname=None,
-        atomnum=None,
-        postype=None,
-        position=None,
-        cell_lattice=None,
-        cell_position=None,
-        cell_atomnum=None,
-        to_pricell = None
-    ):
-        # read the origmitive cell
-        self.spg_num = readpos.read_poscar().spacegroup_num()
-        self.lattindex = readpos.read_poscar().latt_index()
-        self.latt = readpos.read_poscar().latti()
-        self.atomname = readpos.read_poscar().atom_name()
-        self.atomnum = readpos.read_poscar().atom_number()
-        self.postype = readpos.read_poscar().position_type()
-        self.position = readpos.read_poscar().positions()
+<span class="token keyword">class</span> <span class="token class-name">recell</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>
+        self<span class="token punctuation">,</span>
+        spg_num<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        lattindex<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        latt<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        atomname<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        atomnum<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        postype<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        position<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        cell_lattice<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        cell_position<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        cell_atomnum<span class="token operator">=</span>None<span class="token punctuation">,</span>
+        to_pricell <span class="token operator">=</span> None
+    <span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment" spellcheck="true"># read the origmitive cell</span>
+        self<span class="token punctuation">.</span>spg_num <span class="token operator">=</span> readpos<span class="token punctuation">.</span>read_poscar<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>spacegroup_num<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>lattindex <span class="token operator">=</span> readpos<span class="token punctuation">.</span>read_poscar<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>latt_index<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>latt <span class="token operator">=</span> readpos<span class="token punctuation">.</span>read_poscar<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>latti<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>atomname <span class="token operator">=</span> readpos<span class="token punctuation">.</span>read_poscar<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>atom_name<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>atomnum <span class="token operator">=</span> readpos<span class="token punctuation">.</span>read_poscar<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>atom_number<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>postype <span class="token operator">=</span> readpos<span class="token punctuation">.</span>read_poscar<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>position_type<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>position <span class="token operator">=</span> readpos<span class="token punctuation">.</span>read_poscar<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>positions<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-        orignumbers = []
-        for i in np.arange(0, len(self.atomname)):
-            for j in np.arange(0, int(self.atomnum[i]), 1):
-                orignumbers.append(i + 1)
+        orignumbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>atomname<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">for</span> j <span class="token keyword">in</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> int<span class="token punctuation">(</span>self<span class="token punctuation">.</span>atomnum<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                orignumbers<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
 
-        origlattice = self.latt * self.lattindex
-        origpositon = self.position
+        origlattice <span class="token operator">=</span> self<span class="token punctuation">.</span>latt <span class="token operator">*</span> self<span class="token punctuation">.</span>lattindex
+        origpositon <span class="token operator">=</span> self<span class="token punctuation">.</span>position
 
-        origcell = (origlattice, origpositon, orignumbers)
+        origcell <span class="token operator">=</span> <span class="token punctuation">(</span>origlattice<span class="token punctuation">,</span> origpositon<span class="token punctuation">,</span> orignumbers<span class="token punctuation">)</span>
 
-        if(to_pricell==False):
+        <span class="token keyword">if</span><span class="token punctuation">(</span>to_pricell<span class="token operator">==</span><span class="token boolean">False</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 
-        # refine cell
-            self.cell_lattice, re_position, re_numbers = spglib.standardize_cell(
-                cell=origcell, symprec=1e-3, to_primitive=False
-            )
-        else:
-            self.cell_lattice, re_position, re_numbers = spglib.standardize_cell(
-                cell=origcell, symprec=1e-3, to_primitive=True
-            )
+        <span class="token comment" spellcheck="true"># refine cell</span>
+            self<span class="token punctuation">.</span>cell_lattice<span class="token punctuation">,</span> re_position<span class="token punctuation">,</span> re_numbers <span class="token operator">=</span> spglib<span class="token punctuation">.</span>standardize_cell<span class="token punctuation">(</span>
+                cell<span class="token operator">=</span>origcell<span class="token punctuation">,</span> symprec<span class="token operator">=</span><span class="token number">1e</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">,</span> to_primitive<span class="token operator">=</span><span class="token boolean">False</span>
+            <span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>cell_lattice<span class="token punctuation">,</span> re_position<span class="token punctuation">,</span> re_numbers <span class="token operator">=</span> spglib<span class="token punctuation">.</span>standardize_cell<span class="token punctuation">(</span>
+                cell<span class="token operator">=</span>origcell<span class="token punctuation">,</span> symprec<span class="token operator">=</span><span class="token number">1e</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">,</span> to_primitive<span class="token operator">=</span><span class="token boolean">True</span>
+            <span class="token punctuation">)</span>
 
 
 
-        # 主要对坐标进行重新排序
-        re_position_list = list(re_position)
-        zipped = list(zip(re_numbers, re_position_list))
-        zipsorted = sorted(zipped, key=lambda x: (x[0]))
+        <span class="token comment" spellcheck="true"># 主要对坐标进行重新排序</span>
+        re_position_list <span class="token operator">=</span> list<span class="token punctuation">(</span>re_position<span class="token punctuation">)</span>
+        zipped <span class="token operator">=</span> list<span class="token punctuation">(</span>zip<span class="token punctuation">(</span>re_numbers<span class="token punctuation">,</span> re_position_list<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        zipsorted <span class="token operator">=</span> sorted<span class="token punctuation">(</span>zipped<span class="token punctuation">,</span> key<span class="token operator">=</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> <span class="token punctuation">(</span>x<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-        re_numbers_sort, re_positon_sort = zip(*zipsorted)
+        re_numbers_sort<span class="token punctuation">,</span> re_positon_sort <span class="token operator">=</span> zip<span class="token punctuation">(</span><span class="token operator">*</span>zipsorted<span class="token punctuation">)</span>
 
-        self.cell_position = np.array(re_positon_sort)
+        self<span class="token punctuation">.</span>cell_position <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>re_positon_sort<span class="token punctuation">)</span>
 
-        self.cell_atomnum = []
-        for i in np.arange(0, len(self.atomnum), 1):
-            num = int(self.atomnum[i]) * (len(re_numbers_sort) / len(orignumbers))
-            self.cell_atomnum.append(num)
+        self<span class="token punctuation">.</span>cell_atomnum <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>atomnum<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            num <span class="token operator">=</span> int<span class="token punctuation">(</span>self<span class="token punctuation">.</span>atomnum<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>len<span class="token punctuation">(</span>re_numbers_sort<span class="token punctuation">)</span> <span class="token operator">/</span> len<span class="token punctuation">(</span>orignumbers<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>cell_atomnum<span class="token punctuation">.</span>append<span class="token punctuation">(</span>num<span class="token punctuation">)</span>
 
-        # write the refine cell
+        <span class="token comment" spellcheck="true"># write the refine cell</span>
 
-        writepos = open("RECELL", mode="w")
-        print("recell_poscar", file=writepos)
-        print("1.0", file=writepos)
+        writepos <span class="token operator">=</span> open<span class="token punctuation">(</span><span class="token string">"RECELL"</span><span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">"w"</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"recell_poscar"</span><span class="token punctuation">,</span> file<span class="token operator">=</span>writepos<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"1.0"</span><span class="token punctuation">,</span> file<span class="token operator">=</span>writepos<span class="token punctuation">)</span>
 
-        for m in np.arange(0, 3, 1):
-            print(
-                format(self.cell_lattice[m, 0], ".10f"),
-                "   ",
-                format(self.cell_lattice[m, 1], ".10f"),
-                "   ",
-                format(self.cell_lattice[m, 2], ".10f"),
-                file=writepos,
-            )
+        <span class="token keyword">for</span> m <span class="token keyword">in</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span>
+                format<span class="token punctuation">(</span>self<span class="token punctuation">.</span>cell_lattice<span class="token punctuation">[</span>m<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">".10f"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token string">"   "</span><span class="token punctuation">,</span>
+                format<span class="token punctuation">(</span>self<span class="token punctuation">.</span>cell_lattice<span class="token punctuation">[</span>m<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">".10f"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token string">"   "</span><span class="token punctuation">,</span>
+                format<span class="token punctuation">(</span>self<span class="token punctuation">.</span>cell_lattice<span class="token punctuation">[</span>m<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">".10f"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                file<span class="token operator">=</span>writepos<span class="token punctuation">,</span>
+            <span class="token punctuation">)</span>
 
-        for j in np.arange(0, len(self.atomname), 1):
-            print(self.atomname[j], file=writepos, end=" ")
-        print(end="\n", file=writepos)
-        for l in np.arange(0, len(self.atomname), 1):
-            print(int(self.cell_atomnum[l]), end=" ", file=writepos)
-        print(end="\n", file=writepos)
-        print(self.postype[0], file=writepos)
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>atomname<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>atomname<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span> file<span class="token operator">=</span>writepos<span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token string">" "</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>end<span class="token operator">=</span><span class="token string">"\n"</span><span class="token punctuation">,</span> file<span class="token operator">=</span>writepos<span class="token punctuation">)</span>
+        <span class="token keyword">for</span> l <span class="token keyword">in</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>atomname<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span>int<span class="token punctuation">(</span>self<span class="token punctuation">.</span>cell_atomnum<span class="token punctuation">[</span>l<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token string">" "</span><span class="token punctuation">,</span> file<span class="token operator">=</span>writepos<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>end<span class="token operator">=</span><span class="token string">"\n"</span><span class="token punctuation">,</span> file<span class="token operator">=</span>writepos<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>postype<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> file<span class="token operator">=</span>writepos<span class="token punctuation">)</span>
 
-        for n in np.arange(0, self.cell_position.shape[0], 1):
-            print(
-                format(self.cell_position[n, 0], ".10f"),
-                "   ",
-                format(self.cell_position[n, 1], ".10f"),
-                "   ",
-                format(self.cell_position[n, 2], ".10f"),
-                file=writepos,
-            )
-        writepos.close()
+        <span class="token keyword">for</span> n <span class="token keyword">in</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>cell_position<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span>
+                format<span class="token punctuation">(</span>self<span class="token punctuation">.</span>cell_position<span class="token punctuation">[</span>n<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">".10f"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token string">"   "</span><span class="token punctuation">,</span>
+                format<span class="token punctuation">(</span>self<span class="token punctuation">.</span>cell_position<span class="token punctuation">[</span>n<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">".10f"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token string">"   "</span><span class="token punctuation">,</span>
+                format<span class="token punctuation">(</span>self<span class="token punctuation">.</span>cell_position<span class="token punctuation">[</span>n<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">".10f"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                file<span class="token operator">=</span>writepos<span class="token punctuation">,</span>
+            <span class="token punctuation">)</span>
+        writepos<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-    def latti(self):
-        return self.cell_lattice
+    <span class="token keyword">def</span> <span class="token function">latti</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>cell_lattice
 
-    def atom_number(self):
-        return self.cell_atomnum
+    <span class="token keyword">def</span> <span class="token function">atom_number</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>cell_atomnum
 
-    def positions(self):
-        return self.cell_position
-</code></pre>
+    <span class="token keyword">def</span> <span class="token function">positions</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>cell_position</code></pre>
 <p>run.py</p>
-<pre class=" language-lang-python"><code class="language-lang-python">import reposcar
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> reposcar
 
-reposcar.recell(to_pricell=False) #转化为惯用晶胞
-reposcar.recell(to_pricell=True)  #转化为原胞
-</code></pre>
+reposcar<span class="token punctuation">.</span>recell<span class="token punctuation">(</span>to_pricell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">#转化为惯用晶胞</span>
+reposcar<span class="token punctuation">.</span>recell<span class="token punctuation">(</span>to_pricell<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">#转化为原胞</span></code></pre>
 <p>例子：</p>
 <p>铀</p>
 <p>原胞</p>
-<pre class=" language-lang-POSCAR"><code class="language-lang-POSCAR">Primitive Cell
+<pre class=" language-POSCAR"><code class="language-POSCAR">Primitive Cell
   1.000000
     1.40175686596237   -2.92091081962523    0.00000000000000
     1.40175686596237    2.92091081962523    0.00000000000000
@@ -719,10 +715,10 @@ reposcar.recell(to_pricell=True)  #转化为原胞
    2
 DIRECT
     0.9016657719149295    0.0983342280850705    0.7500000000000000
-    0.0983342280850705    0.9016657719149295    0.2500000000000000
+    0.0983342280850705    0.9016657719149295    0.2500000000000000 
 </code></pre>
 <p>输出晶胞</p>
-<pre class=" language-lang-POSCAR"><code class="language-lang-POSCAR">recell_poscar
+<pre class=" language-POSCAR"><code class="language-POSCAR">recell_poscar
 1.0
 2.8035137319     0.0000000000     0.0000000000
 0.0000000000     5.8418216393     0.0000000000
@@ -733,11 +729,10 @@ DIRECT
 0.0000000000     0.0983342281     0.2500000000
 0.5000000000     0.4016657719     0.7500000000
 0.5000000000     0.5983342281     0.2500000000
-0.0000000000     0.9016657719     0.7500000000
-</code></pre>
+0.0000000000     0.9016657719     0.7500000000</code></pre>
 <p>ThO2</p>
 <p>原胞</p>
-<pre class=" language-lang-POSCAR"><code class="language-lang-POSCAR">ThO2                                    
+<pre class=" language-POSCAR"><code class="language-POSCAR">ThO2                                    
    1.00000000000000     
      0.0000000000000000    2.8080796680000000    2.8080796680000000
      2.8080796680000000    0.0000000000000000    2.8080796680000000
@@ -747,10 +742,9 @@ DIRECT
 Direct
   0.0000000000000000  0.0000000000000000  0.0000000000000000
   0.2500000000000000  0.2500000000000000  0.2500000000000000
-  0.7500000000000000  0.7500000000000000  0.7500000000000000
-</code></pre>
+  0.7500000000000000  0.7500000000000000  0.7500000000000000</code></pre>
 <p>输出晶胞</p>
-<pre class=" language-lang-POSCAR"><code class="language-lang-POSCAR">recell_poscar
+<pre class=" language-POSCAR"><code class="language-POSCAR">recell_poscar
 1.0
 5.6161593360     0.0000000000     0.0000000000
 0.0000000000     5.6161593360     0.0000000000
@@ -769,12 +763,11 @@ Direct
 0.7500000000     0.7500000000     0.2500000000
 0.7500000000     0.2500000000     0.2500000000
 0.7500000000     0.2500000000     0.7500000000
-0.7500000000     0.7500000000     0.7500000000
-</code></pre>
+0.7500000000     0.7500000000     0.7500000000</code></pre>
 <hr>
 <p>铀转化为原胞</p>
 <p>输入晶胞</p>
-<pre class=" language-lang-POSCAR"><code class="language-lang-POSCAR">recell_poscar
+<pre class=" language-POSCAR"><code class="language-POSCAR">recell_poscar
 1.0
 2.8035137319     0.0000000000     0.0000000000
 0.0000000000     5.8418216393     0.0000000000
@@ -785,10 +778,9 @@ DIRECT
 0.0000000000     0.0983342281     0.2500000000
 0.5000000000     0.4016657719     0.7500000000
 0.5000000000     0.5983342281     0.2500000000
-0.0000000000     0.9016657719     0.7500000000
-</code></pre>
+0.0000000000     0.9016657719     0.7500000000</code></pre>
 <p>输出原胞</p>
-<pre class=" language-lang-POSCAR"><code class="language-lang-POSCAR">recell_poscar
+<pre class=" language-POSCAR"><code class="language-POSCAR">recell_poscar
 1.0
 1.4017568659     -2.9209108196     0.0000000000
 1.4017568659     2.9209108196     0.0000000000
@@ -797,8 +789,7 @@ U
 2 
 DIRECT
 0.9016657719     0.0983342281     0.2500000000
-0.0983342281     0.9016657719     0.7500000000
-</code></pre>
+0.0983342281     0.9016657719     0.7500000000</code></pre>
 
             </div>
             <hr/>
@@ -978,11 +969,9 @@ tar
 
 
 
-
 Fortran77
 Fortran95
 意  义
-
 
 
 
@@ -1008,6 +997,7 @@ Fortran95
 
 .LT.
 &lt;
+小
                         
                     </div>
                     <div class="publish-info">
@@ -1183,7 +1173,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">6.4k</span>&nbsp;字
+                class="white-color">13.5k</span>&nbsp;字
             
             
             

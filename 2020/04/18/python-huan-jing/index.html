@@ -494,23 +494,21 @@
 <h3 id="软件下载地址"><a href="#软件下载地址" class="headerlink" title="软件下载地址"></a>软件下载地址</h3><p>官网：<a href="https://www.anaconda.com/distribution/" target="_blank" rel="noopener">https://www.anaconda.com/distribution/</a></p>
 <p>老版本下载网址（清华大学镜像）：<a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/</a></p>
 <h3 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h3><p>1 编译文件</p>
-<pre class=" language-lang-bash"><code class="language-lang-bash">bash Anaconda3-5.2.0-Linux-x86_64.sh 
-##根据提示选择
-##注：其中会问你是否添加到环境变量，最好选择yes。
-source ~/.bashrc #直接配置环境变量
+<pre class=" language-bash"><code class="language-bash"><span class="token function">bash</span> Anaconda3-5.2.0-Linux-x86_64.sh 
+<span class="token comment" spellcheck="true">##根据提示选择</span>
+<span class="token comment" spellcheck="true">##注：其中会问你是否添加到环境变量，最好选择yes。</span>
+<span class="token function">source</span> ~/.bashrc <span class="token comment" spellcheck="true">#直接配置环境变量</span>
 
-##若选择no
-vim ~/.bashrc #按i进入编辑模式
+<span class="token comment" spellcheck="true">##若选择no</span>
+vim ~/.bashrc <span class="token comment" spellcheck="true">#按i进入编辑模式</span>
 
-###添加如下命令
-export PATH=/$dir/bin:$PATH  #$dir:Anaconda安装位置
+<span class="token comment" spellcheck="true">###添加如下命令</span>
+<span class="token function">export</span> PATH<span class="token operator">=</span>/<span class="token variable">$dir</span>/bin:<span class="token variable">$PATH</span>  <span class="token comment" spellcheck="true">#$dir:Anaconda安装位置</span>
 
-source ~/.bashrc
-</code></pre>
+<span class="token function">source</span> ~/.bashrc</code></pre>
 <p>2 测试</p>
-<pre class=" language-lang-bash"><code class="language-lang-bash">python #终端运行，可查看python版本，按住ctrl+D可推出python模式
-which python #查看python位置
-</code></pre>
+<pre class=" language-bash"><code class="language-bash">python <span class="token comment" spellcheck="true">#终端运行，可查看python版本，按住ctrl+D可推出python模式</span>
+<span class="token function">which</span> python <span class="token comment" spellcheck="true">#查看python位置</span></code></pre>
 
             </div>
             <hr/>
@@ -859,7 +857,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">6.4k</span>&nbsp;字
+                class="white-color">13.5k</span>&nbsp;字
             
             
             

@@ -492,111 +492,108 @@
             <div id="articleContent">
                 <h2 id="VASP-5-4-4-CPU-安装教程"><a href="#VASP-5-4-4-CPU-安装教程" class="headerlink" title="VASP-5.4.4(CPU)安装教程"></a><strong>VASP-5.4.4(CPU)安装教程</strong></h2><h3 id="软件下载地址"><a href="#软件下载地址" class="headerlink" title="软件下载地址"></a>软件下载地址</h3><p>VASP软件需要付费，请自行下载。</p>
 <h3 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h3><p>1 拷贝makefile.include到vasp文件夹</p>
-<pre class=" language-lang-sh"><code class="language-lang-sh">tar -zxvf vasp.tar.gz
+<pre class=" language-sh"><code class="language-sh">tar -zxvf vasp.tar.gz
 cd vasp.5.4.4 #根据实际文件名字修改
-cp ./arch/makefile.include.linux_intel makefile.include #arch里面有很多例子根据需要修改
-</code></pre>
+cp ./arch/makefile.include.linux_intel makefile.include #arch里面有很多例子根据需要修改</code></pre>
 <p>2 修改makefile.include</p>
-<pre class=" language-lang-sh"><code class="language-lang-sh">vim makefile.include
-##如果是Intel编译器，可以直接默认设置
-</code></pre>
+<pre class=" language-sh"><code class="language-sh">vim makefile.include
+##如果是Intel编译器，可以直接默认设置</code></pre>
 <p>makefile.include基本如下所示：</p>
-<pre class=" language-lang-makefile"><code class="language-lang-makefile"># Precompiler options
-CPP_OPTIONS= -DHOST=\"LinuxIFC\"\
-             -DMPI -DMPI_BLOCK=8000 \
+<pre class=" language-makefile"><code class="language-makefile"><span class="token comment" spellcheck="true"># Precompiler options</span>
+CPP_OPTIONS<span class="token operator">=</span> -DHOST<span class="token operator">=</span>\"LinuxIFC\"\
+             -DMPI -DMPI_BLOCK<span class="token operator">=</span>8000 \
              -Duse_collective \
              -DscaLAPACK \
-             -DCACHE_SIZE=8000 \
+             -DCACHE_SIZE<span class="token operator">=</span>8000 \
              -Davoidalloc \
              -Duse_bse_te \
              -Dtbdyn \
              -Duse_shmem
 
-CPP        = fpp -f_com=no -free -w0  $*$(FUFFIX) $*$(SUFFIX) $(CPP_OPTIONS)
+CPP        <span class="token operator">=</span> fpp -f_com<span class="token operator">=</span>no -free -w0  <span class="token variable">$*$</span><span class="token punctuation">(</span>FUFFIX<span class="token punctuation">)</span> <span class="token variable">$*$</span><span class="token punctuation">(</span>SUFFIX<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>CPP_OPTIONS<span class="token punctuation">)</span>
 
-FC         = mpiifort
-FCL        = mpiifort -mkl=sequential -lstdc++
+FC         <span class="token operator">=</span> mpiifort
+FCL        <span class="token operator">=</span> mpiifort -mkl<span class="token operator">=</span>sequential -lstdc++
 
-FREE       = -free -names lowercase
+FREE       <span class="token operator">=</span> -free -names lowercase
 
-FFLAGS     = -assume byterecl -w
-OFLAG      = -O2 -xhost
-OFLAG_IN   = $(OFLAG)
-DEBUG      = -O0
+FFLAGS     <span class="token operator">=</span> -assume byterecl -w
+OFLAG      <span class="token operator">=</span> -O2 -xhost
+OFLAG_IN   <span class="token operator">=</span> <span class="token variable">$</span><span class="token punctuation">(</span>OFLAG<span class="token punctuation">)</span>
+DEBUG      <span class="token operator">=</span> -O0
 
-MKL_PATH   = $(MKLROOT)/lib/intel64
-BLAS       =
-LAPACK     =
-BLACS      = -lmkl_blacs_intelmpi_lp64
-SCALAPACK  = $(MKL_PATH)/libmkl_scalapack_lp64.a $(BLACS)
+MKL_PATH   <span class="token operator">=</span> <span class="token variable">$</span><span class="token punctuation">(</span>MKLROOT<span class="token punctuation">)</span>/lib/intel64
+BLAS       <span class="token operator">=</span>
+LAPACK     <span class="token operator">=</span>
+BLACS      <span class="token operator">=</span> -lmkl_blacs_intelmpi_lp64
+SCALAPACK  <span class="token operator">=</span> <span class="token variable">$</span><span class="token punctuation">(</span>MKL_PATH<span class="token punctuation">)</span>/libmkl_scalapack_lp64.a <span class="token variable">$</span><span class="token punctuation">(</span>BLACS<span class="token punctuation">)</span>
 
-OBJECTS    = fftmpiw.o fftmpi_map.o fft3dlib.o fftw3d.o
+OBJECTS    <span class="token operator">=</span> fftmpiw.o fftmpi_map.o fft3dlib.o fftw3d.o
 
-INCS       =-I$(MKLROOT)/include/fftw
+INCS       <span class="token operator">=</span>-I<span class="token variable">$</span><span class="token punctuation">(</span>MKLROOT<span class="token punctuation">)</span>/<span class="token keyword">include</span>/fftw
 
-LLIBS      = $(SCALAPACK) $(LAPACK) $(BLAS)
+LLIBS      <span class="token operator">=</span> <span class="token variable">$</span><span class="token punctuation">(</span>SCALAPACK<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>LAPACK<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>BLAS<span class="token punctuation">)</span>
 
 
-OBJECTS_O1 += fftw3d.o fftmpi.o fftmpiw.o
-OBJECTS_O2 += fft3dlib.o
+OBJECTS_O1 <span class="token operator">+=</span> fftw3d.o fftmpi.o fftmpiw.o
+OBJECTS_O2 <span class="token operator">+=</span> fft3dlib.o
 
-# For what used to be vasp.5.lib
-CPP_LIB    = $(CPP)
-FC_LIB     = $(FC)
-CC_LIB     = icc
-CFLAGS_LIB = -O
-FFLAGS_LIB = -O1
-FREE_LIB   = $(FREE)
+<span class="token comment" spellcheck="true"># For what used to be vasp.5.lib</span>
+CPP_LIB    <span class="token operator">=</span> <span class="token variable">$</span><span class="token punctuation">(</span>CPP<span class="token punctuation">)</span>
+FC_LIB     <span class="token operator">=</span> <span class="token variable">$</span><span class="token punctuation">(</span>FC<span class="token punctuation">)</span>
+CC_LIB     <span class="token operator">=</span> icc
+CFLAGS_LIB <span class="token operator">=</span> -O
+FFLAGS_LIB <span class="token operator">=</span> -O1
+FREE_LIB   <span class="token operator">=</span> <span class="token variable">$</span><span class="token punctuation">(</span>FREE<span class="token punctuation">)</span>
 
-OBJECTS_LIB= linpack_double.o getshmem.o
+OBJECTS_LIB<span class="token operator">=</span> linpack_double.o getshmem.o
 
-# For the parser library
-CXX_PARS   = icpc
+<span class="token comment" spellcheck="true"># For the parser library</span>
+CXX_PARS   <span class="token operator">=</span> icpc
 
-LIBS       += parser
-LLIBS      += -Lparser -lparser -lstdc++
+LIBS       <span class="token operator">+=</span> parser
+LLIBS      <span class="token operator">+=</span> -Lparser -lparser -lstdc++
 
-# Normally no need to change this
-SRCDIR     = ../../src
-BINDIR     = ../../bin
+<span class="token comment" spellcheck="true"># Normally no need to change this</span>
+SRCDIR     <span class="token operator">=</span> ../../src
+BINDIR     <span class="token operator">=</span> ../../bin
 
-#================================================
-# GPU Stuff
+<span class="token comment" spellcheck="true">#================================================</span>
+<span class="token comment" spellcheck="true"># GPU Stuff</span>
 
-CPP_GPU    = -DCUDA_GPU -DRPROMU_CPROJ_OVERLAP -DUSE_PINNED_MEMORY -DCUFFT_MIN=28 -UscaLAPACK
+CPP_GPU    <span class="token operator">=</span> -DCUDA_GPU -DRPROMU_CPROJ_OVERLAP -DUSE_PINNED_MEMORY -DCUFFT_MIN<span class="token operator">=</span>28 -UscaLAPACK
 
-OBJECTS_GPU = fftmpiw.o fftmpi_map.o fft3dlib.o fftw3d_gpu.o fftmpiw_gpu.o
+OBJECTS_GPU <span class="token operator">=</span> fftmpiw.o fftmpi_map.o fft3dlib.o fftw3d_gpu.o fftmpiw_gpu.o
 
-CC         = icc
-CXX        = icpc
-CFLAGS     = -fPIC -DADD_ -Wall -openmp -DMAGMA_WITH_MKL -DMAGMA_SETAFFINITY -DGPUSHMEM=300 -DHAVE_CUBLAS
+CC         <span class="token operator">=</span> icc
+CXX        <span class="token operator">=</span> icpc
+CFLAGS     <span class="token operator">=</span> -fPIC -DADD_ -Wall -openmp -DMAGMA_WITH_MKL -DMAGMA_SETAFFINITY -DGPUSHMEM<span class="token operator">=</span>300 -DHAVE_CUBLAS
 
-CUDA_ROOT  ?= /usr/local/cuda/
-NVCC       := $(CUDA_ROOT)/bin/nvcc -ccbin=icc
-CUDA_LIB   := -L$(CUDA_ROOT)/lib64 -lnvToolsExt -lcudart -lcuda -lcufft -lcublas
+CUDA_ROOT  <span class="token operator">?=</span> /usr/local/cuda/
+NVCC       <span class="token operator">:=</span> <span class="token variable">$</span><span class="token punctuation">(</span>CUDA_ROOT<span class="token punctuation">)</span>/bin/nvcc -ccbin<span class="token operator">=</span>icc
+CUDA_LIB   <span class="token operator">:=</span> -L<span class="token variable">$</span><span class="token punctuation">(</span>CUDA_ROOT<span class="token punctuation">)</span>/lib64 -lnvToolsExt -lcudart -lcuda -lcufft -lcublas
 
-GENCODE_ARCH    := -gencode=arch=compute_30,code=\"sm_30,compute_30\" \
-                   -gencode=arch=compute_35,code=\"sm_35,compute_35\" \
-                   -gencode=arch=compute_60,code=\"sm_60,compute_60\"
+GENCODE_ARCH    <span class="token operator">:=</span> -gencode<span class="token operator">=</span>arch<span class="token operator">=</span>compute_30,code<span class="token operator">=</span>\"sm_30,compute_30\" \
+                   -gencode<span class="token operator">=</span>arch<span class="token operator">=</span>compute_35,code<span class="token operator">=</span>\"sm_35,compute_35\" \
+                   -gencode<span class="token operator">=</span>arch<span class="token operator">=</span>compute_60,code<span class="token operator">=</span>\"sm_60,compute_60\"
 
-MPI_INC    = $(I_MPI_ROOT)/include64/
+MPI_INC    <span class="token operator">=</span> <span class="token variable">$</span><span class="token punctuation">(</span>I_MPI_ROOT<span class="token punctuation">)</span>/include64/
+
 </code></pre>
 <p>3 编译</p>
-<pre class=" language-lang-bash"><code class="language-lang-bash">make all
-##编译成功会在bin文件夹里生成vasp_std, vasp_gam, vasp_ncl。
-##只生成其中一个命令，例如vasp_std
-make vasp_std #绝大多数vasp计算只需用到vasp_std
-</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">make</span> all
+<span class="token comment" spellcheck="true">##编译成功会在bin文件夹里生成vasp_std, vasp_gam, vasp_ncl。</span>
+<span class="token comment" spellcheck="true">##只生成其中一个命令，例如vasp_std</span>
+<span class="token function">make</span> vasp_std <span class="token comment" spellcheck="true">#绝大多数vasp计算只需用到vasp_std</span></code></pre>
 <p>4 配置环境变量</p>
-<pre class=" language-lang-bash"><code class="language-lang-bash">vim ~/.bashrc
+<pre class=" language-bash"><code class="language-bash">vim ~/.bashrc
 
-#添加路径
-export PATH=/$dir/bin:$PATH #$dir：vasp安装地址。
+<span class="token comment" spellcheck="true">#添加路径</span>
+<span class="token function">export</span> PATH<span class="token operator">=</span>/<span class="token variable">$dir</span>/bin:<span class="token variable">$PATH</span> <span class="token comment" spellcheck="true">#$dir：vasp安装地址。</span>
 
-source ~/.bashrc
+<span class="token function">source</span> ~/.bashrc
 
-which vasp_std #检查是否配置成功
-</code></pre>
+<span class="token function">which</span> vasp_std <span class="token comment" spellcheck="true">#检查是否配置成功</span></code></pre>
 <h3 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h3><p>```bash<br>mpirun -np 8 vasp_std &gt; vasp.log #实时输出结果在vasp.log中</p>
 
             </div>
@@ -724,8 +721,7 @@ which vasp_std #检查是否配置成功
 安装编译1 解压文件并进入src文件夹
 tar -zxvf BoltzTraP.tar.gz
 cd boltztrap-1.2.5/src
-
-2 修改Makefile文
+2 修改Makefile文件
                         
                     </div>
                     <div class="publish-info">
@@ -953,7 +949,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">6.4k</span>&nbsp;字
+                class="white-color">13.5k</span>&nbsp;字
             
             
             

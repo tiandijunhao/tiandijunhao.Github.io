@@ -478,7 +478,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    55
+                    851
                 </div>
                 
 
@@ -497,43 +497,42 @@
 
 
 <h1 id="KPOINTS-或-KSPACING-测试"><a href="#KPOINTS-或-KSPACING-测试" class="headerlink" title="KPOINTS 或 KSPACING 测试"></a><strong>KPOINTS 或 KSPACING 测试</strong></h1><p>必要输入文件：   </p>
-<pre class=" language-lang-bash"><code class="language-lang-bash">k_test.sh
+<pre class=" language-bash"><code class="language-bash">k_test.sh
 POTCAR
-INCAR和POSCAR可在k_test.sh中设置，也可独立给出
-</code></pre>
+INCAR和POSCAR可在k_test.sh中设置，也可独立给出</code></pre>
 <p>脚本1(k_test.sh):  KPOINTS测试</p>
-<pre class=" language-lang-bash"><code class="language-lang-bash">#!/bin/bash
+<pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
 
-#生成vasp静态计算的INCAR
-cat > INCAR_static <<!
+<span class="token comment" spellcheck="true">#生成vasp静态计算的INCAR</span>
+<span class="token function">cat</span> <span class="token operator">></span> INCAR_static <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
 Global Parameters
-  ISTART =  0            (Read existing wavefunction; if there)
-  ICHARG =  2            (Non-self-consistent: GGA/LDA band structures)
-  LREAL  = .FALSE.       (Projection operators: automatic)
-  ENCUT  =  500           (Cut-off energy for plane wave basis set, in eV)
-  PREC   =  Accurate     (Precision level)  
-  LWAVE  = .FALSE.       (Write WAVECAR or not)
-  LCHARG = .FALSE.       (Write CHGCAR or not) 
-  ADDGRID= .TRUE.        (Increase grid; helps GGA convergence)
+  ISTART <span class="token operator">=</span>  0            <span class="token punctuation">(</span>Read existing wavefunction<span class="token punctuation">;</span> <span class="token keyword">if</span> there<span class="token punctuation">)</span>
+  ICHARG <span class="token operator">=</span>  2            <span class="token punctuation">(</span>Non-self-consistent: GGA/LDA band structures<span class="token punctuation">)</span>
+  LREAL  <span class="token operator">=</span> .FALSE.       <span class="token punctuation">(</span>Projection operators: automatic<span class="token punctuation">)</span>
+  ENCUT  <span class="token operator">=</span>  500           <span class="token punctuation">(</span>Cut-off energy <span class="token keyword">for</span> plane wave basis set, <span class="token keyword">in</span> eV<span class="token punctuation">)</span>
+  PREC   <span class="token operator">=</span>  Accurate     <span class="token punctuation">(</span>Precision level<span class="token punctuation">)</span>  
+  LWAVE  <span class="token operator">=</span> .FALSE.       <span class="token punctuation">(</span>Write WAVECAR or not<span class="token punctuation">)</span>
+  LCHARG <span class="token operator">=</span> .FALSE.       <span class="token punctuation">(</span>Write CHGCAR or not<span class="token punctuation">)</span> 
+  ADDGRID<span class="token operator">=</span> .TRUE.        <span class="token punctuation">(</span>Increase grid<span class="token punctuation">;</span> helps GGA convergence<span class="token punctuation">)</span>
 
 Electronic Relaxation
-  ISMEAR =  -5           (Gaussian smearing; metals:1)
-  #SIGMA  =  0.05        (Smearing value in eV; metals:0.2)
-  NELM   =  60           (Max electronic SCF steps)  
-  NELMIN =  4            (Min electronic SCF steps)
-  EDIFF  =  1E-06        (SCF energy convergence; in eV)
-  GGA  =  PE             (PBEsol exchange-correlation)
+  ISMEAR <span class="token operator">=</span>  -5           <span class="token punctuation">(</span>Gaussian smearing<span class="token punctuation">;</span> metals:1<span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">#SIGMA  =  0.05        (Smearing value in eV; metals:0.2)</span>
+  NELM   <span class="token operator">=</span>  60           <span class="token punctuation">(</span>Max electronic SCF steps<span class="token punctuation">)</span>  
+  NELMIN <span class="token operator">=</span>  4            <span class="token punctuation">(</span>Min electronic SCF steps<span class="token punctuation">)</span>
+  EDIFF  <span class="token operator">=</span>  1E-06        <span class="token punctuation">(</span>SCF energy convergence<span class="token punctuation">;</span> <span class="token keyword">in</span> eV<span class="token punctuation">)</span>
+  GGA  <span class="token operator">=</span>  PE             <span class="token punctuation">(</span>PBEsol exchange-correlation<span class="token punctuation">)</span>
 
 Ionic Relaxation
-  ISIF   =  2            (Stress/relaxation: 2-Ions, 3-Shape/Ions/V，4-Shape/Ions)
-  EDIFFG = -0.001        (Ionic convergence; eV/AA)
-  KSPACING = 0.10
-!
+  ISIF   <span class="token operator">=</span>  2            <span class="token punctuation">(</span>Stress/relaxation: 2-Ions, 3-Shape/Ions/V，4-Shape/Ions<span class="token punctuation">)</span>
+  EDIFFG <span class="token operator">=</span> -0.001        <span class="token punctuation">(</span>Ionic convergence<span class="token punctuation">;</span> eV/AA<span class="token punctuation">)</span>
+  KSPACING <span class="token operator">=</span> 0.10
+<span class="token operator">!</span>
 
-cp INCAR_static INCAR
+<span class="token function">cp</span> INCAR_static INCAR
 
-#产生计算所需POSCAR
-cat > POSCAR<<!
+<span class="token comment" spellcheck="true">#产生计算所需POSCAR</span>
+<span class="token function">cat</span> <span class="token operator">></span> POSCAR<span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
 Si8
 1.0000000000
     5.4687280000        0.0000000000        0.0000000000
@@ -550,39 +549,40 @@ Direct
     0.7500000000        0.2500000000        0.7500000000
     0.7500000000        0.7500000000        0.2500000000
     0.2500000000        0.2500000000        0.2500000000
-!
+<span class="token operator">!</span>
 
 
-for i in $(seq 6 3 15) #K点从6-24，步数为3
-do
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token variable"><span class="token variable">$(</span><span class="token function">seq</span> 6 3 15<span class="token variable">)</span></span> <span class="token comment" spellcheck="true">#K点从6-24，步数为3</span>
+<span class="token keyword">do</span>
 
-#生成KPOINTS文件，K点类型：Monkhorst-Pack (M) 或者 Gamma (G)
-cat > KPOINTS <<!
+<span class="token comment" spellcheck="true">#生成KPOINTS文件，K点类型：Monkhorst-Pack (M) 或者 Gamma (G)</span>
+<span class="token function">cat</span> <span class="token operator">></span> KPOINTS <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
 Automatic mesh
 0
 Monkhorst-Pack
-$i $i $i
+<span class="token variable">$i</span> <span class="token variable">$i</span> <span class="token variable">$i</span>
 0  0  0
-!
+<span class="token operator">!</span>
 
-echo "KPOINTS = $i" ; time mpirun -n 16 vasp_std #vasp并行运行命令，根据系统自行修改
+<span class="token keyword">echo</span> <span class="token string">"KPOINTS = <span class="token variable">$i</span>"</span> <span class="token punctuation">;</span> <span class="token function">time</span> mpirun -n 16 vasp_std <span class="token comment" spellcheck="true">#vasp并行运行命令，根据系统自行修改</span>
 
-rm KPOINTS
-#提取计算得到的能量
-E=$(grep "TOTEN" OUTCAR | tail -1 | awk '{printf "%12.9f \n", $5 }')
-echo $i $E >>kpoints_energy.out
-done
+<span class="token function">rm</span> KPOINTS
+<span class="token comment" spellcheck="true">#提取计算得到的能量</span>
+E<span class="token operator">=</span><span class="token punctuation">$(</span>grep <span class="token string">"TOTEN"</span> OUTCAR <span class="token operator">|</span> <span class="token function">tail</span> -1 <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{printf "%12.9f \n", <span class="token variable">$5</span> }'</span><span class="token punctuation">)</span>
+<span class="token keyword">echo</span> <span class="token variable">$i</span> <span class="token variable">$E</span> <span class="token operator">>></span>kpoints_energy.out
+<span class="token keyword">done</span>
 </code></pre>
 <p>提交脚本任务运行，成功结束后可以得到输出文件kpoints_enengy.out<br>可以使用OriginPro等画图工具画出kpoints-能量关系</p>
 <p>Si的KPOINTS测试</p>
-<p><img src="/img/Si_kpoints_test.png" width = "60%" height = "60%" div align=center/></p>
+<img src="/img/Si_kpoints_test.png" width = "60%" height = "60%" div align=center/>
+
 <p>根据收敛性，大概选择KPOINTS为$9\times9\times9$<br><br /><br><br /></p>
 <hr>
 <p>脚本2(k_test.sh):  KSPACING测试</p>
-<pre class=" language-lang-bash"><code class="language-lang-bash">#!/bin/bash
+<pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
 
-#产生计算所需POSCAR
-cat > POSCAR<<!
+<span class="token comment" spellcheck="true">#产生计算所需POSCAR</span>
+<span class="token function">cat</span> <span class="token operator">></span> POSCAR<span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
 Si8
 1.0000000000
     5.4687280000        0.0000000000        0.0000000000
@@ -599,52 +599,53 @@ Direct
     0.7500000000        0.2500000000        0.7500000000
     0.7500000000        0.7500000000        0.2500000000
     0.2500000000        0.2500000000        0.2500000000
-!
+<span class="token operator">!</span>
 
-for i in $(seq 0.5 -0.05 0.1) #K点密度从0.5-0.1，步数为0.05
-do
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token variable"><span class="token variable">$(</span><span class="token function">seq</span> 0.5 -0.05 0.1<span class="token variable">)</span></span> <span class="token comment" spellcheck="true">#K点密度从0.5-0.1，步数为0.05</span>
+<span class="token keyword">do</span>
 
-#生成vasp静态计算的INCAR
-cat > INCAR_static <<!
+<span class="token comment" spellcheck="true">#生成vasp静态计算的INCAR</span>
+<span class="token function">cat</span> <span class="token operator">></span> INCAR_static <span class="token operator">&lt;&lt;</span><span class="token operator">!</span>
 Global Parameters
-  ISTART =  0            (Read existing wavefunction; if there)
-  ICHARG =  2            (Non-self-consistent: GGA/LDA band structures)
-  LREAL  = .FALSE.       (Projection operators: automatic)
-  ENCUT  =  500           (Cut-off energy for plane wave basis set, in eV)
-  PREC   =  Accurate     (Precision level)  
-  LWAVE  = .FALSE.       (Write WAVECAR or not)
-  LCHARG = .FALSE.       (Write CHGCAR or not) 
-  ADDGRID= .TRUE.        (Increase grid; helps GGA convergence)
+  ISTART <span class="token operator">=</span>  0            <span class="token punctuation">(</span>Read existing wavefunction<span class="token punctuation">;</span> <span class="token keyword">if</span> there<span class="token punctuation">)</span>
+  ICHARG <span class="token operator">=</span>  2            <span class="token punctuation">(</span>Non-self-consistent: GGA/LDA band structures<span class="token punctuation">)</span>
+  LREAL  <span class="token operator">=</span> .FALSE.       <span class="token punctuation">(</span>Projection operators: automatic<span class="token punctuation">)</span>
+  ENCUT  <span class="token operator">=</span>  500           <span class="token punctuation">(</span>Cut-off energy <span class="token keyword">for</span> plane wave basis set, <span class="token keyword">in</span> eV<span class="token punctuation">)</span>
+  PREC   <span class="token operator">=</span>  Accurate     <span class="token punctuation">(</span>Precision level<span class="token punctuation">)</span>  
+  LWAVE  <span class="token operator">=</span> .FALSE.       <span class="token punctuation">(</span>Write WAVECAR or not<span class="token punctuation">)</span>
+  LCHARG <span class="token operator">=</span> .FALSE.       <span class="token punctuation">(</span>Write CHGCAR or not<span class="token punctuation">)</span> 
+  ADDGRID<span class="token operator">=</span> .TRUE.        <span class="token punctuation">(</span>Increase grid<span class="token punctuation">;</span> helps GGA convergence<span class="token punctuation">)</span>
 
 Electronic Relaxation
-  ISMEAR =  -5           (Gaussian smearing; metals:1)
-  #SIGMA  =  0.05        (Smearing value in eV; metals:0.2)
-  NELM   =  60           (Max electronic SCF steps)  
-  NELMIN =  4            (Min electronic SCF steps)
-  EDIFF  =  1E-06        (SCF energy convergence; in eV)
-  GGA  =  PE             (PBEsol exchange-correlation)
+  ISMEAR <span class="token operator">=</span>  -5           <span class="token punctuation">(</span>Gaussian smearing<span class="token punctuation">;</span> metals:1<span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">#SIGMA  =  0.05        (Smearing value in eV; metals:0.2)</span>
+  NELM   <span class="token operator">=</span>  60           <span class="token punctuation">(</span>Max electronic SCF steps<span class="token punctuation">)</span>  
+  NELMIN <span class="token operator">=</span>  4            <span class="token punctuation">(</span>Min electronic SCF steps<span class="token punctuation">)</span>
+  EDIFF  <span class="token operator">=</span>  1E-06        <span class="token punctuation">(</span>SCF energy convergence<span class="token punctuation">;</span> <span class="token keyword">in</span> eV<span class="token punctuation">)</span>
+  GGA  <span class="token operator">=</span>  PE             <span class="token punctuation">(</span>PBEsol exchange-correlation<span class="token punctuation">)</span>
 
 Ionic Relaxation
-  ISIF   =  2            (Stress/relaxation: 2-Ions, 3-Shape/Ions/V，4-Shape/Ions)
-  EDIFFG = -0.001        (Ionic convergence; eV/AA)
-  KSPACING = $i 
-  KGAMMA = .FALSE.       #(true: GAMMA; false: Monkhorst-Pack )
-!
+  ISIF   <span class="token operator">=</span>  2            <span class="token punctuation">(</span>Stress/relaxation: 2-Ions, 3-Shape/Ions/V，4-Shape/Ions<span class="token punctuation">)</span>
+  EDIFFG <span class="token operator">=</span> -0.001        <span class="token punctuation">(</span>Ionic convergence<span class="token punctuation">;</span> eV/AA<span class="token punctuation">)</span>
+  KSPACING <span class="token operator">=</span> <span class="token variable">$i</span> 
+  KGAMMA <span class="token operator">=</span> .FALSE.       <span class="token comment" spellcheck="true">#(true: GAMMA; false: Monkhorst-Pack )</span>
+<span class="token operator">!</span>
 
-cp INCAR_static INCAR
-echo "KPOINTS = $i" ; time mpirun -n 16 vasp_std #vasp并行运行命令，根据系统自行修改
+<span class="token function">cp</span> INCAR_static INCAR
+<span class="token keyword">echo</span> <span class="token string">"KPOINTS = <span class="token variable">$i</span>"</span> <span class="token punctuation">;</span> <span class="token function">time</span> mpirun -n 16 vasp_std <span class="token comment" spellcheck="true">#vasp并行运行命令，根据系统自行修改</span>
 
-rm INCAR_static
-rm INCAR
-#提取计算得到的能量
-E=$(grep "TOTEN" OUTCAR | tail -1 | awk '{printf "%12.9f \n", $5 }')
-echo $i $E >>kspace_energy.out
-done
+<span class="token function">rm</span> INCAR_static
+<span class="token function">rm</span> INCAR
+<span class="token comment" spellcheck="true">#提取计算得到的能量</span>
+E<span class="token operator">=</span><span class="token punctuation">$(</span>grep <span class="token string">"TOTEN"</span> OUTCAR <span class="token operator">|</span> <span class="token function">tail</span> -1 <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{printf "%12.9f \n", <span class="token variable">$5</span> }'</span><span class="token punctuation">)</span>
+<span class="token keyword">echo</span> <span class="token variable">$i</span> <span class="token variable">$E</span> <span class="token operator">>></span>kspace_energy.out
+<span class="token keyword">done</span>
 </code></pre>
 <p><strong>注：Auto mesh模式下。 $KPONITSnumber = max(1,|\vec{b}|/(2\pi\times{KSPACING}))$<br>另外，后续介绍中，主要使用的是KPOINTS文件，KSPACING可以根据自行需要选择使用。</strong></p>
 <p>提交脚本任务运行，成功结束后可以得到输出文件kspace_enengy.out<br>可以使用OriginPro等画图工具画出k点密度-能量关系。 </p>
 <p>Si的KSPACE测试</p>
-<p><img src="/img/Si_kspace_test.png" width = "60%" height = "60%" div align=center/></p>
+<img src="/img/Si_kspace_test.png" width = "60%" height = "60%" div align=center/>
+
 <p>根据能量收敛判断，选择K点密度为0.15较为合适。</p>
 
             </div>
@@ -829,11 +830,10 @@ run_ban
 encut.sh  
 POTCAR  
 KPOINTS和POSCAR可以在encut.sh里设置，也可以独立给出。
-
 encut.sh脚本参考  
 #!/bin/bash
 
-#生成KPOINTS文件，KPOINTS
+#生成KPOINTS文件，KPOINTS不
                         
                     </div>
                     <div class="publish-info">
@@ -1016,7 +1016,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">6.4k</span>&nbsp;字
+                class="white-color">13.5k</span>&nbsp;字
             
             
             

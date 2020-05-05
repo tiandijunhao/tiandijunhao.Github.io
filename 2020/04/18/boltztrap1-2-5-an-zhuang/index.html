@@ -478,7 +478,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    395
+                    396
                 </div>
                 
 
@@ -492,52 +492,51 @@
             <div id="articleContent">
                 <h2 id="BoltzTraP-1-2-5安装教程"><a href="#BoltzTraP-1-2-5安装教程" class="headerlink" title="BoltzTraP-1.2.5安装教程"></a><strong>BoltzTraP-1.2.5安装教程</strong></h2><h3 id="软件下载地址"><a href="#软件下载地址" class="headerlink" title="软件下载地址"></a>软件下载地址</h3><p>小木虫网站上应该有。</p>
 <h3 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h3><p>1 解压文件并进入src文件夹</p>
-<pre class=" language-lang-bash"><code class="language-lang-bash">tar -zxvf BoltzTraP.tar.gz
-cd boltztrap-1.2.5/src
-</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">tar</span> -zxvf BoltzTraP.tar.gz
+<span class="token function">cd</span> boltztrap-1.2.5/src</code></pre>
 <p>2 修改Makefile文件</p>
 <p>修改后的Makefile如下：</p>
-<pre class=" language-lang-makefile"><code class="language-lang-makefile">SHELL = /bin/sh
+<pre class=" language-makefile"><code class="language-makefile">SHELL <span class="token operator">=</span> /bin/sh
 
-# gfortran
-#FC = gfortran
-#FC = gfortran-mp-4.5
+<span class="token comment" spellcheck="true"># gfortran</span>
+<span class="token comment" spellcheck="true">#FC = gfortran</span>
+<span class="token comment" spellcheck="true">#FC = gfortran-mp-4.5</span>
 
-#FOPT  = -g -march=native -funroll-loops -O3 -ffast-math -fgcse-lm -fgcse-sm -ffast-math -ftree-vectorize -fexternal-blas
-#FOPT += -g -p -pg -Wall -fbounds-check -finit-integer=-666 -finit-real=nan
-#LDFLAGS =
-LIBS = -llapack -lblas
+<span class="token comment" spellcheck="true">#FOPT  = -g -march=native -funroll-loops -O3 -ffast-math -fgcse-lm -fgcse-sm -ffast-math -ftree-vectorize -fexternal-blas</span>
+<span class="token comment" spellcheck="true">#FOPT += -g -p -pg -Wall -fbounds-check -finit-integer=-666 -finit-real=nan</span>
+<span class="token comment" spellcheck="true">#LDFLAGS =</span>
+LIBS <span class="token operator">=</span> -llapack -lblas
 
-# ifort
-FC = ifort
-FOPT = -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML
+<span class="token comment" spellcheck="true"># ifort</span>
+FC <span class="token operator">=</span> ifort
+FOPT <span class="token operator">=</span> -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML
 
-#LDFLAGS = -L/opt/intel/mkl/10.0.1.014/lib/32/ -Vaxlib -static-libcxa -pthread
-#LIBS = -lmkl_lapack -lmkl_ia32 -lguide
-# ifort bis: other mkl options
-#LDFLAGS = $(FOPT) -L/opt/intel/mkl/10.0.1.014/lib/32 -pthread -i-static
-#LIBS = -lmkl_lapack -lmkl -lguide
-LDFLAGS = $(FOPT) -L/$MKLROOT/lib/intel64 -pthread -i-static
-LIBS = -lmkl_lapack -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lguide
+<span class="token comment" spellcheck="true">#LDFLAGS = -L/opt/intel/mkl/10.0.1.014/lib/32/ -Vaxlib -static-libcxa -pthread</span>
+<span class="token comment" spellcheck="true">#LIBS = -lmkl_lapack -lmkl_ia32 -lguide</span>
+<span class="token comment" spellcheck="true"># ifort bis: other mkl options</span>
+<span class="token comment" spellcheck="true">#LDFLAGS = $(FOPT) -L/opt/intel/mkl/10.0.1.014/lib/32 -pthread -i-static</span>
+<span class="token comment" spellcheck="true">#LIBS = -lmkl_lapack -lmkl -lguide</span>
+LDFLAGS <span class="token operator">=</span> <span class="token variable">$</span><span class="token punctuation">(</span>FOPT<span class="token punctuation">)</span> -L/<span class="token variable">$MKLROOT/lib/intel64</span> -pthread -i-static
+LIBS <span class="token operator">=</span> -lmkl_lapack -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lguide
 
-# generic
-LINKER  =       $(FC)
-LFLAGS  = -g #-pg
-FGEN = 
-DESTDIR = .
+<span class="token comment" spellcheck="true"># generic</span>
+LINKER  <span class="token operator">=</span>       <span class="token variable">$</span><span class="token punctuation">(</span>FC<span class="token punctuation">)</span>
+LFLAGS  <span class="token operator">=</span> -g <span class="token comment" spellcheck="true">#-pg</span>
+FGEN <span class="token operator">=</span> 
+DESTDIR <span class="token operator">=</span> .
 
-EXECNAME = BoltzTraP
+EXECNAME <span class="token operator">=</span> BoltzTraP
 
-###############################################################################
+<span class="token comment" spellcheck="true">###############################################################################</span>
 
-FFLAGS = $(FGEN) $(FOPT)
-EXEC = $(DESTDIR)/$(EXECNAME)
+FFLAGS <span class="token operator">=</span> <span class="token variable">$</span><span class="token punctuation">(</span>FGEN<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>FOPT<span class="token punctuation">)</span>
+EXEC <span class="token operator">=</span> <span class="token variable">$</span><span class="token punctuation">(</span>DESTDIR<span class="token punctuation">)</span>/<span class="token variable">$</span><span class="token punctuation">(</span>EXECNAME<span class="token punctuation">)</span>
 
-#..............................................................................
-#
-#  Object files common to both REAL and COMPLEX type subroutines
-#
-OBJS = gmlib2.o reallocate.o \
+<span class="token comment" spellcheck="true">#..............................................................................</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true">#  Object files common to both REAL and COMPLEX type subroutines</span>
+<span class="token comment" spellcheck="true">#</span>
+OBJS <span class="token operator">=</span> gmlib2.o reallocate.o \
      m_bandstructure.o m_input.o m_fermimod.o \
      m_interfaces.o \
      latgen2.o generic_field.o gtfnam.o gen_lattpoints.o \
@@ -547,35 +546,31 @@ OBJS = gmlib2.o reallocate.o \
      bz.o fermisurface.o setfft2.o write_dx_fs.o write_dx_bz.o write_cube_fs.o \
      dos_histogram.o dos_tetra.o noculc.o dosvv.o readvv.o \
      phonondrag.o
-#OBJS =    \
+<span class="token comment" spellcheck="true">#OBJS =    \
 #        reallocate.o defs.o modules.o broad.o add_inv.o \
 #        c3fft.o gtfnam.o ifflim.o mknam.o read_energy.o \
 #        transport.o stern.o kdelta.o gen_lattpoints.o fite4.o setfft.o \
-#        starfkt2.o dos.o 
+#        starfkt2.o dos.o </span>
 
-$(EXEC): $(OBJS)
-    $(LINKER) $(LFLAGS) -o $(EXEC) $(OBJS) $(LDFLAGS) $(LIBS) $(LFLAGS)
+<span class="token symbol"><span class="token variable">$</span>(EXEC)</span><span class="token punctuation">:</span> <span class="token variable">$</span><span class="token punctuation">(</span>OBJS<span class="token punctuation">)</span>
+    <span class="token variable">$</span><span class="token punctuation">(</span>LINKER<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>LFLAGS<span class="token punctuation">)</span> -o <span class="token variable">$</span><span class="token punctuation">(</span>EXEC<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>OBJS<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>LDFLAGS<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>LIBS<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>LFLAGS<span class="token punctuation">)</span>
 
 
-clean:
+<span class="token symbol">clean</span><span class="token punctuation">:</span>
     rm -f *.o *.mod *.pc *.pcl *~
 
-.SUFFIXES: .F90 .o 
-.F90.o:
-    $(FC) $(FFLAGS) -c $<
-</code></pre>
+<span class="token builtin">.SUFFIXES</span><span class="token punctuation">:</span> .F90 .o 
+<span class="token builtin">.F90.o</span><span class="token punctuation">:</span>
+    <span class="token variable">$</span><span class="token punctuation">(</span>FC<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>FFLAGS<span class="token punctuation">)</span> -c <span class="token variable">$&lt;</span></code></pre>
 <p>修改完成后编译</p>
-<pre class=" language-lang-bash"><code class="language-lang-bash">make
-</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">make</span></code></pre>
 <p>3 添加到环境变量</p>
-<pre class=" language-lang-bash"><code class="language-lang-bash">vim ~/.bashrc 
+<pre class=" language-bash"><code class="language-bash">vim ~/.bashrc 
 
-export PATH=/$dir/src:$PATH #$dir：boltztrap-1.2.5安装位置
+<span class="token function">export</span> PATH<span class="token operator">=</span>/<span class="token variable">$dir</span>/src:<span class="token variable">$PATH</span> <span class="token comment" spellcheck="true">#$dir：boltztrap-1.2.5安装位置</span>
 
-source ~/.bashrc
-</code></pre>
-<h3 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h3><pre class=" language-lang-bash"><code class="language-lang-bash">x_trans BoltzTraP
-</code></pre>
+<span class="token function">source</span> ~/.bashrc</code></pre>
+<h3 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h3><pre class=" language-bash"><code class="language-bash">x_trans BoltzTraP</code></pre>
 
             </div>
             <hr/>
@@ -927,7 +922,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">6.4k</span>&nbsp;字
+                class="white-color">13.5k</span>&nbsp;字
             
             
             

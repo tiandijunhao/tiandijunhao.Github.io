@@ -486,7 +486,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1k
+                    1.1k
                 </div>
                 
 
@@ -498,186 +498,171 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="晶体的单晶声速计算公式"><a href="#晶体的单晶声速计算公式" class="headerlink" title="晶体的单晶声速计算公式"></a><strong>晶体的单晶声速计算公式</strong></h1><p>Christoffel’s equation relates acoustic velocitics to crystallo-graphic direction and elastic constants.</p>
-<script type="math/tex; mode=display">
-det|C_{ijkl}n_{l}n_{j}-\rho v^{2}\delta_{ik}|=0 \\
-det|F_{ik}n_{l}n_{j}-\rho v^{2}\delta_{ik}|=0 \\
-i,j,k,l=1,2,3; \\
-when\ i=k; then\ \delta=1; others\ \delta=0</script><p>So, the Kelvin-Christoffel stiffness $\Gamma_{ik}$ is:</p>
-<script type="math/tex; mode=display">
-\Gamma_{ik}=\sum_{j,l=1}^{n=3} C_{ijkl}n_{j}n_{l},\ i,k=1,2,3 \\
-\Gamma = \begin{bmatrix} \Gamma_{11} & \Gamma_{12} & \Gamma_{13} \\ \Gamma_{12} & \Gamma_{22} & \Gamma_{23} \\ \Gamma_{13} & \Gamma_{23} & \Gamma_{33}\end{bmatrix}</script><p>For $n_{j}(\phi,\theta,\chi),n_{l}(\phi,\theta,\chi)$ :</p>
-<script type="math/tex; mode=display">
-n_1=cos(\phi)cos(\theta)cos(\chi)-sin(\phi)sin(\chi) \\
-n_2=-cos(\phi)cos(\theta)sin(\chi)-sin(\phi)cos(\chi) \\
-n_3=-cos(\phi)sin(\theta)</script><p>then, we can calculate the eigenvalues of matrix equation ($\lambda_i,i=1,2,3$).</p>
-<script type="math/tex; mode=display">
-\lambda_1=\rho v_l^2 \\
-\lambda_2=\rho v_{s1}^2 \\
-\lambda_3=\rho v_{s2}^2</script><p>Reference:</p>
+                <h1 id="晶体的单晶声速计算公式"><a href="#晶体的单晶声速计算公式" class="headerlink" title="晶体的单晶声速计算公式"></a><strong>晶体的单晶声速计算公式</strong></h1><p>Christoffel’s equation relates acoustic velocitics to crystallo-graphic direction and elastic constants.<br>$$<br>det|C_{ijkl}n_{l}n_{j}-\rho v^{2}\delta_{ik}|=0 \<br>det|F_{ik}n_{l}n_{j}-\rho v^{2}\delta_{ik}|=0 \<br>i,j,k,l=1,2,3; \<br>when\ i=k; then\ \delta=1; others\ \delta=0<br>$$<br>So, the Kelvin-Christoffel stiffness $\Gamma_{ik}$ is:<br>$$<br>\Gamma_{ik}=\sum_{j,l=1}^{n=3} C_{ijkl}n_{j}n_{l},\ i,k=1,2,3 \<br>\Gamma = \begin{bmatrix} \Gamma_{11} &amp; \Gamma_{12} &amp; \Gamma_{13} \ \Gamma_{12} &amp; \Gamma_{22} &amp; \Gamma_{23} \ \Gamma_{13} &amp; \Gamma_{23} &amp; \Gamma_{33}\end{bmatrix}<br>$$<br>For $n_{j}(\phi,\theta,\chi),n_{l}(\phi,\theta,\chi)$ :<br>$$<br>n_1=cos(\phi)cos(\theta)cos(\chi)-sin(\phi)sin(\chi) \<br>n_2=-cos(\phi)cos(\theta)sin(\chi)-sin(\phi)cos(\chi) \<br>n_3=-cos(\phi)sin(\theta)<br>$$<br>then, we can calculate the eigenvalues of matrix equation ($\lambda_i,i=1,2,3$).<br>$$<br>\lambda_1=\rho v_l^2 \<br>\lambda_2=\rho v_{s1}^2 \<br>\lambda_3=\rho v_{s2}^2<br>$$</p>
+<p>Reference:</p>
 <p>Sound velocity and elasticity of single-crystal forsterite to 16 GPa; DOI: 10.1029/96JB01266</p>
 <hr>
 <p>The fortran code:</p>
-<pre class=" language-lang-fortran"><code class="language-lang-fortran">module singal_sound_velocity
-    contains
-    subroutine sing_sound_velocity(Celas, theta, phi, chi,  V_sing)
-            ! Celas: elastic constants
-            implicit none
-            real(kind=8) :: theta, phi ,chi, Celas(6,6)
-            real(kind=8) :: V_sing(3,3)
-            real(kind=8) :: n1,n2,n3
-            real(kind=8) :: f(3,3), Fv(3,3),E(3,3), namda(3,3)
-            integer :: n=3 
-            real(kind=8) :: err
-            integer :: i,j
+<pre class=" language-fortran"><code class="language-fortran"><span class="token keyword">module</span> singal_sound_velocity
+    <span class="token keyword">contains</span>
+    <span class="token keyword">subroutine</span> sing_sound_velocity<span class="token punctuation">(</span>Celas<span class="token punctuation">,</span> theta<span class="token punctuation">,</span> phi<span class="token punctuation">,</span> chi<span class="token punctuation">,</span>  V_sing<span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">! Celas: elastic constants</span>
+            <span class="token keyword">implicit none</span>
+            <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">::</span> theta<span class="token punctuation">,</span> phi <span class="token punctuation">,</span>chi<span class="token punctuation">,</span> Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span>
+            <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">::</span> V_sing<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
+            <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">::</span> n1<span class="token punctuation">,</span>n2<span class="token punctuation">,</span>n3
+            <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">::</span> f<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> Fv<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>E<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> namda<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
+            <span class="token keyword">integer</span> <span class="token operator">::</span> n<span class="token operator">=</span><span class="token number">3</span> 
+            <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">::</span> err
+            <span class="token keyword">integer</span> <span class="token operator">::</span> i<span class="token punctuation">,</span>j
 
-            n1=cosd(theta)*cosd(phi)*cosd(chi)-sind(phi)*sind(chi)
-            n2=-cosd(theta)*cosd(phi)*sind(chi)-sind(phi)*cosd(chi)
-            n3=sind(theta)*cosd(phi)
+            n1<span class="token operator">=</span>cosd<span class="token punctuation">(</span>theta<span class="token punctuation">)</span><span class="token operator">*</span>cosd<span class="token punctuation">(</span>phi<span class="token punctuation">)</span><span class="token operator">*</span>cosd<span class="token punctuation">(</span>chi<span class="token punctuation">)</span><span class="token operator">-</span>sind<span class="token punctuation">(</span>phi<span class="token punctuation">)</span><span class="token operator">*</span>sind<span class="token punctuation">(</span>chi<span class="token punctuation">)</span>
+            n2<span class="token operator">=</span><span class="token operator">-</span>cosd<span class="token punctuation">(</span>theta<span class="token punctuation">)</span><span class="token operator">*</span>cosd<span class="token punctuation">(</span>phi<span class="token punctuation">)</span><span class="token operator">*</span>sind<span class="token punctuation">(</span>chi<span class="token punctuation">)</span><span class="token operator">-</span>sind<span class="token punctuation">(</span>phi<span class="token punctuation">)</span><span class="token operator">*</span>cosd<span class="token punctuation">(</span>chi<span class="token punctuation">)</span>
+            n3<span class="token operator">=</span>sind<span class="token punctuation">(</span>theta<span class="token punctuation">)</span><span class="token operator">*</span>cosd<span class="token punctuation">(</span>phi<span class="token punctuation">)</span>
 
-            f(1,1)=n1*n1*Celas(1,1)+n1*n2*Celas(1,6)+n1*n3*Celas(1,5) &
-                  +n2*n1*Celas(6,1)+n2*n2*Celas(6,6)+n2*n3*Celas(6,5) &
-                  +n3*n1*Celas(5,1)+n3*n2*Celas(5,6)+n3*n3*Celas(5,5)
+            f<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">=</span>n1<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">+</span>n1<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">+</span>n1<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span> <span class="token punctuation">&amp;</span>
+                  <span class="token operator">+</span>n2<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">+</span>n2<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">+</span>n2<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span> <span class="token punctuation">&amp;</span>
+                  <span class="token operator">+</span>n3<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">+</span>n3<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">+</span>n3<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span>
 
-            f(2,2)=n1*n1*Celas(6,6)+n1*n2*Celas(6,2)+n1*n3*Celas(6,4) &
-                  +n2*n1*Celas(2,6)+n2*n2*Celas(2,2)+n2*n3*Celas(2,4) &
-                  +n3*n1*Celas(4,6)+n3*n2*Celas(4,2)+n3*n3*Celas(4,4)
+            f<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">=</span>n1<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">+</span>n1<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">+</span>n1<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token punctuation">&amp;</span>
+                  <span class="token operator">+</span>n2<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">+</span>n2<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">+</span>n2<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token punctuation">&amp;</span>
+                  <span class="token operator">+</span>n3<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">+</span>n3<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">+</span>n3<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span>
 
 
-            f(3,3)=n1*n1*Celas(5,5)+n1*n2*Celas(5,4)+n1*n3*Celas(5,3) &
-                  +n2*n1*Celas(4,5)+n2*n2*Celas(4,4)+n2*n3*Celas(4,3) &
-                  +n3*n1*Celas(3,5)+n3*n2*Celas(3,4)+n3*n3*Celas(3,3)
+            f<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">=</span>n1<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">+</span>n1<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token operator">+</span>n1<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">&amp;</span>
+                  <span class="token operator">+</span>n2<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">+</span>n2<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token operator">+</span>n2<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">&amp;</span>
+                  <span class="token operator">+</span>n3<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">+</span>n3<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token operator">+</span>n3<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
 
-            f(1,2)=n1*n1*Celas(1,6)+n1*n2*Celas(1,2)+n1*n3*Celas(1,4) &
-                  +n2*n1*Celas(6,6)+n2*n2*Celas(6,2)+n2*n3*Celas(6,4) &
-                  +n3*n1*Celas(5,6)+n3*n2*Celas(5,2)+n3*n3*Celas(5,4)
+            f<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">=</span>n1<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">+</span>n1<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">+</span>n1<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token punctuation">&amp;</span>
+                  <span class="token operator">+</span>n2<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">+</span>n2<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">+</span>n2<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token punctuation">&amp;</span>
+                  <span class="token operator">+</span>n3<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">+</span>n3<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">+</span>n3<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span>
 
-            f(1,3)=n1*n1*Celas(1,5)+n1*n2*Celas(1,4)+n1*n3*Celas(1,3) &
-                  +n2*n1*Celas(6,5)+n2*n2*Celas(6,4)+n2*n3*Celas(6,3) &
-                  +n3*n1*Celas(5,5)+n3*n2*Celas(5,4)+n3*n3*Celas(5,3)
+            f<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">=</span>n1<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">+</span>n1<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token operator">+</span>n1<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">&amp;</span>
+                  <span class="token operator">+</span>n2<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">+</span>n2<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token operator">+</span>n2<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">&amp;</span>
+                  <span class="token operator">+</span>n3<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">+</span>n3<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token operator">+</span>n3<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
 
-            f(2,3)=n1*n1*Celas(6,5)+n1*n2*Celas(6,4)+n1*n3*Celas(6,3) &
-                  +n2*n1*Celas(2,5)+n2*n2*Celas(2,4)+n2*n3*Celas(2,3) &
-                  +n3*n1*Celas(4,5)+n3*n2*Celas(4,4)+n3*n3*Celas(4,3)
+            f<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">=</span>n1<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">+</span>n1<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token operator">+</span>n1<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">&amp;</span>
+                  <span class="token operator">+</span>n2<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">+</span>n2<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token operator">+</span>n2<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">&amp;</span>
+                  <span class="token operator">+</span>n3<span class="token operator">*</span>n1<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">+</span>n3<span class="token operator">*</span>n2<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token operator">+</span>n3<span class="token operator">*</span>n3<span class="token operator">*</span>Celas<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
 
-            Fv(1,1)=f(1,1)
-            Fv(2,2)=f(2,2)
-            Fv(3,3)=f(3,3)
-            Fv(1,2)=f(1,2)
-            Fv(1,3)=f(1,3)
-            Fv(2,1)=f(1,2)
-            Fv(3,1)=f(1,3)
-            Fv(2,3)=f(2,3)
-            Fv(3,2)=f(2,3)
+            Fv<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">=</span>f<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
+            Fv<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">=</span>f<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span>
+            Fv<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">=</span>f<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
+            Fv<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">=</span>f<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span>
+            Fv<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">=</span>f<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
+            Fv<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">=</span>f<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span>
+            Fv<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">=</span>f<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
+            Fv<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">=</span>f<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
+            Fv<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">=</span>f<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
 
-            err=1.0d-8
+            err<span class="token operator">=</span><span class="token number">1.0d-8</span>
 
-            call eigenvector_calc(Fv,3,namda,err)
+            <span class="token keyword">call</span> eigenvector_calc<span class="token punctuation">(</span>Fv<span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span>namda<span class="token punctuation">,</span>err<span class="token punctuation">)</span>
 
-            V_sing=namda
+            V_sing<span class="token operator">=</span>namda
 
-            open(unit=89,file="velocity.out")
-            do i=1,3
-               write(89,*) (namda(i,j),j=1,3)
-            enddo
+            <span class="token keyword">open</span><span class="token punctuation">(</span>unit<span class="token operator">=</span><span class="token number">89</span><span class="token punctuation">,</span><span class="token keyword">file</span><span class="token operator">=</span><span class="token string">"velocity.out"</span><span class="token punctuation">)</span>
+            <span class="token keyword">do</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span>
+               <span class="token keyword">write</span><span class="token punctuation">(</span><span class="token number">89</span><span class="token punctuation">,</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>namda<span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token punctuation">,</span>j<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
+            <span class="token keyword">enddo</span>
 
-            do i=1,3
-               write(89,*) (Fv(i,j),j=1,3)
-            enddo
+            <span class="token keyword">do</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span>
+               <span class="token keyword">write</span><span class="token punctuation">(</span><span class="token number">89</span><span class="token punctuation">,</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>Fv<span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token punctuation">,</span>j<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
+            <span class="token keyword">enddo</span>
 
-    end subroutine sing_sound_velocity
+    <span class="token keyword">end subroutine</span> sing_sound_velocity
 
-    subroutine eigenvector_calc(a,n,e,eps)
-        !==============================================================
-        ! Compute all eigenvalues: real symmetric matrix a(n,n,)
-        ! a*x = lambda*x 
-        ! method: the basic QR method
-        ! Alex G. (January 2010)
-        !--------------------------------------------------------------
-        ! input ...
-        ! a(n,n) - array of coefficients for matrix A
-        ! n      - dimension
-        ! eps    - convergence tolerance
-        ! output ...
-        ! e(n)   - eigenvalues
-        ! iter   - number of iterations to achieve the tolerance
-        ! comments ...
-        ! kmax   - max number of allowed iterations
-        !==============================================================
-        implicit none
-        integer :: n ,iter
-        real(kind=8) :: a(n,n), e(n,n), eps
-        real(kind=8) :: q(n,n), r(n,n), w(n), an, Ajnorm, sum, e0,e1 
-        integer :: k, i, j, m
-        integer, parameter::kmax=1000
+    <span class="token keyword">subroutine</span> eigenvector_calc<span class="token punctuation">(</span>a<span class="token punctuation">,</span>n<span class="token punctuation">,</span>e<span class="token punctuation">,</span>eps<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">!==============================================================</span>
+        <span class="token comment" spellcheck="true">! Compute all eigenvalues: real symmetric matrix a(n,n,)</span>
+        <span class="token comment" spellcheck="true">! a*x = lambda*x </span>
+        <span class="token comment" spellcheck="true">! method: the basic QR method</span>
+        <span class="token comment" spellcheck="true">! Alex G. (January 2010)</span>
+        <span class="token comment" spellcheck="true">!--------------------------------------------------------------</span>
+        <span class="token comment" spellcheck="true">! input ...</span>
+        <span class="token comment" spellcheck="true">! a(n,n) - array of coefficients for matrix A</span>
+        <span class="token comment" spellcheck="true">! n      - dimension</span>
+        <span class="token comment" spellcheck="true">! eps    - convergence tolerance</span>
+        <span class="token comment" spellcheck="true">! output ...</span>
+        <span class="token comment" spellcheck="true">! e(n)   - eigenvalues</span>
+        <span class="token comment" spellcheck="true">! iter   - number of iterations to achieve the tolerance</span>
+        <span class="token comment" spellcheck="true">! comments ...</span>
+        <span class="token comment" spellcheck="true">! kmax   - max number of allowed iterations</span>
+        <span class="token comment" spellcheck="true">!==============================================================</span>
+        <span class="token keyword">implicit none</span>
+        <span class="token keyword">integer</span> <span class="token operator">::</span> n <span class="token punctuation">,</span>iter
+        <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">::</span> a<span class="token punctuation">(</span>n<span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> e<span class="token punctuation">(</span>n<span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> eps
+        <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">::</span> q<span class="token punctuation">(</span>n<span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> r<span class="token punctuation">(</span>n<span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> w<span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> an<span class="token punctuation">,</span> Ajnorm<span class="token punctuation">,</span> sum<span class="token punctuation">,</span> e0<span class="token punctuation">,</span>e1 
+        <span class="token keyword">integer</span> <span class="token operator">::</span> k<span class="token punctuation">,</span> i<span class="token punctuation">,</span> j<span class="token punctuation">,</span> m
+        <span class="token keyword">integer</span><span class="token punctuation">,</span> <span class="token keyword">parameter</span><span class="token operator">::</span>kmax<span class="token operator">=</span><span class="token number">1000</span>
 
-        ! initialization
-        q = 0.0
-        r = 0.0
-        e0 = 0.0
+        <span class="token comment" spellcheck="true">! initialization</span>
+        q <span class="token operator">=</span> <span class="token number">0.0</span>
+        r <span class="token operator">=</span> <span class="token number">0.0</span>
+        e0 <span class="token operator">=</span> <span class="token number">0.0</span>
 
-        do k=1,kmax              ! iterations
+        <span class="token keyword">do</span> k<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>kmax              <span class="token comment" spellcheck="true">! iterations</span>
 
-        ! step 1: compute Q(n,n) and R(n,n)
-        ! column 1
-          an = Ajnorm(a,n,1)
-          r(1,1) = an
-          do i=1,n
-            q(i,1) = a(i,1)/an
-          end do
-        ! columns 2,...,n
-          do j=2,n
-            w = 0.0
-            do m=1,j-1
-        ! product q^T*a result = scalar
-              sum = 0.0
-              do i=1,n
-                sum = sum + q(i,m)*a(i,j)
-              end do
-              r(m,j) = sum
-        ! product (q^T*a)*q  result = vector w(n)
-              do i=1,n
-                w(i) = w(i) + sum*q(i,m)
-              end do
-            end do
-        ! new a'(j)
-            do i =1,n
-              a(i,j) = a(i,j) - w(i)
-            end do
-        ! evaluate the norm for a'(j)
-            an = Ajnorm(a,n,j)
-            r(j,j) = an
-        ! vector q(j)
-            do i=1,n
-              q(i,j) = a(i,j)/an
-            end do
-          end do
+        <span class="token comment" spellcheck="true">! step 1: compute Q(n,n) and R(n,n)</span>
+        <span class="token comment" spellcheck="true">! column 1</span>
+          an <span class="token operator">=</span> Ajnorm<span class="token punctuation">(</span>a<span class="token punctuation">,</span>n<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
+          r<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">=</span> an
+          <span class="token keyword">do</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>n
+            q<span class="token punctuation">(</span>i<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">=</span> a<span class="token punctuation">(</span>i<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">/</span>an
+          <span class="token keyword">end do</span>
+        <span class="token comment" spellcheck="true">! columns 2,...,n</span>
+          <span class="token keyword">do</span> j<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span>n
+            w <span class="token operator">=</span> <span class="token number">0.0</span>
+            <span class="token keyword">do</span> m<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>j<span class="token number">-1</span>
+        <span class="token comment" spellcheck="true">! product q^T*a result = scalar</span>
+              sum <span class="token operator">=</span> <span class="token number">0.0</span>
+              <span class="token keyword">do</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>n
+                sum <span class="token operator">=</span> sum <span class="token operator">+</span> q<span class="token punctuation">(</span>i<span class="token punctuation">,</span>m<span class="token punctuation">)</span><span class="token operator">*</span>a<span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span>
+              <span class="token keyword">end do</span>
+              r<span class="token punctuation">(</span>m<span class="token punctuation">,</span>j<span class="token punctuation">)</span> <span class="token operator">=</span> sum
+        <span class="token comment" spellcheck="true">! product (q^T*a)*q  result = vector w(n)</span>
+              <span class="token keyword">do</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>n
+                w<span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">=</span> w<span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">+</span> sum<span class="token operator">*</span>q<span class="token punctuation">(</span>i<span class="token punctuation">,</span>m<span class="token punctuation">)</span>
+              <span class="token keyword">end do</span>
+            <span class="token keyword">end do</span>
+        <span class="token comment" spellcheck="true">! new a'(j)</span>
+            <span class="token keyword">do</span> i <span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>n
+              a<span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span> <span class="token operator">=</span> a<span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span> <span class="token operator">-</span> w<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+            <span class="token keyword">end do</span>
+        <span class="token comment" spellcheck="true">! evaluate the norm for a'(j)</span>
+            an <span class="token operator">=</span> Ajnorm<span class="token punctuation">(</span>a<span class="token punctuation">,</span>n<span class="token punctuation">,</span>j<span class="token punctuation">)</span>
+            r<span class="token punctuation">(</span>j<span class="token punctuation">,</span>j<span class="token punctuation">)</span> <span class="token operator">=</span> an
+        <span class="token comment" spellcheck="true">! vector q(j)</span>
+            <span class="token keyword">do</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>n
+              q<span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span> <span class="token operator">=</span> a<span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token operator">/</span>an
+            <span class="token keyword">end do</span>
+          <span class="token keyword">end do</span>
 
-        ! step 2: compute A=R(n,n)*Q(n,n)
-          a = matmul(r,q)
-        ! egenvalues and the average eigenvale
-          sum = 0.0
-          do i=1,n
-            e(i,i) = a(i,i)
-            sum = sum+e(i,i)*e(i,i)
-          end do  
-          e1 = sqrt(sum)
+        <span class="token comment" spellcheck="true">! step 2: compute A=R(n,n)*Q(n,n)</span>
+          a <span class="token operator">=</span> matmul<span class="token punctuation">(</span>r<span class="token punctuation">,</span>q<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">! egenvalues and the average eigenvale</span>
+          sum <span class="token operator">=</span> <span class="token number">0.0</span>
+          <span class="token keyword">do</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>n
+            e<span class="token punctuation">(</span>i<span class="token punctuation">,</span>i<span class="token punctuation">)</span> <span class="token operator">=</span> a<span class="token punctuation">(</span>i<span class="token punctuation">,</span>i<span class="token punctuation">)</span>
+            sum <span class="token operator">=</span> sum<span class="token operator">+</span>e<span class="token punctuation">(</span>i<span class="token punctuation">,</span>i<span class="token punctuation">)</span><span class="token operator">*</span>e<span class="token punctuation">(</span>i<span class="token punctuation">,</span>i<span class="token punctuation">)</span>
+          <span class="token keyword">end do</span>  
+          e1 <span class="token operator">=</span> sqrt<span class="token punctuation">(</span>sum<span class="token punctuation">)</span>
 
-        ! print here eigenvalues
-        !  write (*,201)  (e(i),i=1,n)
-        !201 format (6f12.6)
+        <span class="token comment" spellcheck="true">! print here eigenvalues</span>
+        <span class="token comment" spellcheck="true">!  write (*,201)  (e(i),i=1,n)</span>
+        <span class="token comment" spellcheck="true">!201 format (6f12.6)</span>
 
-        ! check for convergence
-          if (abs(e1-e0) < eps) exit
-        ! prepare for the next iteration
-          e0 = e1  
-        end do
+        <span class="token comment" spellcheck="true">! check for convergence</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>abs<span class="token punctuation">(</span>e1<span class="token operator">-</span>e0<span class="token punctuation">)</span> <span class="token operator">&lt;</span> eps<span class="token punctuation">)</span> <span class="token keyword">exit</span>
+        <span class="token comment" spellcheck="true">! prepare for the next iteration</span>
+          e0 <span class="token operator">=</span> e1  
+        <span class="token keyword">end do</span>
 
-        iter = k
-        if(k == kmax) write (*,*)'The eigenvlue failed to converge'
+        iter <span class="token operator">=</span> k
+        <span class="token keyword">if</span><span class="token punctuation">(</span>k <span class="token operator">==</span> kmax<span class="token punctuation">)</span> <span class="token keyword">write</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">,</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token string">'The eigenvlue failed to converge'</span>
 
-    end subroutine eigenvector_calc
-end module
+    <span class="token keyword">end subroutine</span> eigenvector_calc
+<span class="token keyword">end module</span>
 </code></pre>
 
             </div>
@@ -810,9 +795,7 @@ end module
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            晶体的单晶声速计算公式Christoffel’s equation relates acoustic velocitics to crystallo-graphic direction and elastic constants.
-
-det
+                            晶体的单晶声速计算公式Christoffel’s equation relates acoustic velocitics to crystallo-graphic direction and elastic constants.$$det
                         
                     </div>
                     <div class="publish-info">
@@ -871,11 +854,9 @@ det
                     <div class="summary block-with-text">
                         
                             Fortran 三角矩阵求解参考：《Fotran95 2003科学计算与工程》
-原理
-\vec{A}(n,n)\cdot\vec{X}(n)=\vec{B}上三角形方程迭代求解
-
-\begin{cases}
-    X_n=\frac{B_
+原理$$\vec{A}(n,n)\cdot\vec{X}(n)=\vec{B}$$
+上三角形方程迭代求解
+$$\begin{cases}    X_n=\fra
                         
                     </div>
                     <div class="publish-info">
@@ -1058,7 +1039,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">6.4k</span>&nbsp;字
+                class="white-color">13.5k</span>&nbsp;字
             
             
             
