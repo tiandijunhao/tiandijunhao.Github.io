@@ -663,6 +663,19 @@
 
     <span class="token keyword">end subroutine</span> eigenvector_calc
 <span class="token keyword">end module</span>
+
+<span class="token keyword">function</span> Ajnorm<span class="token punctuation">(</span>a<span class="token punctuation">,</span>n<span class="token punctuation">,</span>j<span class="token punctuation">)</span>
+    <span class="token keyword">implicit none</span>
+    <span class="token keyword">integer</span> n<span class="token punctuation">,</span> j<span class="token punctuation">,</span> i
+    <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">::</span> a<span class="token punctuation">(</span>n<span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> Ajnorm
+    <span class="token keyword">real</span><span class="token punctuation">(</span><span class="token keyword">kind</span><span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">::</span> sum
+
+    sum <span class="token operator">=</span> <span class="token number">0.0</span>
+    <span class="token keyword">do</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>n
+      sum <span class="token operator">=</span> sum <span class="token operator">+</span> a<span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token operator">*</span>a<span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span>
+    <span class="token keyword">end do</span>
+    Ajnorm <span class="token operator">=</span> sqrt<span class="token punctuation">(</span>sum<span class="token punctuation">)</span>
+<span class="token keyword">end function</span> Ajnorm
 </code></pre>
 
             </div>
