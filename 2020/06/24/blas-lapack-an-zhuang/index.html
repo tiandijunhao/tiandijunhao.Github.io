@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Python四维图, 天帝君豪的个人博客">
+    <meta name="keywords" content="LAPACK+BLAS安装教程, 天帝君豪的个人博客">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Python四维图 | 天帝君豪的个人博客</title>
+    <title>LAPACK+BLAS安装教程 | 天帝君豪的个人博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -322,12 +322,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Python四维图</h1>
+                    <h1 class="description center-align post-title">LAPACK+BLAS安装教程</h1>
                 </div>
             </div>
         </div>
@@ -444,8 +444,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Python-learn/">
-                                <span class="chip bg-color">Python_learn</span>
+                            <a href="/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
+                                <span class="chip bg-color">安装教程</span>
                             </a>
                         
                     </div>
@@ -456,8 +456,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Python%E5%AD%A6%E4%B9%A0/" class="post-category">
-                                Python学习
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="post-category">
+                                计算软件安装教程
                             </a>
                         
                     </div>
@@ -469,7 +469,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-11
+                    2020-06-24
                 </div>
                 
 
@@ -478,7 +478,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    138
+                    267
                 </div>
                 
 
@@ -490,32 +490,45 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Python画四维投影的三维图像"><a href="#Python画四维投影的三维图像" class="headerlink" title="Python画四维投影的三维图像"></a><strong>Python画四维投影的三维图像</strong></h2><pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> mpl_toolkits<span class="token punctuation">.</span>mplot3d <span class="token keyword">import</span> Axes3D
-<span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
-<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+                <h2 id="安装-BLAS-和-LAPACK-库"><a href="#安装-BLAS-和-LAPACK-库" class="headerlink" title="安装 BLAS 和 LAPACK 库"></a><strong>安装 BLAS 和 LAPACK 库</strong></h2><p>注：使用 gfortran编译</p>
+<h3 id="软件下载地址"><a href="#软件下载地址" class="headerlink" title="软件下载地址"></a>软件下载地址</h3><p>官网： <a href="http://www.netlib.org/lapack/" target="_blank" rel="noopener">http://www.netlib.org/lapack/</a></p>
+<p>注：BLAS库包含在LAPACK文件夹中，无需另外下载</p>
+<h3 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h3><pre class=" language-bash"><code class="language-bash"><span class="token function">tar</span> -zxvf lapack-3.8.0
+<span class="token function">cd</span> lapack-3.8.0
+<span class="token function">cp</span> make.inc.example make.inc</code></pre>
+<p>修改Makefile 中某几行如下：</p>
+<pre class=" language-makefile"><code class="language-makefile"><span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true">#  Top Level Makefile for LAPACK</span>
+<span class="token comment" spellcheck="true">#  Version 3.4.1</span>
+<span class="token comment" spellcheck="true">#  April 2012</span>
+<span class="token comment" spellcheck="true">#</span>
 
+<span class="token keyword">include</span> make.inc
 
-fig <span class="token operator">=</span> plt<span class="token punctuation">.</span>figure<span class="token punctuation">(</span><span class="token punctuation">)</span>
-ax <span class="token operator">=</span> fig<span class="token punctuation">.</span>add_subplot<span class="token punctuation">(</span><span class="token number">111</span><span class="token punctuation">,</span> projection<span class="token operator">=</span><span class="token string">'3d'</span><span class="token punctuation">)</span>
+<span class="token symbol">all</span><span class="token punctuation">:</span> lapack_install lib blas_testing lapack_testing
 
-u <span class="token operator">=</span> np<span class="token punctuation">.</span>linspace<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span> <span class="token operator">*</span> np<span class="token punctuation">.</span>pi<span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span>
-v <span class="token operator">=</span> np<span class="token punctuation">.</span>linspace<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> np<span class="token punctuation">.</span>pi<span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span>
-
-x <span class="token operator">=</span> <span class="token number">10</span> <span class="token operator">*</span> np<span class="token punctuation">.</span>outer<span class="token punctuation">(</span>np<span class="token punctuation">.</span>cos<span class="token punctuation">(</span>u<span class="token punctuation">)</span><span class="token punctuation">,</span> np<span class="token punctuation">.</span>sin<span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span>
-y <span class="token operator">=</span> <span class="token number">10</span> <span class="token operator">*</span> np<span class="token punctuation">.</span>outer<span class="token punctuation">(</span>np<span class="token punctuation">.</span>sin<span class="token punctuation">(</span>u<span class="token punctuation">)</span><span class="token punctuation">,</span> np<span class="token punctuation">.</span>sin<span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span>
-z <span class="token operator">=</span> <span class="token number">10</span> <span class="token operator">*</span> np<span class="token punctuation">.</span>outer<span class="token punctuation">(</span>np<span class="token punctuation">.</span>ones<span class="token punctuation">(</span>np<span class="token punctuation">.</span>size<span class="token punctuation">(</span>u<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> np<span class="token punctuation">.</span>cos<span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span>
-z1 <span class="token operator">=</span> z <span class="token operator">*</span> np<span class="token punctuation">.</span>cos<span class="token punctuation">(</span><span class="token number">0.5</span><span class="token operator">*</span>x<span class="token punctuation">)</span>
-
-N <span class="token operator">=</span> z1 <span class="token operator">/</span> z1<span class="token punctuation">.</span>max<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># normalize 0..1</span>
-
-<span class="token comment" spellcheck="true">#plt.cm.颜色类型</span>
-surf <span class="token operator">=</span> ax<span class="token punctuation">.</span>plot_surface<span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> z<span class="token punctuation">,</span> rstride<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> cstride<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> facecolors<span class="token operator">=</span>plt<span class="token punctuation">.</span>cm<span class="token punctuation">.</span>hot<span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">,</span> linewidth<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> antialiased<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span> shade<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
-
-m <span class="token operator">=</span> plt<span class="token punctuation">.</span>cm<span class="token punctuation">.</span>ScalarMappable<span class="token punctuation">(</span>cmap<span class="token operator">=</span>plt<span class="token punctuation">.</span>cm<span class="token punctuation">.</span>hot<span class="token punctuation">)</span>
-m<span class="token punctuation">.</span>set_array<span class="token punctuation">(</span>z1<span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>colorbar<span class="token punctuation">(</span>m<span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
-<p>img/<br><img src="/img/4D.png" width = "60%" height = "60%" div align=center/></p>
+<span class="token comment" spellcheck="true">#lib: lapacklib tmglib</span>
+<span class="token symbol">lib</span><span class="token punctuation">:</span> blaslib variants lapacklib tmglib
+</code></pre>
+<p>修改make.inc 最后几行如下：</p>
+<pre class=" language-makefile"><code class="language-makefile">BLASLIB      <span class="token operator">=</span> ../../libblas.a
+CBLASLIB     <span class="token operator">=</span> ../../libcblas.a
+LAPACKLIB    <span class="token operator">=</span> liblapack.a
+TMGLIB       <span class="token operator">=</span> libtmglib.a
+LAPACKELIB   <span class="token operator">=</span> liblapacke.a</code></pre>
+<p>编译</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">make</span> -j8 </code></pre>
+<p>注：编译时可能会在TESTING时出错。不用管这个错误。只要生成了所需要的libblas.a等文件夹就好。</p>
+<p>进如LAPACKE文件夹</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> LAPACKE
+<span class="token function">make</span> -j8
+<span class="token comment" spellcheck="true">#进入LAPACKE文件中的include文件夹，将所有文件复制到 /usr/local/include</span>
+<span class="token function">cd</span> include
+<span class="token function">sudo</span> <span class="token function">cp</span> *.h /usr/local/include
+<span class="token function">sudo</span> <span class="token function">cp</span> *.in /usr/local/include</code></pre>
+<p>返回到lapack-3.8.0文件夹，将所有 .a文件复制到/usr/local/lib 中</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">cp</span> *.a /usr/local/lib</code></pre>
+<p>将文件放到/usr/local文件夹，方便以后调用库时可以默认，不用额外添加路径。</p>
 
             </div>
             <hr/>
@@ -541,7 +554,7 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://tiandijunhao.github.io/2020/05/11/python-hua-si-wei-tou-ying-de-san-wei-tu/">http://tiandijunhao.github.io/2020/05/11/python-hua-si-wei-tou-ying-de-san-wei-tu/</a>
+                    <a href="http://tiandijunhao.github.io/2020/06/24/blas-lapack-an-zhuang/">http://tiandijunhao.github.io/2020/06/24/blas-lapack-an-zhuang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -579,8 +592,8 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Python-learn/">
-                                    <span class="chip bg-color">Python_learn</span>
+                                <a href="/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
+                                    <span class="chip bg-color">安装教程</span>
                                 </a>
                             
                         </div>
@@ -622,9 +635,10 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/06/24/blas-lapack-an-zhuang/">
                     <div class="card-image">
@@ -645,9 +659,9 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-06-24
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-24
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -660,6 +674,7 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -678,31 +693,36 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/05/jing-ti-de-dan-jing-sheng-su-ji-suan-gong-shi/">
+                <a href="/2020/05/11/python-hua-si-wei-tou-ying-de-san-wei-tu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="晶体的单晶声速">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Python四维图">
                         
-                        <span class="card-title">晶体的单晶声速</span>
+                        <span class="card-title">Python四维图</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            晶体的单晶声速计算公式Christoffel’s equation relates acoustic velocitics to crystallo-graphic direction and elastic constants.$$det
+                            Python画四维投影的三维图像from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+fig = plt.f
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-11
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/VASP%E8%AE%A1%E7%AE%97%E7%AC%94%E8%AE%B0/" class="post-category">
-                                    VASP计算笔记
+                            <a href="/categories/Python%E5%AD%A6%E4%B9%A0/" class="post-category">
+                                    Python学习
                                 </a>
                             
                             
@@ -712,16 +732,8 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Fortran-learn/">
-                        <span class="chip bg-color">Fortran_learn</span>
-                    </a>
-                    
-                    <a href="/tags/VASP/">
-                        <span class="chip bg-color">VASP</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%BC%B9%E6%80%A7%E5%B8%B8%E6%95%B0/">
-                        <span class="chip bg-color">弹性常数</span>
+                    <a href="/tags/Python-learn/">
+                        <span class="chip bg-color">Python_learn</span>
                     </a>
                     
                 </div>
@@ -859,13 +871,6 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 </main>
 
-
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script>
-    MathJax.Hub.Config({
-        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
-    });
-</script>
 
 
 
