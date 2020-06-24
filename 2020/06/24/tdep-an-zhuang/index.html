@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="LAPACK+BLAS安装教程, 天帝君豪的个人博客">
+    <meta name="keywords" content="TDEP安装教程, 天帝君豪的个人博客">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>LAPACK+BLAS安装教程 | 天帝君豪的个人博客</title>
+    <title>TDEP安装教程 | 天帝君豪的个人博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -322,12 +322,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">LAPACK+BLAS安装教程</h1>
+                    <h1 class="description center-align post-title">TDEP安装教程</h1>
                 </div>
             </div>
         </div>
@@ -478,7 +478,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    266
+                    546
                 </div>
                 
 
@@ -490,45 +490,109 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="安装-BLAS-和-LAPACK-库"><a href="#安装-BLAS-和-LAPACK-库" class="headerlink" title="安装 BLAS 和 LAPACK 库"></a><strong>安装 BLAS 和 LAPACK 库</strong></h2><p>注：使用 gfortran编译</p>
-<h3 id="软件下载地址"><a href="#软件下载地址" class="headerlink" title="软件下载地址"></a>软件下载地址</h3><p>官网： <a href="http://www.netlib.org/lapack/" target="_blank" rel="noopener">http://www.netlib.org/lapack/</a></p>
-<p>注：BLAS库包含在LAPACK文件夹中，无需另外下载</p>
-<h3 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h3><pre class=" language-bash"><code class="language-bash"><span class="token function">tar</span> -zxvf lapack-3.8.0
-<span class="token function">cd</span> lapack-3.8.0
-<span class="token function">cp</span> make.inc.example make.inc</code></pre>
-<p>修改Makefile 中某几行如下：</p>
-<pre class=" language-makefile"><code class="language-makefile"><span class="token comment" spellcheck="true">#</span>
-<span class="token comment" spellcheck="true">#  Top Level Makefile for LAPACK</span>
-<span class="token comment" spellcheck="true">#  Version 3.4.1</span>
-<span class="token comment" spellcheck="true">#  April 2012</span>
+                <h2 id="TDEP安装"><a href="#TDEP安装" class="headerlink" title="TDEP安装"></a><strong>TDEP安装</strong></h2><p>主要基于gfortran环境</p>
+<h3 id="软件下载地址"><a href="#软件下载地址" class="headerlink" title="软件下载地址"></a>软件下载地址</h3><p>暂无</p>
+<h3 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h3><p>1 解压文件</p>
+<pre class=" language-bash"><code class="language-bash">unzip tdep-devel-master.zip
+<span class="token function">cd</span> tdep-devel-master</code></pre>
+<p>2 安装</p>
+<p>important_settings 文件设置参考如下</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
 <span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Hi Dr. Hellman,</span>
+<span class="token comment" spellcheck="true"># </span>
+<span class="token comment" spellcheck="true"># Attached is my important_settings. I use Ubuntu 16.04</span>
+<span class="token comment" spellcheck="true"># </span>
+<span class="token comment" spellcheck="true"># For fortran flags, I used:</span>
+<span class="token comment" spellcheck="true"># FCFLAGS="-ffree-line-length-none -std=f2008 -fall-intrinsics -cpp -fopenmp"</span>
+<span class="token comment" spellcheck="true"># </span>
+<span class="token comment" spellcheck="true"># For gnuplot:</span>
+<span class="token comment" spellcheck="true"># GNUPLOTTERMINAL="x11"</span>
+<span class="token comment" spellcheck="true"># </span>
+<span class="token comment" spellcheck="true"># For blas and lapack:</span>
+<span class="token comment" spellcheck="true"># BLASLAPACK_LIBS="-lblas -llapack"</span>
+<span class="token comment" spellcheck="true"># </span>
+<span class="token comment" spellcheck="true"># For gfortran-6, I installed in such way:</span>
+<span class="token comment" spellcheck="true">#  </span>
+<span class="token comment" spellcheck="true"># sudo add-apt-repository ppa:ubuntu-toolchain-r/test</span>
+<span class="token comment" spellcheck="true"># sudo apt-get update</span>
+<span class="token comment" spellcheck="true"># sudo apt-get install gfortran-6</span>
+<span class="token comment" spellcheck="true"># </span>
+<span class="token comment" spellcheck="true"># For openmpi:</span>
+<span class="token comment" spellcheck="true"># sudo apt-get install openmpi-bin</span>
+<span class="token comment" spellcheck="true"># </span>
+<span class="token comment" spellcheck="true"># For fftw, i'm not sure which is really working, but I installed:</span>
+<span class="token comment" spellcheck="true"># sudo apt-get install fftw-dev</span>
+<span class="token comment" spellcheck="true"># sudo apt-get install libfftw3-dev </span>
+<span class="token comment" spellcheck="true"># </span>
+<span class="token comment" spellcheck="true"># For hdf5, I installed both parallel version and serial version:</span>
+<span class="token comment" spellcheck="true"># sudo apt-get install libhdf5-mpi-dev</span>
+<span class="token comment" spellcheck="true"># sudo apt-get install libhdf5-serial-dev</span>
+<span class="token comment" spellcheck="true"># </span>
+<span class="token comment" spellcheck="true"># I think that's all I did to make it work.</span>
 
-<span class="token keyword">include</span> make.inc
+<span class="token comment" spellcheck="true"># the fortran compiler</span>
+FORTRAN_COMPILER<span class="token operator">=</span><span class="token string">"gfortran"</span>
+<span class="token comment" spellcheck="true"># optimization stuff. Go all in.</span>
+OPTIMIZATION_LEVEL<span class="token operator">=</span><span class="token string">"-Ofast"</span>
+<span class="token comment" spellcheck="true"># the flag that sets the default real to a double.</span>
+DOUBLE_FLAG<span class="token operator">=</span><span class="token string">"-fdefault-real-8"</span>
+<span class="token comment" spellcheck="true"># The flag that tells the compiler where to put .o and .mod files.</span>
+MODULE_FLAG<span class="token operator">=</span><span class="token string">"-J"</span>
 
-<span class="token symbol">all</span><span class="token punctuation">:</span> lapack_install lib blas_testing lapack_testing
+<span class="token comment" spellcheck="true"># the header to put in python scripts.</span>
+PYTHONHEADER<span class="token operator">=</span><span class="token string">"#!/home/anaconda3/bin/python"</span>
 
-<span class="token comment" spellcheck="true">#lib: lapacklib tmglib</span>
-<span class="token symbol">lib</span><span class="token punctuation">:</span> blaslib variants lapacklib tmglib
+<span class="token comment" spellcheck="true"># Which gnuplot terminal to use by default.</span>
+<span class="token comment" spellcheck="true">#GNUPLOTTERMINAL="aqua"  # nice on OSX, needs aquaterm installed and gnuplot compiled with support for it.</span>
+<span class="token comment" spellcheck="true">#GNUPLOTTERMINAL="wxt"  # nice on linux.</span>
+GNUPLOTTERMINAL<span class="token operator">=</span><span class="token string">"wxt"</span>  <span class="token comment" spellcheck="true"># fallback that works but looks kind of bad</span>
+
+<span class="token comment" spellcheck="true"># Precompiler flags. Selecting default gnuplot terminal, and make the progressbars work.</span>
+PRECOMPILER_FLAGS<span class="token operator">=</span><span class="token string">"-DGP<span class="token variable">${GNUPLOTTERMINAL}</span> -Dgfortranprogressbar"</span> <span class="token comment" spellcheck="true"># for gfortran</span>
+<span class="token comment" spellcheck="true">#PRECOMPILER_FLAGS="-DGP${GNUPLOTTERMINAL} -Difortprogressbar" # for ifort</span>
+
+<span class="token comment" spellcheck="true"># these are the flags that are needed for gfortran</span>
+<span class="token comment" spellcheck="true">#FCFLAGS="-Wl,-commons,use_dylibs -ffree-line-length-none -std=f2008 -fall-intrinsics -cpp -fopenmp"</span>
+FCFLAGS<span class="token operator">=</span><span class="token string">"-ffree-line-length-none -std=f2008 -fall-intrinsics -cpp -fopenmp"</span>
+
+<span class="token comment" spellcheck="true"># These are the BLAS/LAPACK libraries. On OSX with gfortran, use the built-in</span>
+<span class="token comment" spellcheck="true"># where you just specify -framework accelerate and everything works. On other systems</span>
+<span class="token comment" spellcheck="true"># you might have to specify this manally</span>
+PATH_TO_BLASLAPACK_LIB<span class="token operator">=</span><span class="token string">"-L/usr/local/lib"</span>
+PATH_TO_BLASLAPACK_INC<span class="token operator">=</span><span class="token string">"-I/usr/local/include"</span>
+BLASLAPACK_LIBS<span class="token operator">=</span><span class="token string">"-llapack -lblas"</span>
+
+<span class="token comment" spellcheck="true"># For the autocorrelation code, I use fast Fourier transforms. fftw needs to be installed and</span>
+<span class="token comment" spellcheck="true"># linked. This is where homebrew installed mine on osx</span>
+PATH_TO_FFTW_LIB<span class="token operator">=</span><span class="token string">"-L/usr/local/fftw/lib"</span>
+PATH_TO_FFTW_INC<span class="token operator">=</span><span class="token string">"-I/usr/local/fftw/include"</span>
+FFTW_LIBS<span class="token operator">=</span><span class="token string">"-lfftw3"</span>
+
+<span class="token comment" spellcheck="true"># The thermal conductivity is MPI parallel. Then you need an mpi installation. This one points to</span>
+<span class="token comment" spellcheck="true"># openmpi installed by homebrew in it's default location</span>
+PATH_TO_MPI_LIB<span class="token operator">=</span><span class="token string">"-L/usr/local/openmpi/lib"</span>
+PATH_TO_MPI_INC<span class="token operator">=</span><span class="token string">"-I/usr/local/openmpi/include"</span>
+MPI_LIBS<span class="token operator">=</span><span class="token string">"-lmpi_mpifh -lmpi"</span>
+
+<span class="token comment" spellcheck="true"># I also use HDF5 every now and then</span>
+PATH_TO_HDF5_LIB<span class="token operator">=</span><span class="token string">"-L/usr/local/hdf5/lib"</span>
+PATH_TO_HDF5_INC<span class="token operator">=</span><span class="token string">"-I/usr/local/hdf5/include"</span>
+HDF5_LIBS<span class="token operator">=</span><span class="token string">"-lhdf5 -lhdf5_fortran"</span>
+
+<span class="token comment" spellcheck="true"># We also need a C-compiler</span>
+C_COMPILER<span class="token operator">=</span><span class="token string">"gcc"</span>
+
+<span class="token comment" spellcheck="true"># If you want to try and use CGAL. Not recommended for people who do not like to sort out compiler errors.</span>
+USECGAL<span class="token operator">=</span><span class="token string">"no"</span></code></pre>
+<p>运行安装命令</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">bash</span> build_things.sh</code></pre>
+<p>3 添加环境变量</p>
+<pre class=" language-bash"><code class="language-bash">vim ~/.bashrc
+<span class="token function">export</span> MANPATH<span class="token operator">=</span><span class="token variable">$MANPATH</span>:/Users/olle/tdep-devel/man
+<span class="token function">export</span> PATH<span class="token operator">=</span><span class="token variable">$PATH</span>:/Users/olle/tdep-devel/bin
+<span class="token function">alias</span> gnuplot<span class="token operator">=</span><span class="token string">'gnuplot -persist'</span>
 </code></pre>
-<p>修改make.inc 最后几行如下：</p>
-<pre class=" language-makefile"><code class="language-makefile">BLASLIB      <span class="token operator">=</span> ../../libblas.a
-CBLASLIB     <span class="token operator">=</span> ../../libcblas.a
-LAPACKLIB    <span class="token operator">=</span> liblapack.a
-TMGLIB       <span class="token operator">=</span> libtmglib.a
-LAPACKELIB   <span class="token operator">=</span> liblapacke.a</code></pre>
-<p>编译</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">make</span> -j8 </code></pre>
-<p>注：编译时可能会在TESTING时出错。不用管这个错误。只要生成了所需要的libblas.a等文件就好。</p>
-<p>进如LAPACKE文件夹</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> LAPACKE
-<span class="token function">make</span> -j8
-<span class="token comment" spellcheck="true">#进入LAPACKE文件中的include文件夹，将所有文件复制到 /usr/local/include</span>
-<span class="token function">cd</span> include
-<span class="token function">sudo</span> <span class="token function">cp</span> *.h /usr/local/include
-<span class="token function">sudo</span> <span class="token function">cp</span> *.in /usr/local/include</code></pre>
-<p>返回到lapack-3.8.0文件夹，将所有 .a文件复制到/usr/local/lib 中</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">cp</span> *.a /usr/local/lib</code></pre>
-<p>将文件放到/usr/local文件夹，方便以后调用库时可以默认，不用额外添加路径。</p>
 
             </div>
             <hr/>
@@ -554,7 +618,7 @@ LAPACKELIB   <span class="token operator">=</span> liblapacke.a</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://tiandijunhao.github.io/2020/06/24/blas-lapack-an-zhuang/">http://tiandijunhao.github.io/2020/06/24/blas-lapack-an-zhuang/</a>
+                    <a href="http://tiandijunhao.github.io/2020/06/24/tdep-an-zhuang/">http://tiandijunhao.github.io/2020/06/24/tdep-an-zhuang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -635,9 +699,10 @@ LAPACKELIB   <span class="token operator">=</span> liblapacke.a</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/06/24/tdep-an-zhuang/">
                     <div class="card-image">
@@ -661,9 +726,9 @@ important_settings 文件设置参考
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-06-24
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-24
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -676,6 +741,7 @@ important_settings 文件设置参考
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -694,36 +760,34 @@ important_settings 文件设置参考
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/11/python-hua-si-wei-tou-ying-de-san-wei-tu/">
+                <a href="/2020/06/24/blas-lapack-an-zhuang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Python四维图">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="LAPACK+BLAS安装教程">
                         
-                        <span class="card-title">Python四维图</span>
+                        <span class="card-title">LAPACK+BLAS安装教程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Python画四维投影的三维图像from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
-import numpy as np
-
-
-fig = plt.f
+                            安装 BLAS 和 LAPACK 库注：使用 gfortran编译
+软件下载地址官网： http://www.netlib.org/lapack/
+注：BLAS库包含在LAPACK文件夹中，无需另外下载
+安装编译tar -zxvf lapa
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-11
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-24
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Python%E5%AD%A6%E4%B9%A0/" class="post-category">
-                                    Python学习
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="post-category">
+                                    计算软件安装教程
                                 </a>
                             
                             
@@ -733,8 +797,8 @@ fig = plt.f
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Python-learn/">
-                        <span class="chip bg-color">Python_learn</span>
+                    <a href="/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">安装教程</span>
                     </a>
                     
                 </div>
