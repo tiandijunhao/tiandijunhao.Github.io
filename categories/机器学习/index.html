@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="分类: 计算笔记, 天帝君豪的个人博客">
+    <meta name="keywords" content="分类: 机器学习, 天帝君豪的个人博客">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>分类: 计算笔记 | 天帝君豪的个人博客</title>
+    <title>分类: 机器学习 | 天帝君豪的个人博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -407,7 +407,7 @@
                 
                 <a href="/categories/%E8%AE%A1%E7%AE%97%E7%AC%94%E8%AE%B0/" title="计算笔记: 2">
                     <span class="chip center-align waves-effect waves-light
-                             chip-active "
+                             chip-default "
                             style="background-color: #F8F9F9;">计算笔记
                         <span class="tag-length">2</span>
                     </span>
@@ -416,7 +416,7 @@
                 
                 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习: 1">
                     <span class="chip center-align waves-effect waves-light
-                             chip-default "
+                             chip-active "
                             style="background-color: #82E0AA;">机器学习
                         <span class="tag-length">1</span>
                     </span>
@@ -436,33 +436,35 @@
             
             <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/07/04/alamode-scph/">
+                    <a href="/2020/07/10/grep-config-to-json-from-vasprunxml/">
                         <div class="card-image tag-image">
                             
                             
-                            <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="alamode_scph计算高温声子谱">
+                            <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="vasprun.xml to json file">
                             
-                            <span class="card-title">alamode_scph计算高温声子谱</span>
+                            <span class="card-title">vasprun.xml to json file</span>
                         </div>
                     </a>
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                Alamode计算高温声子色散Anharmonic Phonons (self-consistent phonon theory)主要使用alamode软件。 版本：alamode-1.1.0
-输入文件
-vasprun.xml #分子动力学
+                                将vasprun.xml 的configuration 转为 json file主要用于FitSNAP程序的前期数据集的获取
+import json
+import numpy as np
+
+#read energy lattice pos 
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-10
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fas fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/%E8%AE%A1%E7%AE%97%E7%AC%94%E8%AE%B0/" class="post-category">
-                                    计算笔记
+                                <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category">
+                                    机器学习
                                 </a>
                                 
                                 
@@ -473,57 +475,8 @@ vasprun.xml #分子动力学
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Anharmonic-phonon/">
-                            <span class="chip bg-color">Anharmonic phonon</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/06/28/tdep-ji-suan-sheng-zi-pu/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="TDEP计算高温声子谱">
-                            
-                            <span class="card-title">TDEP计算高温声子谱</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                TDEP计算高温声子色散lammps输入文件
-in.lammps #lammps计算的输入文件
-data.cell #lammps计算需要的超胞文件，可以直接在in.lammps中设置
-grep_dump.sh     #处理lammps输
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-28
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E8%AE%A1%E7%AE%97%E7%AC%94%E8%AE%B0/" class="post-category">
-                                    计算笔记
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Anharmonic-phonon/">
-                            <span class="chip bg-color">Anharmonic phonon</span>
+                        <a href="/tags/%E8%AE%A1%E7%AE%97%E8%84%9A%E6%9C%AC/">
+                            <span class="chip bg-color">计算脚本</span>
                         </a>
                         
                     </div>
