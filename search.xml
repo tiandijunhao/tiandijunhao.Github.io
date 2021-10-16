@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>常用物理单位与物理常数</title>
+      <link href="/2020/07/12/chang-yong-wu-li-dan-wei-yu-wu-li-chang-shu/"/>
+      <url>/2020/07/12/chang-yong-wu-li-dan-wei-yu-wu-li-chang-shu/</url>
+      
+        <content type="html"><![CDATA[<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });</script><h1 id="计算中常见单位换算及部分物理常数"><a href="#计算中常见单位换算及部分物理常数" class="headerlink" title="计算中常见单位换算及部分物理常数"></a><strong>计算中常见单位换算及部分物理常数</strong></h1><h2 id="物理常数"><a href="#物理常数" class="headerlink" title="物理常数"></a><strong>物理常数</strong></h2><p>普朗克常数： $h = 6.62607015\times 10^{-34} <del>J\cdot{s}$<br>约化普朗克常数：$\hbar=h/{2\pi}=1.054571818\times10^{-34}</del>J\cdot{s}$<br>玻尔兹曼常数： $k_B=1.380649\times10^{-23}<del>J/K$<br>$1</del>mol=6.02214179\times10^{23}$<br>光速：$299792458~ m/s$</p><h2 id="单位换算"><a href="#单位换算" class="headerlink" title="单位换算"></a><strong>单位换算</strong></h2><h3 id="压强单位"><a href="#压强单位" class="headerlink" title="压强单位"></a><strong>压强单位</strong></h3><p>$1<del>eV/{\dot{A}}^3=160.21766208</del>GPa$<br>$1<del>Ha/Bohr^3=29421.02648438959</del>GPa$<br>$1<del>GPa=10</del>kbar=145037.738007218<del>pound/(square</del>inch)$<br>$1<del>Gbar=100000</del>GPa$<br>$1<del>Mbar=100</del>GPa$<br>$1<del>kbar=0.1</del>GPa$<br>$1<del>atm=1.01325</del>kbar=0.000101325<del>GPa$<br>$1</del>pascar=10^{-9}<del>GPa$<br>$1</del>TPa=1000<del>GPa=10</del>Mbar$</p><h3 id="力单位"><a href="#力单位" class="headerlink" title="力单位"></a><strong>力单位</strong></h3><p>$1<del>Ry/Bohr=25.71104309541616</del>eV/\dot{A}$<br>$1<del>Ha/Bohr=51.442208619083232</del>eV/\dot{A}$  </p><h3 id="能量单位"><a href="#能量单位" class="headerlink" title="能量单位"></a><strong>能量单位</strong></h3><p>$1<del>Hatree=2</del>Ryd=27.211396<del>eV$<br>$1</del>kJ/mol=0.0103642688<del>eV/atom$<br>$1</del>eV=1.6021766208\times10^{-19}~J$  </p><h3 id="长度单位"><a href="#长度单位" class="headerlink" title="长度单位"></a><strong>长度单位</strong></h3><p>$1<del>Bohr=0.529177208</del>\dot{A}$</p><h3 id="晶胞体积"><a href="#晶胞体积" class="headerlink" title="晶胞体积"></a><strong>晶胞体积</strong></h3><p>Simple Cubic volume:  $a^3$<br>FCC volume:  $a^{\frac{3}{4}}$<br>BCC volume:  $a^{\frac{3}{2}}$<br>HCP volume:  $\frac{\sqrt{3}}{2}\times{a^2}\times{c}$</p><h3 id="VASP电子温度换算"><a href="#VASP电子温度换算" class="headerlink" title="VASP电子温度换算"></a><strong>VASP电子温度换算</strong></h3><p>unit: $eV$<br>$k_B\times{T}=\frac{1.380649\times10^{-23}}{1.6021766208\times10^{-19}}\times{T}=8.6173333331\times10^{-5}\times{T}$ </p><h3 id="声子频率的换算"><a href="#声子频率的换算" class="headerlink" title="声子频率的换算"></a><strong>声子频率的换算</strong></h3><p>光速*f(cm-1)=f(Hz)</p><p>$1~THz=33.35640952 ~cm^{-1}$ </p><p>$1~THz=4.13566553859598 ~meV$</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>vasprun.xml to json file</title>
       <link href="/2020/07/10/grep-config-to-json-from-vasprunxml/"/>
       <url>/2020/07/10/grep-config-to-json-from-vasprunxml/</url>
@@ -587,7 +600,7 @@
       <link href="/2020/04/17/publications/"/>
       <url>/2020/04/17/publications/</url>
       
-        <content type="html"><![CDATA[<ol><li><p><a href="https://doi.org/10.1016/j.ssc.2019.02.004" target="_blank" rel="noopener">Wang Hao, Zhou Yu, Zeng Zhao-Yi, Cheng Yan, Chen Qi-Feng, First-principles study of elastic, thermal and optical properties of a metal-shrouded two-dimensional semiconductor Tl2O, <strong>Solid State Commun.</strong> 293 (2019) 40.</a></p></li><li><p><a href="https://www.sciencedirect.com/science/article/pii/S0022311519303472" target="_blank" rel="noopener">Wang Hao, Lan Jun-Qing, Hu Cui-E, Chen Xiang-Rong, Geng Hua-Yun, Electronic structure, elastic and thermal transport properties of thorium monocarbide based on first-principles study, <strong>J. Nucl. Mater.</strong> 524 (2019) 141.</a></p></li></ol>]]></content>
+        <content type="html"><![CDATA[<ol><li><p><a href="https://doi.org/10.1016/j.ssc.2019.02.004" target="_blank" rel="noopener"><strong>Wang Hao</strong>, Zhou Yu, Zeng Zhao-Yi, Cheng Yan, Chen Qi-Feng, First-principles study of elastic, thermal and optical properties of a metal-shrouded two-dimensional semiconductor Tl2O, <strong>Solid State Commun.</strong> 293 (2019) 40.</a></p></li><li><p><a href="https://www.sciencedirect.com/science/article/pii/S0022311519303472" target="_blank" rel="noopener"><strong>Wang Hao</strong>, Lan Jun-Qing, Hu Cui-E, Chen Xiang-Rong, Geng Hua-Yun, Electronic structure, elastic and thermal transport properties of thorium monocarbide based on first-principles study, <strong>J. Nucl. Mater.</strong> 524 (2019) 141.</a></p></li><li><p><a href="https://doi.org/10.1103/PhysRevB.104.134102" target="_blank" rel="noopener"><strong>Hao Wang</strong>, J. Li, X. M. Zhou, Y. Tan, L. Hao, Y. Y. Yu, C. D. Dai, K. Jin, Q. Wu, Q. M. Jing, X. R. Chen, X. Z. Yan, Y. X. Wang, and Hua Y. Geng, Evidence for mechanical softening-hardening dual anomaly in transition metals from shock-compressed vanadium, <strong>Physical Review B</strong> 134102 (2021) 104.</a></p></li></ol>]]></content>
       
       
       
